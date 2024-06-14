@@ -110,6 +110,19 @@ class _HomePageState extends State<HomePage> {
         storyItemType: StoryItemType.video,
         storyItemSource: StoryItemSource.network,
       ),
+      StoryItem(
+        url: 'Developed by Devkrest',
+        textConfig: StoryViewTextConfig(
+          backgroundColor: Colors.purple[50]!,
+          textAlignment: Alignment.center,
+          backgroundWidget: Image.asset('assets/screen_1.jpg'),
+          margin: const EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 20,
+          ),
+        ),
+        storyItemType: StoryItemType.text,
+      ),
     ];
     // downloadImage();
     downloadVideo();
@@ -172,11 +185,11 @@ class _HomePageState extends State<HomePage> {
             items: items,
             flutterStoryViewController: controller,
             storyViewIndicatorConfig: const StoryViewIndicatorConfig(
-                backgroundDisabledColor: Colors.blue,
-                backgroundCompletedColor: Colors.yellow,
-                activeColor: Colors.red,
-                alignment: Alignment.topCenter),
-            initialIndex: 1,
+              backgroundDisabledColor: Colors.blue,
+              backgroundCompletedColor: Colors.yellow,
+              activeColor: Colors.red,
+              alignment: Alignment.topCenter,
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,

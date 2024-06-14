@@ -16,7 +16,6 @@ class ImageStoryView extends StatelessWidget {
   bool _calledOnImageLoaded = false;
 
   void markImageAsLoaded() {
-    debugPrint('Marking as loaded');
     if (!_calledOnImageLoaded) {
       onImageLoaded?.call(true);
       _calledOnImageLoaded = true;

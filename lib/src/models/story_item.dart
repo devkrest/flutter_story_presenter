@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterstoryview/src/models/story_view_image_config.dart';
+import 'package:flutterstoryview/src/models/story_view_text_config.dart';
 import 'package:flutterstoryview/src/models/story_view_video_config.dart';
 import 'package:flutterstoryview/src/utils/story_utils.dart';
 
@@ -14,6 +15,7 @@ class StoryItem {
     this.videoConfig,
     this.errorWidget,
     this.imageConfig,
+    this.textConfig,
   });
 
   /// Duration of displaying the widget
@@ -41,4 +43,7 @@ class StoryItem {
 
   /// Applicable when [storyItemType] is [StoryItemType.video]
   final StoryViewVideoConfig? videoConfig;
+
+  /// Applicable when [storyItemType] is [StoryItemType.text]
+  final StoryViewTextConfig? textConfig;
 }
