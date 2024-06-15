@@ -99,15 +99,17 @@ class _HomePageState extends State<HomePage> {
             )),
           )),
       const StoryItem(
-        url:
-            'https://videos.pexels.com/video-files/5512609/5512609-hd_1080_1920_25fps.mp4',
+        url: 'assets/movie_1.mp4',
         storyItemType: StoryItemType.video,
-        storyItemSource: StoryItemSource.network,
+        storyItemSource: StoryItemSource.asset,
       ),
       const StoryItem(
         url:
             'https://videos.pexels.com/video-files/7297870/7297870-hd_1080_1920_30fps.mp4',
         storyItemType: StoryItemType.video,
+        errorWidget: Center(
+          child: Text('Error playing video'),
+        ),
         storyItemSource: StoryItemSource.network,
       ),
       StoryItem(

@@ -31,12 +31,12 @@ class ImageStoryView extends StatelessWidget {
         height: imageConfig?.height,
         fit: imageConfig?.fit,
         width: imageConfig?.width,
-        // errorBuilder: (context, error, stackTrace) {
-        //   if (storyItem.errorWidget != null) {
-        //     return storyItem.errorWidget!;
-        //   }
-        //   return const SizedBox.shrink();
-        // },
+        errorBuilder: (context, error, stackTrace) {
+          if (storyItem.errorWidget != null) {
+            return storyItem.errorWidget!;
+          }
+          return const SizedBox.shrink();
+        },
         loadingBuilder: (context, child, loadingProgress) {
           /// Loading Builder doesn't work properly with AssetImage
           /// Github Issue : https://github.com/flutter/flutter/issues/96700
@@ -59,12 +59,12 @@ class ImageStoryView extends StatelessWidget {
         height: imageConfig?.height,
         fit: imageConfig?.fit,
         width: imageConfig?.width,
-        // errorBuilder: (context, error, stackTrace) {
-        //   if (storyItem.errorWidget != null) {
-        //     return storyItem.errorWidget!;
-        //   }
-        //   return const SizedBox.shrink();
-        // },
+        errorBuilder: (context, error, stackTrace) {
+          if (storyItem.errorWidget != null) {
+            return storyItem.errorWidget!;
+          }
+          return const SizedBox.shrink();
+        },
         loadingBuilder: (context, child, loadingProgress) {
           if (((child as Semantics).child as RawImage).image != null) {
             markImageAsLoaded();
@@ -90,12 +90,12 @@ class ImageStoryView extends StatelessWidget {
           image: imageProvider,
         );
       },
-      // errorWidget: (context, error, obj) {
-      //   if (storyItem.errorWidget != null) {
-      //     return storyItem.errorWidget!;
-      //   }
-      //   return const SizedBox.shrink();
-      // },
+      errorWidget: (context, error, obj) {
+        if (storyItem.errorWidget != null) {
+          return storyItem.errorWidget!;
+        }
+        return const SizedBox.shrink();
+      },
       progressIndicatorBuilder: imageConfig?.progressIndicatorBuilder,
     );
   }

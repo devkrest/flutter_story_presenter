@@ -3,7 +3,7 @@ import 'package:flutterstoryview/src/utils/story_utils.dart';
 
 class FlutterStoryViewController extends ChangeNotifier {
   StoryAction storyStatus = StoryAction.play;
-  int jumpIndex = 0;
+  int? jumpIndex = null;
 
   void play() {
     storyStatus = StoryAction.play;
