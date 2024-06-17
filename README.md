@@ -8,7 +8,7 @@ This Flutter package makes it easy to create story and news views like popular s
 
 🔹 **Supported Media Types**: Images, Videos, Text, Web & Custom
 
-🔹 **Custom Loader & Thumbnails**: Add your custom thumbnails or loaders while loading the story 
+🔹 **Custom Loader & Thumbnails**: Add your custom thumbnails or loaders while loading the story
 
 🔹 **Option to Cache**: Image, Video, and show Loading Widgets
 
@@ -27,12 +27,15 @@ This Flutter package makes it easy to create story and news views like popular s
 🔹 **Callbacks**: Receive different callbacks based on the type of story item for handling state management.
 
 ## ⚙️ Installation
-Add `flutterstoryview` to your `pubspec.yaml` dependencies. And Import it as 
+
+Add `flutterstoryview` to your `pubspec.yaml` dependencies. And Import it as
+
 ```dart
 import 'package:flutterstoryview/flutterstoryview.dart';
 ```
 
 ## 🔭 Guide to use
+
 For a detailed view and more examples, check out `example/main.dart`.
 
 Use `FlutterStoryView` to display stories on any screen. It accepts a list of `StoryItem`, each containing URLs for displaying images, videos, and web pages.
@@ -71,6 +74,7 @@ FlutterStoryView(
 ```
 
 ### `FlutterStoryView` Properties
+
 Here are some of the properties you may have look for further customisations & callbacks.
 
 ```dart
@@ -117,7 +121,8 @@ final Widget? headerWidget;
 final Widget? footerWidget;
 ```
 
-### Using `FlutterStoryViewController` 
+### Using `FlutterStoryViewController`
+
 `FlutterStoryViewController` is a controller class designed to manage the current story displayed on `FlutterStoryView`. It includes various methods such as `play()`, `pause()`, `jumpTo()`, `next()`, `previous()`, `mute(),` and `unMute()`, allowing you to control the existing StoryItem.
 
 ```dart
@@ -138,3 +143,128 @@ storyController.jumpTo(2);
 storyController.mute();
 storyController.unMute();
 ```
+
+### Using `StoryItem`
+
+The `StoryItem` class is used to define the individual items displayed in a `FlutterStoryView`. Each `StoryItem` can represent an image, video, text, web content, or a custom widget.
+
+```dart
+const StoryItem({
+  this.url,
+  required this.storyItemType,
+  this.thumbnail,
+  this.isMuteByDefault = false,
+  this.duration = const Duration(seconds: 3),
+  this.storyItemSource = StoryItemSource.network,
+  this.videoConfig,
+  this.errorWidget,
+  this.imageConfig,
+  this.textConfig,
+  this.webConfig,
+  this.customWidget,
+});
+```
+
+#### Parameters
+
+- **url**: The URL, file path, or web URL of the story item. Required unless `storyItemType` is `custom`.
+- **storyItemType**: The type of story item. Required. It can be an image, video, text, web content, or custom.
+- **thumbnail**: A widget to display as a thumbnail.
+- **isMuteByDefault**: A boolean indicating whether the video should be muted by default. Applicable when `storyItemType` is `video`.
+- **duration**: The duration for displaying the widget. Defaults to 3 seconds.
+- **storyItemSource**: The source type of the story item. Defaults to `StoryItemSource.network`.
+- **videoConfig**: Configuration for video stories.
+- **errorWidget**: A widget to display when an error occurs while loading the view.
+- **imageConfig**: Configuration for image stories.
+- **textConfig**: Configuration for text stories.
+- **webConfig**: Configuration for web stories.
+- **customWidget**: A custom widget to display fully instead of any other view. Required when `storyItemType` is `custom`.
+
+#### Example
+
+```dart
+StoryItem(
+  url: 'https://example.com/image.jpg',
+  storyItemType: StoryItemType.image,
+  storyItemSource: StoryItemSource.network,
+  duration: Duration(seconds: 5),
+  thumbnail: Image.network('https://example.com/thumbnail.jpg'),
+  imageConfig: StoryViewImageConfig(
+    fit: BoxFit.cover,
+    height: 300,
+    width: 300,
+    progressIndicatorBuilder: (_,_,loadProgress){
+      return YourImageLoaderWidget();
+    }
+  ),
+)
+
+StoryItem(
+  url: 'https://example.com/video.mp4',
+  storyItemType: StoryItemType.video,
+  isMuteByDefault: true,
+  storyItemSource: StoryItemSource.network,
+  duration: Duration(seconds: 10),
+  videoConfig: StoryViewVideoConfig(
+    cacheVideo: true,
+    fit: BoxFit.cover,
+    height: 500,
+    width: 500,
+    loadingWidget: MyVideoLoadingWidget(),
+    /// If you opt to cache video, 
+    // it will store to user device and then played, 
+    // if already cached, will play without buffer 
+    // from next time
+    cacheVideo: false,
+    useVideoAspectRatio: false,
+    videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true,),
+  ),
+)
+
+StoryItem(
+  storyItemType: StoryItemType.custom,
+  customWidget: MyCustomWidget(),
+)
+```
+
+### Full Example
+This is the full example demonstrating the usage of `FlutterStoryView`. For more insights and detailed reference, refer to the [official documentation](https://github.com/devkrest/flutter_storyview).
+
+## Team Devkrest
+We would like to extend our heartfelt thanks to the following contributors for their invaluable contributions to this package.
+<table>
+<tr>
+<td align="center">
+<a href="https://github.com/Kaival-Patel">
+<img src="https://devkrest.com/team/kaival.jpg" height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Kaival Patel"/><br />
+<sub><b>Kaival P</b></sub>
+</a>
+<br />
+<p>CEO</p>
+</td>
+<td align="center">
+<a href="https://github.com/harshlet">
+<img src="https://devkrest.com/team/harsh.jpg" height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Harsh Prajapati"/><br />
+<sub><b>Harsh P</b></sub>
+</a>
+<br />
+<p>Mobile Head</p>
+</td>
+<td align="center">
+<a href="https://github.com/lakhan-purohit">
+<img src="https://devkrest.com/team/lakhan.png"  height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Lakhan Purohit"/><br />
+<sub><b>Lakhan P</b></sub>
+</a>
+<br />
+<p>CTO</p>
+</td>
+</tr><tr>
+    <td colspan="3" align="center">
+      <a href="https://devkrest.com/">
+        <img src="example/assets/devkrest_logo.png" 
+        style="margin-top:8px"
+         alt="Devkrest Technologies"/><br />
+      </a>
+    </td>
+  </tr>
+</table>
