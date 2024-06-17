@@ -6,6 +6,7 @@ export 'src/models/story_view_image_config.dart';
 export 'src/models/story_view_indicator_config.dart';
 export 'src/models/story_view_text_config.dart';
 export 'src/models/story_view_video_config.dart';
+export 'src/models/story_view_web_config.dart';
 export 'src/story_view/image_story_view.dart';
 export 'src/story_view/story_view.dart';
 export 'src/story_view/text_story_view.dart';

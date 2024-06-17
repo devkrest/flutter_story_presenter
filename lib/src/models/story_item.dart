@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutterstoryview/src/models/story_view_image_config.dart';
-import 'package:flutterstoryview/src/models/story_view_text_config.dart';
-import 'package:flutterstoryview/src/models/story_view_video_config.dart';
-import 'package:flutterstoryview/src/utils/story_utils.dart';
+
+import '../models/story_view_image_config.dart';
+import '../models/story_view_text_config.dart';
+import '../models/story_view_video_config.dart';
+import '../models/story_view_web_config.dart';
+import '../utils/story_utils.dart';
 
 class StoryItem {
   const StoryItem({
-    required this.url,
+    this.url,
     required this.storyItemType,
     this.thumbnail,
     this.isMuteByDefault = false,
@@ -16,7 +18,16 @@ class StoryItem {
     this.errorWidget,
     this.imageConfig,
     this.textConfig,
-  });
+    this.webConfig,
+    this.customWidget,
+  })  : assert(
+          storyItemType == StoryItemType.custom || url != null,
+          'URL is required when storyItemType is not custom',
+        ),
+        assert(
+          storyItemType != StoryItemType.custom || customWidget != null,
+          'CustomWidget is required when storyItemType is custom',
+        );
 
   /// Duration of displaying the widget
   final Duration duration;
@@ -27,10 +38,13 @@ class StoryItem {
   /// Widget to display when error occurs loading View
   final Widget? errorWidget;
 
+  /// Custom Widget to display fully instead of any other view
+  final Widget? customWidget;
+
   final StoryItemType storyItemType;
 
-  /// Asset URL or Web URL
-  final String url;
+  /// Asset URL, File Path or Web URL
+  final String? url;
 
   /// Applicable when [storyItemType] is [StoryItemType.video]
   final bool isMuteByDefault;
@@ -46,4 +60,7 @@ class StoryItem {
 
   /// Applicable when [storyItemType] is [StoryItemType.text]
   final StoryViewTextConfig? textConfig;
+
+  /// Applicable when [storyItemType] is [StoryItemType.web]
+  final StoryViewWebConfig? webConfig;
 }

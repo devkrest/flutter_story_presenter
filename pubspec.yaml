@@ -14,6 +14,7 @@ dependencies:
   flutter_cache_manager: ^3.3.2
   smooth_video_progress: ^0.0.4
   video_player: ^2.8.7
+  flutter_inappwebview: ^6.0.0
 
 dev_dependencies:
   flutter_test:

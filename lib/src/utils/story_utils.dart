@@ -1,10 +1,10 @@
-import 'package:flutterstoryview/src/controller/flutter_story_view_controller.dart';
+import '../controller/flutter_story_view_controller.dart';
 
 /// To Perform Action on Story with [FlutterStoryViewController]
 enum StoryAction { play, pause, next, previous, mute, unMute }
 
 /// Story Item Type to Display
-enum StoryItemType { image, video, text, web }
+enum StoryItemType { image, video, text, web, custom }
 
 /// Story Item Source to Display Widgets from Asset/Network
 enum StoryItemSource { asset, network, file }
@@ -23,6 +23,7 @@ extension StoryItemTypeExtensions on StoryItemType {
   bool get isVideo => this == StoryItemType.video;
   bool get isText => this == StoryItemType.text;
   bool get isWeb => this == StoryItemType.web;
+  bool get isCustom => this == StoryItemType.custom;
 }
 
 extension StorySourceTypeExtensions on StoryItemSource {

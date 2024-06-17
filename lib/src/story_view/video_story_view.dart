@@ -1,15 +1,23 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutterstoryview/flutterstoryview.dart';
-import 'package:flutterstoryview/src/utils/video_utils.dart';
 import 'package:video_player/video_player.dart';
+import '../models/story_item.dart';
+import '../story_view/story_view.dart';
+import '../utils/story_utils.dart';
+import '../utils/video_utils.dart';
 
+/// A widget that displays a video story view, supporting different video sources
+/// (network, file, asset) and optional thumbnail and error widgets.
 class VideoStoryView extends StatefulWidget {
-  const VideoStoryView({required this.storyItem, this.onVideoLoad, super.key});
-
+  /// The story item containing video data and configuration.
   final StoryItem storyItem;
+
+  /// Callback function to notify when the video is loaded.
   final OnVideoLoad? onVideoLoad;
+
+  /// Creates a [VideoStoryView] widget.
+  const VideoStoryView({required this.storyItem, this.onVideoLoad, super.key});
 
   @override
   State<VideoStoryView> createState() => _VideoStoryViewState();
@@ -25,24 +33,28 @@ class _VideoStoryViewState extends State<VideoStoryView> {
     super.initState();
   }
 
+  /// Initializes the video player controller based on the source of the video.
   Future<void> _initialiseVideoPlayer() async {
     try {
       final storyItem = widget.storyItem;
       if (storyItem.storyItemSource.isNetwork) {
+        // Initialize video controller for network source.
         videoPlayerController =
-            await VideoUtils.instance.videoControllerFromUrl(
-          url: storyItem.url,
+        await VideoUtils.instance.videoControllerFromUrl(
+          url: storyItem.url!,
           cacheFile: storyItem.videoConfig?.cacheVideo,
           videoPlayerOptions: storyItem.videoConfig?.videoPlayerOptions,
         );
       } else if (storyItem.storyItemSource.isFile) {
+        // Initialize video controller for file source.
         videoPlayerController = VideoUtils.instance.videoControllerFromFile(
-          file: File(storyItem.url),
+          file: File(storyItem.url!),
           videoPlayerOptions: storyItem.videoConfig?.videoPlayerOptions,
         );
       } else {
+        // Initialize video controller for asset source.
         videoPlayerController = VideoUtils.instance.videoControllerFromAsset(
-          assetPath: storyItem.url,
+          assetPath: storyItem.url!,
           videoPlayerOptions: storyItem.videoConfig?.videoPlayerOptions,
         );
       }
@@ -68,18 +80,22 @@ class _VideoStoryViewState extends State<VideoStoryView> {
     return Stack(
       children: [
         if (widget.storyItem.thumbnail != null) ...{
+          // Display the thumbnail if provided.
           widget.storyItem.thumbnail!,
         },
         if (widget.storyItem.errorWidget != null && hasError) ...{
+          // Display the error widget if an error occurred.
           widget.storyItem.errorWidget!,
         },
         if (videoPlayerController != null) ...{
           if (widget.storyItem.videoConfig?.useVideoAspectRatio ?? false) ...{
+            // Display the video with aspect ratio if specified.
             AspectRatio(
               aspectRatio: videoPlayerController!.value.aspectRatio,
               child: VideoPlayer(videoPlayerController!),
             )
           } else ...{
+            // Display the video fitted to the screen.
             Positioned.fill(
               child: FittedBox(
                 fit: BoxFit.cover,

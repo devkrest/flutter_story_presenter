@@ -1,4 +1,9 @@
 # This is a generated file; do not edit or check into version control.
+flutter_inappwebview=/Users/kaival/.pub-cache/hosted/pub.dev/flutter_inappwebview-6.0.0/
+flutter_inappwebview_android=/Users/kaival/.pub-cache/hosted/pub.dev/flutter_inappwebview_android-1.0.13/
+flutter_inappwebview_ios=/Users/kaival/.pub-cache/hosted/pub.dev/flutter_inappwebview_ios-1.0.13/
+flutter_inappwebview_macos=/Users/kaival/.pub-cache/hosted/pub.dev/flutter_inappwebview_macos-1.0.11/
+flutter_inappwebview_web=/Users/kaival/.pub-cache/hosted/pub.dev/flutter_inappwebview_web-1.0.8/
 path_provider=/Users/kaival/.pub-cache/hosted/pub.dev/path_provider-2.1.3/
 path_provider_android=/Users/kaival/.pub-cache/hosted/pub.dev/path_provider_android-2.2.5/
 path_provider_foundation=/Users/kaival/.pub-cache/hosted/pub.dev/path_provider_foundation-2.4.0/

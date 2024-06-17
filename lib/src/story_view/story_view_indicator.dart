@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterstoryview/src/models/story_view_indicator_config.dart';
+import '../models/story_view_indicator_config.dart';
 
 class StoryViewIndicator extends StatelessWidget {
   const StoryViewIndicator({

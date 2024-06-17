@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterstoryview/flutterstoryview.dart';
-
+import '../models/story_item.dart';
 typedef OnTextStoryLoaded = void Function(bool);
 
 class TextStoryView extends StatefulWidget {
@@ -38,7 +37,7 @@ class _TextStoryViewState extends State<TextStoryView> {
               alignment: widget.storyItem.textConfig?.textAlignment ??
                   Alignment.center,
               child: Text(
-                widget.storyItem.url,
+                widget.storyItem.url!,
               ),
             ),
           }

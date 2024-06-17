@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:video_player/video_player.dart';
@@ -7,10 +6,14 @@ import 'package:video_player/video_player.dart';
 class VideoUtils {
   VideoUtils._();
 
+  // Cache manager to handle caching of video files.
   final _cacheManager = DefaultCacheManager();
 
+  // Singleton instance of VideoUtils.
   static final VideoUtils instance = VideoUtils._();
 
+  // Method to create a VideoPlayerController from a URL.
+  // If cacheFile is true, it attempts to cache the video file.
   Future<VideoPlayerController> videoControllerFromUrl({
     required String url,
     bool? cacheFile = false,
@@ -18,9 +21,11 @@ class VideoUtils {
   }) async {
     try {
       File? cachedVideo;
+      // If caching is enabled, try to get the cached file.
       if (cacheFile ?? false) {
         cachedVideo = await _cacheManager.getSingleFile(url);
       }
+      // If a cached video file is found, create a VideoPlayerController from it.
       if (cachedVideo != null) {
         return VideoPlayerController.file(
           cachedVideo,
@@ -30,12 +35,14 @@ class VideoUtils {
     } catch (e) {
       debugPrint(e.toString());
     }
+    // If no cached file is found, create a VideoPlayerController from the network URL.
     return VideoPlayerController.networkUrl(
       Uri.parse(url),
       videoPlayerOptions: videoPlayerOptions,
     );
   }
 
+  // Method to create a VideoPlayerController from a local file.
   VideoPlayerController videoControllerFromFile({
     required File file,
     VideoPlayerOptions? videoPlayerOptions,
@@ -46,6 +53,7 @@ class VideoUtils {
     );
   }
 
+  // Method to create a VideoPlayerController from an asset file.
   VideoPlayerController videoControllerFromAsset({
     required String assetPath,
     VideoPlayerOptions? videoPlayerOptions,

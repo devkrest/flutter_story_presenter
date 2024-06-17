@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutterstoryview/flutterstoryview.dart';
-import 'package:flutterstoryview/src/story_view/story_view_indicator.dart';
+import '../story_view/story_view_indicator.dart';
+import '../models/story_item.dart';
+import '../models/story_view_indicator_config.dart';
+import '../controller/flutter_story_view_controller.dart';
+import '../story_view/image_story_view.dart';
+import '../story_view/video_story_view.dart';
+import '../story_view/web_story_view.dart';
+import '../story_view/text_story_view.dart';
+import '../utils/story_utils.dart';
 import 'package:smooth_video_progress/smooth_video_progress.dart';
 import 'package:video_player/video_player.dart';
 
@@ -88,6 +95,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
   double currentItemProgress = 0;
   VideoPlayerController? _currentVideoPlayer;
   double? storyViewHeight;
+
   @override
   void initState() {
     _animationController = AnimationController(
@@ -314,6 +322,12 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         if (currentItem.thumbnail != null) ...{
           currentItem.thumbnail!,
         },
+        if (currentItem.storyItemType.isCustom &&
+            currentItem.customWidget != null) ...{
+          Positioned.fill(
+            child: currentItem.customWidget!,
+          ),
+        },
         if (currentItem.storyItemType.isImage) ...{
           Positioned.fill(
             child: ImageStoryView(
@@ -354,38 +368,60 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             ),
           ),
         },
+        if (currentItem.storyItemType.isWeb) ...{
+          Positioned.fill(
+            child: WebStoryView(
+              storyItem: currentItem,
+              key: ValueKey('$currentIndex'),
+              onWebViewLoaded: (controller, loaded) {
+                isCurrentItemLoaded = loaded;
+                if (loaded) {
+                  _startStoryCountdown();
+                }
+                currentItem.webConfig?.onWebViewLoaded
+                    ?.call(controller, loaded);
+              },
+            ),
+          ),
+        },
         Align(
           alignment: storyViewIndicatorConfig.alignment,
           child: Padding(
             padding: storyViewIndicatorConfig.margin,
-            child: _currentVideoPlayer != null
-                ? SmoothVideoProgress(
-                    controller: _currentVideoPlayer!,
-                    builder: (context, progress, duration, child) {
-                      return StoryViewIndicator(
-                        currentIndex: currentIndex,
-                        currentItemAnimatedValue:
-                            progress.inMilliseconds / duration.inMilliseconds,
-                        totalItems: widget.items.length,
-                        storyViewIndicatorConfig: storyViewIndicatorConfig,
-                      );
-                    })
-                : _animationController != null
-                    ? AnimatedBuilder(
-                        animation: _animationController!,
-                        builder: (context, child) => StoryViewIndicator(
-                          currentIndex: currentIndex,
-                          currentItemAnimatedValue: currentItemProgress,
-                          totalItems: widget.items.length,
-                          storyViewIndicatorConfig: storyViewIndicatorConfig,
-                        ),
-                      )
-                    : StoryViewIndicator(
-                        currentIndex: currentIndex,
-                        currentItemAnimatedValue: currentItemProgress,
-                        totalItems: widget.items.length,
-                        storyViewIndicatorConfig: storyViewIndicatorConfig,
-                      ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _currentVideoPlayer != null
+                    ? SmoothVideoProgress(
+                        controller: _currentVideoPlayer!,
+                        builder: (context, progress, duration, child) {
+                          return StoryViewIndicator(
+                            currentIndex: currentIndex,
+                            currentItemAnimatedValue: progress.inMilliseconds /
+                                duration.inMilliseconds,
+                            totalItems: widget.items.length,
+                            storyViewIndicatorConfig: storyViewIndicatorConfig,
+                          );
+                        })
+                    : _animationController != null
+                        ? AnimatedBuilder(
+                            animation: _animationController!,
+                            builder: (context, child) => StoryViewIndicator(
+                              currentIndex: currentIndex,
+                              currentItemAnimatedValue: currentItemProgress,
+                              totalItems: widget.items.length,
+                              storyViewIndicatorConfig:
+                                  storyViewIndicatorConfig,
+                            ),
+                          )
+                        : StoryViewIndicator(
+                            currentIndex: currentIndex,
+                            currentItemAnimatedValue: currentItemProgress,
+                            totalItems: widget.items.length,
+                            storyViewIndicatorConfig: storyViewIndicatorConfig,
+                          ),
+              ],
+            ),
           ),
         ),
         Align(
@@ -424,6 +460,21 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             ),
           ),
         ),
+        if (widget.headerWidget != null) ...{
+          Align(
+            alignment: Alignment.topCenter,
+            child: SafeArea(
+                bottom: storyViewIndicatorConfig.enableBottomSafeArea,
+                top: storyViewIndicatorConfig.enableTopSafeArea,
+                child: widget.headerWidget!),
+          ),
+        },
+        if (widget.footerWidget != null) ...{
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: widget.footerWidget!,
+          ),
+        },
       ],
     );
   }
