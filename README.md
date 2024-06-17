@@ -261,7 +261,7 @@ We would like to extend our heartfelt thanks to the following contributors for t
 </tr><tr>
     <td colspan="3" align="center">
       <a href="https://devkrest.com/">
-        <img src="example/assets/devkrest_logo.png" 
+        <img src="https://devkrest.com/github/devkrest_brand.png" 
         style="margin-top:8px"
          alt="Devkrest Technologies"/><br />
       </a>
