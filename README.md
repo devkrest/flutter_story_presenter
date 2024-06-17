@@ -21,3 +21,5 @@ This Flutter package makes it easy to create story and news views like popular s
 🔹 **Gestures**: Tap, Right Tap, Left Tap, Slide or Drag Down
 
 🔹 **Customizable Widget**: Display as Story
+
+
