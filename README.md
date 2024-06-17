@@ -1,6 +1,6 @@
-# FlutterStoryView
+# FlutterStoryPresenter
 
-![FlutterStoryView](https://devkrest.com/github/flutter_story_view.png)
+![FlutterStoryPresenter](https://devkrest.com/github/flutter_story_presenter.png)
 
 This Flutter package makes it easy to create story and news views like popular social media apps with just a few lines of code! 📱✨ It's loaded with features for customizing and managing stories, perfect for showcasing stories inside your awesome app.
 
@@ -28,20 +28,20 @@ This Flutter package makes it easy to create story and news views like popular s
 
 ## ⚙️ Installation
 
-Add `flutterstoryview` to your `pubspec.yaml` dependencies. And Import it as
+Add `flutter_story_presenter` to your `pubspec.yaml` dependencies. And Import it as
 
 ```dart
-import 'package:flutterstoryview/flutterstoryview.dart';
+import 'package:flutter_story_presenter/flutter_story_presenter.dart';
 ```
 
 ## 🔭 Guide to use
 
 For a detailed view and more examples, check out `example/main.dart`.
 
-Use `FlutterStoryView` to display stories on any screen. It accepts a list of `StoryItem`, each containing URLs for displaying images, videos, and web pages.
+Use `FlutterStoryPresenter` to display stories on any screen. It accepts a list of `StoryItem`, each containing URLs for displaying images, videos, and web pages.
 
 ```dart
-FlutterStoryView(
+FlutterStoryPresenter(
     controller : FlutterStoryViewController(),
     items: [
         /// For Image Story Item
@@ -73,7 +73,7 @@ FlutterStoryView(
 )
 ```
 
-### `FlutterStoryView` Properties
+### `FlutterStoryPresenter` Properties
 
 Here are some of the properties you may have look for further customisations & callbacks.
 
@@ -82,7 +82,7 @@ Here are some of the properties you may have look for further customisations & c
 final List<StoryItem> items;
 
 /// Controller for managing the current playing media.
-final FlutterStoryViewController? flutterStoryViewController;
+final FlutterStoryController? flutterStoryController;
 
 /// Callback function triggered whenever the story changes or the user navigates to the previous/next story.
 final OnStoryChanged? onStoryChanged;
@@ -121,13 +121,13 @@ final Widget? headerWidget;
 final Widget? footerWidget;
 ```
 
-### Using `FlutterStoryViewController`
+### Using `FlutterStoryController`
 
-`FlutterStoryViewController` is a controller class designed to manage the current story displayed on `FlutterStoryView`. It includes various methods such as `play()`, `pause()`, `jumpTo()`, `next()`, `previous()`, `mute(),` and `unMute()`, allowing you to control the existing StoryItem.
+`FlutterStoryController` is a controller class designed to manage the current story displayed on `FlutterStoryPresenter`. It includes various methods such as `play()`, `pause()`, `jumpTo()`, `next()`, `previous()`, `mute(),` and `unMute()`, allowing you to control the existing StoryItem.
 
 ```dart
 final storyController = FlutterStoryController();
-FlutterStoryView(
+FlutterStoryPresenter(
     controller : storyController,
     items: [
         /// Story Item goes here
@@ -146,7 +146,7 @@ storyController.unMute();
 
 ### Using `StoryItem`
 
-The `StoryItem` class is used to define the individual items displayed in a `FlutterStoryView`. Each `StoryItem` can represent an image, video, text, web content, or a custom widget.
+The `StoryItem` class is used to define the individual items displayed in a `FlutterStoryPresenter`. Each `StoryItem` can represent an image, video, text, web content, or a custom widget.
 
 ```dart
 const StoryItem({
@@ -228,7 +228,7 @@ StoryItem(
 ```
 
 ### Full Example
-This is the full example demonstrating the usage of `FlutterStoryView`. For more insights and detailed reference, refer to the [official documentation](https://github.com/devkrest/flutter_storyview).
+This is the full example demonstrating the usage of `FlutterStoryPresenter`. For more insights and detailed reference, refer to the [official documentation](https://github.com/devkrest/flutter_storyview).
 
 ## Team Devkrest
 We would like to extend our heartfelt thanks to the following contributors for their invaluable contributions to this package.

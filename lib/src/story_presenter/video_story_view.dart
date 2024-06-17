@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../models/story_item.dart';
-import '../story_view/story_view.dart';
+import '../story_presenter/story_view.dart';
 import '../utils/story_utils.dart';
 import '../utils/video_utils.dart';
 

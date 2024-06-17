@@ -1,6 +1,6 @@
-import '../controller/flutter_story_view_controller.dart';
+import '../controller/flutter_story_controller.dart';
 
-/// To Perform Action on Story with [FlutterStoryViewController]
+/// To Perform Action on Story with [FlutterStoryController]
 enum StoryAction { play, pause, next, previous, mute, unMute }
 
 /// Story Item Type to Display

@@ -37,7 +37,7 @@ dependencies:
   dio:
   path_provider:
   path:
-  flutterstoryview:
+  flutter_story_presenter:
     path: ../
 
 dev_dependencies:

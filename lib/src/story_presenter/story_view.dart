@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../story_view/story_view_indicator.dart';
+import '../story_presenter/story_view_indicator.dart';
 import '../models/story_item.dart';
 import '../models/story_view_indicator_config.dart';
-import '../controller/flutter_story_view_controller.dart';
-import '../story_view/image_story_view.dart';
-import '../story_view/video_story_view.dart';
-import '../story_view/web_story_view.dart';
-import '../story_view/text_story_view.dart';
+import '../controller/flutter_story_controller.dart';
+import '../story_presenter/image_story_view.dart';
+import '../story_presenter/video_story_view.dart';
+import '../story_presenter/web_story_view.dart';
+import '../story_presenter/text_story_view.dart';
 import '../utils/story_utils.dart';
 import 'package:smooth_video_progress/smooth_video_progress.dart';
 import 'package:video_player/video_player.dart';
@@ -23,7 +23,7 @@ typedef OnSlideStart = void Function(DragStartDetails);
 
 class FlutterStoryView extends StatefulWidget {
   const FlutterStoryView(
-      {this.flutterStoryViewController,
+      {this.flutterStoryController,
       this.items = const [],
       this.onStoryChanged,
       this.onLeftTap,
@@ -44,7 +44,7 @@ class FlutterStoryView extends StatefulWidget {
   final List<StoryItem> items;
 
   /// Controller for managing the current playing media.
-  final FlutterStoryViewController? flutterStoryViewController;
+  final FlutterStoryController? flutterStoryController;
 
   /// Callback function triggered whenever the story changes or the user navigates to the previous/next story.
   final OnStoryChanged? onStoryChanged;
@@ -102,7 +102,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
       vsync: this,
     );
     currentIndex = widget.initialIndex;
-    widget.flutterStoryViewController?.addListener(_storyControllerListener);
+    widget.flutterStoryController?.addListener(_storyControllerListener);
     _startStoryView();
     super.initState();
   }
@@ -126,7 +126,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
   @override
   void dispose() {
     _animationController?.dispose();
-    widget.flutterStoryViewController
+    widget.flutterStoryController
       ?..removeListener(_storyControllerListener)
       ..dispose();
     WidgetsBinding.instance.removeObserver(this);
@@ -142,7 +142,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
 
   /// Listener for the story controller to handle various story actions.
   void _storyControllerListener() {
-    final controller = widget.flutterStoryViewController;
+    final controller = widget.flutterStoryController;
     final storyStatus = controller?.storyStatus;
     final jumpIndex = controller?.jumpIndex;
 

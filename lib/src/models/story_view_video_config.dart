@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterstoryview/src/utils/story_utils.dart';
+import '../utils/story_utils.dart';
 import 'package:video_player/video_player.dart';
 
 class StoryViewVideoConfig {

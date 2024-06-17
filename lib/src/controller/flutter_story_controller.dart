@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../utils/story_utils.dart';
 
 /// A controller to manage the state and actions of a story view
-class FlutterStoryViewController extends ChangeNotifier {
+class FlutterStoryController extends ChangeNotifier {
 
   /// The current action status of the story. Defaults to playing.
   StoryAction storyStatus = StoryAction.play;

@@ -1,7 +1,7 @@
-name: flutterstoryview
+name: flutter_story_presenter
 description: "Flutter package that shows videos, images, and text as a story like Instagram, Whatsapp and other social media platforms"
 version: 0.0.1
-homepage: https://github.com/devkrest/flutter_storyview
+homepage: https://github.com/devkrest/flutter_story_presenter
 
 environment:
   sdk: ">=3.4.3 <4.0.0"

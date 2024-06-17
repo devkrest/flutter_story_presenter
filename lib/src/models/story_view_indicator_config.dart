@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../story_view/story_view_indicator.dart';
+import '../story_presenter/story_view_indicator.dart';
 
 class StoryViewIndicatorConfig {
   const StoryViewIndicatorConfig({
