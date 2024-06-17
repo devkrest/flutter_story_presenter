@@ -42,7 +42,7 @@ Use `FlutterStoryPresenter` to display stories on any screen. It accepts a list 
 
 ```dart
 FlutterStoryPresenter(
-    controller : FlutterStoryViewController(),
+    controller : FlutterStoryController(),
     items: [
         /// For Image Story Item
         StoryItem(
