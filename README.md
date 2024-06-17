@@ -236,8 +236,8 @@ We would like to extend our heartfelt thanks to the following contributors for t
 <tr>
 <td align="center">
 <a href="https://github.com/Kaival-Patel">
-<img src="https://devkrest.com/team/kaival.jpg" height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Kaival Patel"/><br />
-<sub><b>Kaival P</b></sub>
+<img src="https://avatars.githubusercontent.com/u/39383435?v=4" height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Kaival Patel"/><br />
+<b>Kaival P</b>
 </a>
 <br />
 <p>CEO</p>
@@ -245,7 +245,7 @@ We would like to extend our heartfelt thanks to the following contributors for t
 <td align="center">
 <a href="https://github.com/harshlet">
 <img src="https://devkrest.com/team/harsh.jpg" height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Harsh Prajapati"/><br />
-<sub><b>Harsh P</b></sub>
+<b>Harsh P</b>
 </a>
 <br />
 <p>Mobile Head</p>
@@ -253,7 +253,7 @@ We would like to extend our heartfelt thanks to the following contributors for t
 <td align="center">
 <a href="https://github.com/lakhan-purohit">
 <img src="https://devkrest.com/team/lakhan.png"  height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Lakhan Purohit"/><br />
-<sub><b>Lakhan P</b></sub>
+<b>Lakhan P</b>
 </a>
 <br />
 <p>CTO</p>
