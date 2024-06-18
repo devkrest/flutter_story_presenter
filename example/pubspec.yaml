@@ -39,6 +39,7 @@ dependencies:
   path:
   flutter_story_presenter:
     path: ../
+  rounded_background_text: ^0.5.0
 
 dev_dependencies:
   flutter_test:
