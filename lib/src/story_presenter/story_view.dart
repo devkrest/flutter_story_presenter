@@ -12,7 +12,7 @@ import 'package:smooth_video_progress/smooth_video_progress.dart';
 import 'package:video_player/video_player.dart';
 
 typedef OnStoryChanged = void Function(int);
-typedef OnCompleted = void Function();
+typedef OnCompleted = Future<void> Function();
 typedef OnLeftTap = void Function();
 typedef OnRightTap = void Function();
 typedef OnDrag = void Function();
@@ -29,6 +29,7 @@ class FlutterStoryView extends StatefulWidget {
       this.onLeftTap,
       this.onRightTap,
       this.onCompleted,
+      this.onPreviousCompleted,
       this.initialIndex = 0,
       this.storyViewIndicatorConfig,
       this.restartOnCompleted = true,
@@ -51,6 +52,9 @@ class FlutterStoryView extends StatefulWidget {
 
   /// Callback function triggered when all items in the list have been played.
   final OnCompleted? onCompleted;
+
+  /// Callback function triggered when all items in the list have been played.
+  final OnCompleted? onPreviousCompleted;
 
   /// Callback function triggered when the user taps on the left half of the screen.
   final OnLeftTap? onLeftTap;
@@ -89,7 +93,7 @@ class FlutterStoryView extends StatefulWidget {
 class _FlutterStoryViewState extends State<FlutterStoryView>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   late AnimationController? _animationController;
-  late Animation? _currentProgressAnimation;
+  Animation? _currentProgressAnimation;
   int currentIndex = 0;
   bool isCurrentItemLoaded = false;
   double currentItemProgress = 0;
@@ -191,9 +195,11 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
   /// Resumes the media playback.
   void _resumeMedia() {
     _currentVideoPlayer?.play();
-    _animationController?.forward(
-      from: _currentProgressAnimation?.value,
-    );
+    if (_currentProgressAnimation != null) {
+      _animationController?.forward(
+        from: _currentProgressAnimation?.value,
+      );
+    }
   }
 
   /// Starts the countdown for the story item duration.
@@ -233,7 +239,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
     }
 
     if (_currentVideoPlayer?.value.isPlaying ?? false) {
-      _animationController?.forward(from: _currentProgressAnimation?.value);
+      if (_currentProgressAnimation != null) {
+        _animationController?.forward(from: _currentProgressAnimation?.value);
+      }
     }
   }
 
@@ -268,7 +276,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
   }
 
   /// Plays the next story item.
-  void _playNext() {
+  void _playNext() async {
     if (_currentVideoPlayer != null) {
       _currentVideoPlayer?.dispose();
       _currentVideoPlayer = null;
@@ -276,7 +284,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
     }
 
     if (currentIndex == widget.items.length - 1) {
-      widget.onCompleted?.call();
+      await widget.onCompleted?.call();
       if (widget.restartOnCompleted) {
         currentIndex = 0;
         _resetAnimation();
@@ -304,6 +312,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
       _resetAnimation();
       _startStoryCountdown();
       setState(() {});
+      widget.onPreviousCompleted?.call();
       return;
     }
 

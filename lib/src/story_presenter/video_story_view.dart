@@ -40,7 +40,7 @@ class _VideoStoryViewState extends State<VideoStoryView> {
       if (storyItem.storyItemSource.isNetwork) {
         // Initialize video controller for network source.
         videoPlayerController =
-        await VideoUtils.instance.videoControllerFromUrl(
+            await VideoUtils.instance.videoControllerFromUrl(
           url: storyItem.url!,
           cacheFile: storyItem.videoConfig?.cacheVideo,
           videoPlayerOptions: storyItem.videoConfig?.videoPlayerOptions,
@@ -78,6 +78,8 @@ class _VideoStoryViewState extends State<VideoStoryView> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
+      alignment: Alignment.topCenter,
       children: [
         if (widget.storyItem.thumbnail != null) ...{
           // Display the thumbnail if provided.
@@ -98,10 +100,13 @@ class _VideoStoryViewState extends State<VideoStoryView> {
             // Display the video fitted to the screen.
             Positioned.fill(
               child: FittedBox(
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
+                alignment: Alignment.topCenter,
                 child: SizedBox(
-                  width: videoPlayerController!.value.size.width,
-                  height: videoPlayerController!.value.size.height,
+                  width: widget.storyItem.videoConfig?.width ??
+                      videoPlayerController!.value.size.width,
+                  height: widget.storyItem.videoConfig?.height ??
+                      videoPlayerController!.value.size.height,
                   child: VideoPlayer(videoPlayerController!),
                 ),
               ),

@@ -101,14 +101,14 @@ class _ImageStoryViewState extends State<ImageStoryView> {
     /// If the image source is a network URL, use [CachedNetworkImage].
     return CachedNetworkImage(
       imageUrl: widget.storyItem.url!,
-      height: imageConfig?.height,
-      fit: imageConfig?.fit,
-      width: imageConfig?.width,
       imageBuilder: (context, imageProvider) {
         // Mark the image as loaded once it is built.
         markImageAsLoaded();
         return Image(
           image: imageProvider,
+          height: imageConfig?.height,
+          fit: imageConfig?.fit,
+          width: imageConfig?.width,
         );
       },
       errorWidget: (context, error, obj) {
