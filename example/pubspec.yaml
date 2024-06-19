@@ -40,6 +40,7 @@ dependencies:
   flutter_story_presenter:
     path: ../
   rounded_background_text: ^0.5.0
+  cached_network_image:
 
 dev_dependencies:
   flutter_test:

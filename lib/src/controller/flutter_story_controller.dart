@@ -16,6 +16,11 @@ class FlutterStoryController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void playCustomWidget() {
+    storyStatus = StoryAction.playCustomWidget;
+    notifyListeners();
+  }
+
   /// Sets the story status to pause and notifies listeners of the change.
   void pause() {
     storyStatus = StoryAction.pause;

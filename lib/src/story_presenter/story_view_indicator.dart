@@ -36,8 +36,8 @@ class StoryViewIndicator extends StatelessWidget {
                   horizontal: storyViewIndicatorConfig.horizontalGap,
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(
-                      storyViewIndicatorConfig.borderRadius ?? 4)),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(storyViewIndicatorConfig.borderRadius)),
                   child: LinearProgressIndicator(
                     minHeight: storyViewIndicatorConfig.height,
                     value: i == currentIndex ? currentItemAnimatedValue : 0,
