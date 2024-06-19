@@ -69,6 +69,8 @@ class _VideoStoryViewState extends State<VideoStoryView> {
     setState(() {});
   }
 
+  BoxFit get fit => widget.storyItem.videoConfig?.fit ?? BoxFit.cover;
+
   @override
   void dispose() {
     videoPlayerController?.dispose();
@@ -78,8 +80,8 @@ class _VideoStoryViewState extends State<VideoStoryView> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      fit: StackFit.expand,
-      alignment: Alignment.topCenter,
+      alignment: (fit == BoxFit.cover) ? Alignment.topCenter : Alignment.center,
+      fit: (fit == BoxFit.cover) ? StackFit.expand : StackFit.loose,
       children: [
         if (widget.storyItem.thumbnail != null) ...{
           // Display the thumbnail if provided.
@@ -98,17 +100,15 @@ class _VideoStoryViewState extends State<VideoStoryView> {
             )
           } else ...{
             // Display the video fitted to the screen.
-            Positioned.fill(
-              child: FittedBox(
-                fit: BoxFit.contain,
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                  width: widget.storyItem.videoConfig?.width ??
-                      videoPlayerController!.value.size.width,
-                  height: widget.storyItem.videoConfig?.height ??
-                      videoPlayerController!.value.size.height,
-                  child: VideoPlayer(videoPlayerController!),
-                ),
+            FittedBox(
+              fit: widget.storyItem.videoConfig?.fit ?? BoxFit.cover,
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: widget.storyItem.videoConfig?.width ??
+                    videoPlayerController!.value.size.width,
+                height: widget.storyItem.videoConfig?.height ??
+                    videoPlayerController!.value.size.height,
+                child: VideoPlayer(videoPlayerController!),
               ),
             )
           },

@@ -161,6 +161,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         _playPrevious();
       } else if (storyStatus.isNext) {
         _playNext();
+      } else if (storyStatus.isPlayCustomWidget) {
+        isCurrentItemLoaded = true;
+        _startStoryCountdown();
       }
     }
 
@@ -334,7 +337,13 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         if (currentItem.storyItemType.isCustom &&
             currentItem.customWidget != null) ...{
           Positioned.fill(
-            child: currentItem.customWidget!,
+            child: StoryCustomWidgetWrapper(
+              child: currentItem.customWidget!(widget.flutterStoryController),
+              onLoaded: () {
+                // isCurrentItemLoaded = true;
+                // _startStoryCountdown();
+              },
+            ),
           ),
         },
         if (currentItem.storyItemType.isImage) ...{
@@ -365,18 +374,6 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             ),
           ),
         },
-        if (currentItem.storyItemType.isText) ...{
-          Positioned.fill(
-            child: TextStoryView(
-              storyItem: currentItem,
-              key: ValueKey('$currentIndex'),
-              onTextStoryLoaded: (loaded) {
-                isCurrentItemLoaded = loaded;
-                _startStoryCountdown();
-              },
-            ),
-          ),
-        },
         if (currentItem.storyItemType.isWeb) ...{
           Positioned.fill(
             child: WebStoryView(
@@ -389,6 +386,18 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
                 }
                 currentItem.webConfig?.onWebViewLoaded
                     ?.call(controller, loaded);
+              },
+            ),
+          ),
+        },
+        if (currentItem.storyItemType.isText) ...{
+          Positioned.fill(
+            child: TextStoryView(
+              storyItem: currentItem,
+              key: ValueKey('$currentIndex'),
+              onTextStoryLoaded: (loaded) {
+                isCurrentItemLoaded = loaded;
+                _startStoryCountdown();
               },
             ),
           ),

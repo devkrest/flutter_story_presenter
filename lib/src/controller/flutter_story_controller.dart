@@ -3,7 +3,6 @@ import '../utils/story_utils.dart';
 
 /// A controller to manage the state and actions of a story view
 class FlutterStoryController extends ChangeNotifier {
-
   /// The current action status of the story. Defaults to playing.
   StoryAction storyStatus = StoryAction.play;
 
@@ -13,6 +12,11 @@ class FlutterStoryController extends ChangeNotifier {
   /// Sets the story status to play and notifies listeners of the change.
   void play() {
     storyStatus = StoryAction.play;
+    notifyListeners();
+  }
+
+  void playCustomWidget() {
+    storyStatus = StoryAction.playCustomWidget;
     notifyListeners();
   }
 
@@ -54,4 +58,3 @@ class FlutterStoryController extends ChangeNotifier {
     notifyListeners();
   }
 }
-

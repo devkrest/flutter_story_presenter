@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../models/story_view_image_config.dart';
-import '../models/story_view_text_config.dart';
-import '../models/story_view_video_config.dart';
-import '../models/story_view_web_config.dart';
-import '../utils/story_utils.dart';
+import 'package:flutter_story_presenter/flutter_story_presenter.dart';
 
 class StoryItem {
   const StoryItem({
@@ -39,7 +34,7 @@ class StoryItem {
   final Widget? errorWidget;
 
   /// Custom Widget to display fully instead of any other view
-  final Widget? customWidget;
+  final Widget? Function(FlutterStoryController?)? customWidget;
 
   final StoryItemType storyItemType;
 
@@ -63,4 +58,27 @@ class StoryItem {
 
   /// Applicable when [storyItemType] is [StoryItemType.web]
   final StoryViewWebConfig? webConfig;
+}
+
+class StoryCustomWidgetWrapper extends StatelessWidget {
+  const StoryCustomWidgetWrapper({
+    super.key,
+    required this.child,
+    this.isAutoStart = true,
+    this.onLoaded,
+  });
+
+  final Widget? child;
+  final bool isAutoStart;
+  final Function()? onLoaded;
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: (context) {
+        onLoaded?.call();
+        return child ?? const SizedBox.shrink();
+      },
+    );
+  }
 }
