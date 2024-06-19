@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_story_presenter/src/story_presenter/story_custom_view_wrapper.dart';
 import '../story_presenter/story_view_indicator.dart';
 import '../models/story_item.dart';
 import '../models/story_view_indicator_config.dart';
@@ -339,10 +340,6 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
           Positioned.fill(
             child: StoryCustomWidgetWrapper(
               child: currentItem.customWidget!(widget.flutterStoryController),
-              onLoaded: () {
-                // isCurrentItemLoaded = true;
-                // _startStoryCountdown();
-              },
             ),
           ),
         },
