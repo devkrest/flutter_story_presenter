@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../story_presenter/story_view_indicator.dart';
 
 class StoryViewIndicatorConfig {
@@ -9,7 +10,12 @@ class StoryViewIndicatorConfig {
     this.borderRadius = 4,
     this.height = 3.5,
     this.horizontalGap = 4,
-    this.margin = const EdgeInsets.only(top: 14,bottom: 0,left: 10,right: 10,),
+    this.margin = const EdgeInsets.only(
+      top: 14,
+      bottom: 0,
+      left: 10,
+      right: 10,
+    ),
     this.alignment = Alignment.topCenter,
     this.enableBottomSafeArea = false,
     this.enableTopSafeArea = true,
