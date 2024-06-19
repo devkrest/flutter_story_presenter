@@ -7,3 +7,11 @@ Initial Release of Package at 17 June 2024
 
 
 
+## 0.0.3
+- **:memo: Example**: Added Main Example with all the types of story view and practical scenarios.
+
+- **:bug: Video**: Fixed the issue for Video Story when given `fit` as `BoxFit.cover`.
+
+- **:bug: Custom Widget**: Fixed the issue where story timer not starting for `StoryItem` which has `StoryItemType` as `StoryItemType.custom`.
+  
+- **:bug: Image Height/Width**: Fixed issue where Image with `SourceType.network` was not correctly loading with height & width
