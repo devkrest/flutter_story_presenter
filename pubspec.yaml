@@ -8,13 +8,14 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  cached_network_image:
+
   flutter:
     sdk: flutter
-  flutter_cache_manager:
-  smooth_video_progress:
-  video_player:
-  flutter_inappwebview:
+  cached_network_image: ^3.3.1
+  flutter_cache_manager: ^3.3.2
+  smooth_video_progress: ^0.0.4
+  video_player: ^2.8.7
+  flutter_inappwebview: ^6.0.0
 
 dev_dependencies:
   flutter_test:
