@@ -21,3 +21,7 @@ Initial Release of Package at 17 June 2024
 
 ## 0.0.5
 - **:memo: Video Demo**: Fixed Broken Link for Demo 
+
+## 0.0.6
+- **:memo: Documentation**: Fixed Broken Link for Demo 
+- **::arrow_down: Flutter Version Downgrade** Flutter version downgraded to support more apps
