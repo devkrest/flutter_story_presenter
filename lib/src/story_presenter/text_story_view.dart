@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/story_item.dart';
+
 typedef OnTextStoryLoaded = void Function(bool);
 
 class TextStoryView extends StatefulWidget {
