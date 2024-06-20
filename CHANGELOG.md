@@ -17,4 +17,7 @@ Initial Release of Package at 17 June 2024
 - **:bug: Image Height/Width**: Fixed issue where Image with `SourceType.network` was not correctly loading with height & width
 
 ## 0.0.4
-- **:memo: Video Demo**: Fixed Broken Link for Video 
+- **:memo: Video Demo**: Fixed Broken Link for Video
+
+## 0.0.5
+- **:memo: Video Demo**: Fixed Broken Link for Demo 
