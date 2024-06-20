@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
       userName: 'Kaival Patel',
       userProfile: 'https://avatars.githubusercontent.com/u/39383435?v=4',
       stories: [
-        const StoryItem(
+         StoryItem(
           storyItemType: StoryItemType.video,
           storyItemSource: StoryItemSource.asset,
           url: 'assets/fb8512a35d6f4b2e8917b74a048de71a.MP4',
@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
             fit: BoxFit.cover,
           ),
         ),
-        const StoryItem(
+         StoryItem(
             storyItemType: StoryItemType.video,
             url:
                 'https://videos.pexels.com/video-files/5913245/5913245-uhd_1440_2560_30fps.mp4',
@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        const StoryItem(
+        StoryItem(
           storyItemType: StoryItemType.video,
           storyItemSource: StoryItemSource.asset,
           url: 'assets/StorySaver.net-_spindia_-Video-1718781607686.mp4',
