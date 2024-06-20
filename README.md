@@ -5,9 +5,13 @@
 This Flutter package makes it easy to create story and news views like popular social media apps with just a few lines of code! 📱✨ It's loaded with features for customizing and managing stories, perfect for showcasing stories inside your awesome app.
 
 ## ✨ Demo
-![Video Story](https://github.com/devkrest/flutter_story_presenter/blob/documentation/assets/video_story.gif)![Image Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/assets/image_story.gif)
-![Web Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/assets/web_story.gif)
-![Custom Story 1](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/assets/custom_story_1.gif) ![Custom Story 2](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/assets/custom_story_2.gif)
+![Video Story](https://github.com/devkrest/flutter_story_presenter/blob/master/assets/video_story.gif)![Image Story](https://github.com/devkrest/flutter_story_presenter/blob/master/assets/image_story.gif)
+![Web Story](https://github.com/devkrest/flutter_story_presenter/blob/master/assets/web_story.gif)
+![Custom Story 1](https://github.com/devkrest/flutter_story_presenter/blob/master/assets/custom_story_1.gif) ![Custom Story 2](https://github.com/devkrest/flutter_story_presenter/blob/master/assets/custom_story_2.gif)
+
+## 🎥 Video Demo
+![Video Demo](https://devkrest.com/github/flutter-story-presenter-demo.mp4)
+
 ## 🤌🏻 Features
 
 🔹 **Supported Media Types**: Images, Videos, Text, Web & Custom
