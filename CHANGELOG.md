@@ -15,3 +15,6 @@ Initial Release of Package at 17 June 2024
 - **:bug: Custom Widget**: Fixed the issue where story timer not starting for `StoryItem` which has `StoryItemType` as `StoryItemType.custom`.
   
 - **:bug: Image Height/Width**: Fixed issue where Image with `SourceType.network` was not correctly loading with height & width
+
+## 0.0.4
+- **:memo: Video Demo**: Fixed Broken Link for Video 
