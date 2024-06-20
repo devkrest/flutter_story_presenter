@@ -10,7 +10,7 @@ This Flutter package makes it easy to create story and news views like popular s
 ![Custom Story 1](https://github.com/devkrest/flutter_story_presenter/blob/master/assets/custom_story_1.gif) ![Custom Story 2](https://github.com/devkrest/flutter_story_presenter/blob/master/assets/custom_story_2.gif)
 
 ## 🎥 Video Demo
-![Video Demo](https://devkrest.com/github/flutter-story-presenter-demo.mp4)
+https://devkrest.com/github/flutter-story-presenter-demo.mp4
 
 ## 🤌🏻 Features
 
