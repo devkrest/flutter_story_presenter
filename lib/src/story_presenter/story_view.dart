@@ -40,7 +40,7 @@ class FlutterStoryView extends StatefulWidget {
       this.onSlideDown,
       this.onSlideStart,
       super.key})
-      : assert(initialIndex < items.length - 1);
+      : assert(initialIndex < items.length);
 
   /// List of StoryItem objects to display in the story view.
   final List<StoryItem> items;
