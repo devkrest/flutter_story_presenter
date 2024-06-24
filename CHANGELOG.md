@@ -1,5 +1,5 @@
 ## 0.0.7
-- :bug: Fixed item length & merged PR for [fix items length bug](https://github.com/devkrest/flutter_story_presenter/pull/4).
+- **:bug:**: Fixed item length & merged PR for [fix items length bug](https://github.com/devkrest/flutter_story_presenter/pull/4).
 
 ## 0.0.6
 - **:memo: Documentation**: Fixed Broken Link for Demo
