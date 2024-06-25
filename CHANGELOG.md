@@ -1,12 +1,12 @@
 ## 0.0.8
-- **:bug: Bug Fixes**: Fixed #6 with enabling Video Looping for video story if story item length is 1
+- **:bug: Bug Fixes**: Fixed Issue [#6](https://github.com/devkrest/flutter_story_presenter/issues/6) with enabling Video Looping for video story if story item length is 1
 
 ## 0.0.7
 - **:bug: Bug Fixes**: Fixed item length & merged PR for [fix items length bug](https://github.com/devkrest/flutter_story_presenter/pull/4)
 
 ## 0.0.6
 - **:memo: Documentation**: Fixed Broken Link for Demo
-- **::arrow_down: Flutter Version Downgrade** Flutter version downgraded to support more apps
+- **:arrow_down: Flutter Version Downgrade** Flutter version downgraded to support more apps
 
 ## 0.0.5
 - **:memo: Video Demo**: Fixed Broken Link for Demo
