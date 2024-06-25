@@ -93,7 +93,7 @@ class FlutterStoryView extends StatefulWidget {
 
 class _FlutterStoryViewState extends State<FlutterStoryView>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
-  late AnimationController? _animationController;
+  AnimationController? _animationController;
   Animation? _currentProgressAnimation;
   int currentIndex = 0;
   bool isCurrentItemLoaded = false;
@@ -103,6 +103,11 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
 
   @override
   void initState() {
+    if (_animationController != null) {
+      _animationController?.reset();
+      _animationController?.dispose();
+      _animationController = null;
+    }
     _animationController = AnimationController(
       vsync: this,
     );
@@ -131,6 +136,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
   @override
   void dispose() {
     _animationController?.dispose();
+    _animationController = null;
     widget.flutterStoryController
       ?..removeListener(_storyControllerListener)
       ..dispose();
@@ -180,7 +186,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
   void _startStoryView() {
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   /// Resets the animation controller and its listeners.
@@ -281,10 +289,21 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
 
   /// Plays the next story item.
   void _playNext() async {
-    if (_currentVideoPlayer != null) {
+    if (widget.items.length == 1 &&
+        _currentVideoPlayer != null &&
+        widget.restartOnCompleted) {
+      await widget.onCompleted?.call();
+
+      /// In case of story length 1 with video, we won't initialise,
+      /// instead we will loop the video
+      return;
+    }
+    if (_currentVideoPlayer != null &&
+        currentIndex != (widget.items.length - 1)) {
+      /// Dispose the video player only in case of multiple story
+      _currentVideoPlayer?.removeListener(videoListener);
       _currentVideoPlayer?.dispose();
       _currentVideoPlayer = null;
-      _currentVideoPlayer?.removeListener(videoListener);
     }
 
     if (currentIndex == widget.items.length - 1) {
@@ -294,6 +313,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         _resetAnimation();
         _startStoryView();
       }
+      if (mounted) {
+        setState(() {});
+      }
       return;
     }
 
@@ -301,7 +323,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
     _resetAnimation();
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   /// Plays the previous story item.
@@ -315,7 +339,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
     if (currentIndex == 0) {
       _resetAnimation();
       _startStoryCountdown();
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
       widget.onPreviousCompleted?.call();
       return;
     }
@@ -324,7 +350,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
     currentIndex = currentIndex - 1;
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -360,13 +388,15 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             child: VideoStoryView(
               storyItem: currentItem,
               key: ValueKey('$currentIndex'),
+              looping: widget.items.length == 1 && widget.restartOnCompleted,
               onVideoLoad: (videoPlayer) {
                 isCurrentItemLoaded = true;
-                _currentVideoPlayer?.dispose();
                 _currentVideoPlayer = videoPlayer;
                 widget.onVideoLoad?.call(videoPlayer);
                 _startStoryCountdown();
-                setState(() {});
+                if (mounted) {
+                  setState(() {});
+                }
               },
             ),
           ),
