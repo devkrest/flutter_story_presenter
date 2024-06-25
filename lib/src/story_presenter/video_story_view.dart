@@ -16,8 +16,12 @@ class VideoStoryView extends StatefulWidget {
   /// Callback function to notify when the video is loaded.
   final OnVideoLoad? onVideoLoad;
 
+  /// In case of single video story
+  final bool? looping;
+
   /// Creates a [VideoStoryView] widget.
-  const VideoStoryView({required this.storyItem, this.onVideoLoad, super.key});
+  const VideoStoryView(
+      {required this.storyItem, this.onVideoLoad, this.looping, super.key});
 
   @override
   State<VideoStoryView> createState() => _VideoStoryViewState();
@@ -61,6 +65,7 @@ class _VideoStoryViewState extends State<VideoStoryView> {
       await videoPlayerController?.initialize();
       widget.onVideoLoad?.call(videoPlayerController!);
       await videoPlayerController?.play();
+      await videoPlayerController?.setLooping(widget.looping ?? false);
       await videoPlayerController?.setVolume(storyItem.isMuteByDefault ? 0 : 1);
     } catch (e) {
       hasError = true;
