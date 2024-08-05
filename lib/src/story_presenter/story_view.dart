@@ -8,8 +8,8 @@ import '../story_presenter/image_story_view.dart';
 import '../story_presenter/video_story_view.dart';
 import '../story_presenter/web_story_view.dart';
 import '../story_presenter/text_story_view.dart';
+import '../utils/smooth_video_progress.dart';
 import '../utils/story_utils.dart';
-import 'package:smooth_video_progress/smooth_video_progress.dart';
 import 'package:video_player/video_player.dart';
 
 typedef OnStoryChanged = void Function(int);
