@@ -1,3 +1,6 @@
+## 0.0.9
+- **:bug: Bug Fixes**: Fixed Issue [#8](https://github.com/devkrest/flutter_story_presenter/issues/8) where smooth_video_progress depends on outdated flutter_hooks
+
 ## 0.0.8
 - **:bug: Bug Fixes**: Fixed Issue [#6](https://github.com/devkrest/flutter_story_presenter/issues/6) with enabling Video Looping for video story if story item length is 1
 

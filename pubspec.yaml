@@ -1,6 +1,6 @@
 name: flutter_story_presenter
 description: "Flutter package that shows videos, images, and text as a story like Instagram, Whatsapp and other social media platforms"
-version: 0.0.8
+version: 0.0.9
 homepage: https://github.com/devkrest/flutter_story_presenter
 
 environment:
@@ -11,8 +11,8 @@ dependencies:
 
   flutter:
     sdk: flutter
-  cached_network_image: ^3.4.0
-  flutter_cache_manager: ^3.4.0
+  cached_network_image: ^3.3.1
+  flutter_cache_manager: ^3.3.1
   flutter_hooks: ^0.20.5
   video_player: ^2.9.1
   flutter_inappwebview: ^6.0.0
