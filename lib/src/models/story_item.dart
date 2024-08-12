@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_story_presenter/flutter_story_presenter.dart';
+import 'package:flutter_story_presenter/src/models/story_view_audio_config.dart';
 
 class StoryItem {
   const StoryItem({
@@ -15,6 +16,7 @@ class StoryItem {
     this.textConfig,
     this.webConfig,
     this.customWidget,
+    this.audioConfig,
   })  : assert(
           storyItemType == StoryItemType.custom || url != null,
           'URL is required when storyItemType is not custom',
@@ -52,6 +54,9 @@ class StoryItem {
 
   /// Applicable when [storyItemType] is [StoryItemType.video]
   final StoryViewVideoConfig? videoConfig;
+
+  /// Applicable when [storyItemType] is [StoryItemType.video]
+  final StoryViewAudioConfig? audioConfig;
 
   /// Applicable when [storyItemType] is [StoryItemType.text]
   final StoryViewTextConfig? textConfig;

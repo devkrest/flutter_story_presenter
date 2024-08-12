@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_story_presenter/src/story_presenter/story_custom_view_wrapper.dart';
+import 'package:just_audio/just_audio.dart';
 import '../story_presenter/story_view_indicator.dart';
 import '../models/story_item.dart';
 import '../models/story_view_indicator_config.dart';
@@ -19,6 +20,7 @@ typedef OnRightTap = void Function();
 typedef OnDrag = void Function();
 typedef OnItemBuild = Widget? Function(int, Widget);
 typedef OnVideoLoad = void Function(VideoPlayerController?);
+typedef OnAudioLoaded = void Function(AudioPlayer);
 typedef OnSlideDown = void Function(DragUpdateDetails);
 typedef OnSlideStart = void Function(DragStartDetails);
 

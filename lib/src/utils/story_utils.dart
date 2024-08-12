@@ -4,7 +4,7 @@ import '../controller/flutter_story_controller.dart';
 enum StoryAction { play, pause, next, previous, mute, unMute, playCustomWidget }
 
 /// Story Item Type to Display
-enum StoryItemType { image, video, text, web, custom }
+enum StoryItemType { image, video, text, web, audio, custom }
 
 /// Story Item Source to Display Widgets from Asset/Network
 enum StoryItemSource { asset, network, file }
@@ -35,6 +35,8 @@ extension StoryItemTypeExtensions on StoryItemType {
   bool get isWeb => this == StoryItemType.web;
 
   bool get isCustom => this == StoryItemType.custom;
+
+  bool get isAudio => this == StoryItemType.audio;
 }
 
 extension StorySourceTypeExtensions on StoryItemSource {
