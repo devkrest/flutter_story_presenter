@@ -42,20 +42,20 @@ class SmoothVideoProgress extends HookWidget {
 
     final currentPosition = Duration(
         milliseconds:
-        (animationController.value * value.duration.inMilliseconds)
-            .round());
+            (animationController.value * value.duration.inMilliseconds)
+                .round());
 
     final offset = value.position - currentPosition;
 
     useValueChanged(
       value.position,
-          (_, __) {
+      (_, __) {
         final correct = value.isPlaying &&
             offset.inMilliseconds > -500 &&
             offset.inMilliseconds < -50;
         final correction = const Duration(milliseconds: 500) - offset;
         final targetPos =
-        correct ? animationController.value : targetRelativePosition;
+            correct ? animationController.value : targetRelativePosition;
         final duration = correct ? value.duration + correction : value.duration;
 
         animationController.duration = duration;
@@ -68,7 +68,7 @@ class SmoothVideoProgress extends HookWidget {
 
     useValueChanged(
       value.isPlaying,
-          (_, __) => value.isPlaying
+      (_, __) => value.isPlaying
           ? animationController.forward(from: targetRelativePosition)
           : animationController.stop(),
     );

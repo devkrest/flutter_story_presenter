@@ -1,23 +1,58 @@
 import 'package:flutter/material.dart';
-import '../models/story_item.dart';
+import 'package:flutter_story_presenter/flutter_story_presenter.dart';
+import 'package:just_audio/just_audio.dart';
 
 typedef OnTextStoryLoaded = void Function(bool);
 
 class TextStoryView extends StatefulWidget {
   const TextStoryView(
-      {required this.storyItem, this.onTextStoryLoaded, super.key});
+      {required this.storyItem,
+      this.onTextStoryLoaded,
+      this.onAudioLoaded,
+      super.key});
+
   final StoryItem storyItem;
   final OnTextStoryLoaded? onTextStoryLoaded;
+  final OnAudioLoaded? onAudioLoaded;
 
   @override
   State<TextStoryView> createState() => _TextStoryViewState();
 }
 
 class _TextStoryViewState extends State<TextStoryView> {
+  AudioPlayer audioPlayer = AudioPlayer();
+
   @override
   void initState() {
-    widget.onTextStoryLoaded?.call(true);
+    if (widget.storyItem.audioConfig == null) {
+      widget.onTextStoryLoaded?.call(true);
+    }
+    audioInit();
     super.initState();
+  }
+
+  Future<void> audioInit() async {
+    if (widget.storyItem.audioConfig != null) {
+      switch (widget.storyItem.audioConfig!.source) {
+        case StoryItemSource.asset:
+          audioPlayer.setAsset(widget.storyItem.audioConfig!.audioPath);
+          break;
+        case StoryItemSource.network:
+          audioPlayer.setUrl(widget.storyItem.audioConfig!.audioPath);
+          break;
+        case StoryItemSource.file:
+          audioPlayer.setFilePath(widget.storyItem.audioConfig!.audioPath);
+          break;
+      }
+      await audioPlayer.play();
+      widget.onAudioLoaded?.call(audioPlayer);
+    }
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.pause();
+    super.dispose();
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_story_presenter/flutter_story_presenter.dart';
-import 'package:flutter_story_presenter/src/models/story_view_audio_config.dart';
+import 'package:just_audio/just_audio.dart';
 
 class StoryItem {
   const StoryItem({
@@ -36,7 +36,8 @@ class StoryItem {
   final Widget? errorWidget;
 
   /// Custom Widget to display fully instead of any other view
-  final Widget? Function(FlutterStoryController?)? customWidget;
+  final Widget? Function(FlutterStoryController?, AudioPlayer? audioPlayer)?
+      customWidget;
 
   final StoryItemType storyItemType;
 
@@ -55,7 +56,7 @@ class StoryItem {
   /// Applicable when [storyItemType] is [StoryItemType.video]
   final StoryViewVideoConfig? videoConfig;
 
-  /// Applicable when [storyItemType] is [StoryItemType.video]
+  /// Applicable when you want to add audio in [StoryItemType.image],[StoryItemType.text],[StoryItemType.custom]
   final StoryViewAudioConfig? audioConfig;
 
   /// Applicable when [storyItemType] is [StoryItemType.text]
