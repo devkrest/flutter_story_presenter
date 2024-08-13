@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_story_presenter/flutter_story_presenter.dart';
+import 'package:just_audio/just_audio.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -42,10 +43,32 @@ class _HomeState extends State<Home> {
       userProfile: 'https://avatars.githubusercontent.com/u/39383435?v=4',
       stories: [
         StoryItem(
+          storyItemType: StoryItemType.custom,
+          audioConfig: StoryViewAudioConfig(
+            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
+            source: StoryItemSource.network,
+            onAudioStart: (p0) {},
+          ),
+          customWidget: (p0, audioPlayer) => AudioCustomView1(
+            controller: p0,
+            audioPlayer: audioPlayer,
+          ),
+        ),
+        StoryItem(
+          storyItemType: StoryItemType.image,
+          url:
+              "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=800",
+          audioConfig: StoryViewAudioConfig(
+            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
+            source: StoryItemSource.network,
+            onAudioStart: (p0) {},
+          ),
+        ),
+        StoryItem(
           storyItemType: StoryItemType.video,
           storyItemSource: StoryItemSource.asset,
           url: 'assets/fb8512a35d6f4b2e8917b74a048de71a.MP4',
-          thumbnail: Center(
+          thumbnail: const Center(
               child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -58,7 +81,7 @@ class _HomeState extends State<Home> {
               Text('Video Loading')
             ],
           )),
-          videoConfig: StoryViewVideoConfig(
+          videoConfig: const StoryViewVideoConfig(
             fit: BoxFit.cover,
           ),
         ),
@@ -66,7 +89,7 @@ class _HomeState extends State<Home> {
             storyItemType: StoryItemType.video,
             url:
                 'https://videos.pexels.com/video-files/5913245/5913245-uhd_1440_2560_30fps.mp4',
-            thumbnail: Center(
+            thumbnail: const Center(
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -79,7 +102,7 @@ class _HomeState extends State<Home> {
                 Text('Video Loading')
               ],
             )),
-            videoConfig: StoryViewVideoConfig(
+            videoConfig: const StoryViewVideoConfig(
               fit: BoxFit.cover,
               height: double.infinity,
               width: double.infinity,
@@ -87,7 +110,13 @@ class _HomeState extends State<Home> {
             )),
         StoryItem(
           storyItemType: StoryItemType.custom,
-          customWidget: (p0) => TextOverlayView(
+          duration: const Duration(seconds: 20),
+          audioConfig: StoryViewAudioConfig(
+            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
+            source: StoryItemSource.network,
+            onAudioStart: (p0) {},
+          ),
+          customWidget: (p0, audioPlayer) => PostOverlayView(
             controller: p0,
           ),
           imageConfig: StoryViewImageConfig(
@@ -106,7 +135,12 @@ class _HomeState extends State<Home> {
         StoryItem(
           storyItemType: StoryItemType.custom,
           duration: const Duration(seconds: 20),
-          customWidget: (p0) => PostOverlayView(
+          audioConfig: StoryViewAudioConfig(
+            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
+            source: StoryItemSource.network,
+            onAudioStart: (p0) {},
+          ),
+          customWidget: (p0, audioPlayer) => PostOverlayView(
             controller: p0,
           ),
           imageConfig: StoryViewImageConfig(
@@ -120,7 +154,7 @@ class _HomeState extends State<Home> {
           storyItemType: StoryItemType.video,
           storyItemSource: StoryItemSource.asset,
           url: 'assets/StorySaver.net-_spindia_-Video-1718781607686.mp4',
-          thumbnail: Center(
+          thumbnail: const Center(
               child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -133,7 +167,7 @@ class _HomeState extends State<Home> {
               Text('Video Loading')
             ],
           )),
-          videoConfig: StoryViewVideoConfig(
+          videoConfig: const StoryViewVideoConfig(
             fit: BoxFit.contain,
           ),
         ),
@@ -235,13 +269,7 @@ class _MyStoryViewState extends State<MyStoryView> {
       storyViewIndicatorConfig: storyViewIndicatorConfig,
       initialIndex: 0,
       headerWidget: ProfileView(storyModel: widget.storyModel),
-      onStoryChanged: (p0) {
-        // For Custom type story need to play custom view manually
-        if (widget.storyModel.stories[p0].storyItemType ==
-            StoryItemType.custom) {
-          controller.playCustomWidget();
-        }
-      },
+      onStoryChanged: (p0) {},
       onPreviousCompleted: () async {
         await widget.pageController.previousPage(
             duration: const Duration(milliseconds: 500),
@@ -468,32 +496,30 @@ class TextOverlayView extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    TapRegion(
-                      onTapOutside: (event) {
-                        controller?.play();
-                        FocusScope.of(context).unfocus();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: IntrinsicWidth(
-                          child: TextFormField(
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
-                            onTap: () {
-                              controller?.pause();
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'Type something...',
-                                hintStyle: TextStyle(
-                                  color: Colors.black.withOpacity(0.6),
-                                ),
-                                border: InputBorder.none),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: IntrinsicWidth(
+                        child: TextFormField(
+                          onTap: () {
+                            controller?.pause();
+                          },
+                          onTapOutside: (event) {
+                            // controller?.play();
+                            FocusScope.of(context).unfocus();
+                          },
+                          style: const TextStyle(
+                            color: Colors.black,
                           ),
+                          decoration: InputDecoration(
+                              hintText: 'Type something...',
+                              hintStyle: TextStyle(
+                                color: Colors.black.withOpacity(0.6),
+                              ),
+                              border: InputBorder.none),
                         ),
                       ),
                     )
@@ -625,6 +651,113 @@ class PostOverlayView extends StatelessWidget {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+// Custom Widget - Audio View - 1
+class AudioCustomView1 extends StatelessWidget {
+  const AudioCustomView1(
+      {super.key, required this.controller, this.audioPlayer});
+
+  final FlutterStoryController? controller;
+  final AudioPlayer? audioPlayer;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: CachedNetworkImageProvider(
+                  'https://images.pexels.com/photos/1761279/pexels-photo-1761279.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'))),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(
+            height: 130,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 10,
+                )
+              ],
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/img.png',
+                        height: 50,
+                        width: 50,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    StreamBuilder<bool>(
+                        stream: audioPlayer?.playingStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.data == false) {
+                            return const SizedBox();
+                          }
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black.withOpacity(0.54),
+                            ),
+                            height: 50,
+                            width: 50,
+                            padding: const EdgeInsets.all(5),
+                            child: Image.asset(
+                              'assets/audio-anim__.gif',
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        })
+                  ],
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Don't Give Up on Me",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "Andy grammer",
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.5),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

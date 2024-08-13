@@ -1,8 +1,9 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../models/story_item.dart';
-import '../utils/story_utils.dart';
+import 'package:flutter_story_presenter/flutter_story_presenter.dart';
+import 'package:just_audio/just_audio.dart';
 
 typedef OnImageLoaded = void Function(bool);
 
@@ -15,8 +16,15 @@ class ImageStoryView extends StatefulWidget {
   /// Callback function to notify when the image is loaded.
   final OnImageLoaded? onImageLoaded;
 
-  const ImageStoryView(
-      {required this.storyItem, this.onImageLoaded, super.key});
+  /// Callback function to notify when the audio is loaded.
+  final OnAudioLoaded? onAudioLoaded;
+
+  const ImageStoryView({
+    required this.storyItem,
+    this.onImageLoaded,
+    this.onAudioLoaded,
+    super.key,
+  });
 
   @override
   State<ImageStoryView> createState() => _ImageStoryViewState();
@@ -26,12 +34,48 @@ class _ImageStoryViewState extends State<ImageStoryView> {
   /// A flag to ensure the [widget.onImageLoaded] callback is called only once.
   bool _calledOnImageLoaded = false;
 
+  AudioPlayer audioPlayer = AudioPlayer();
+
   /// Marks the image as loaded and calls the [widget.onImageLoaded] callback if it hasn't been called already.
   void markImageAsLoaded() {
     if (!_calledOnImageLoaded) {
-      widget.onImageLoaded?.call(true);
       _calledOnImageLoaded = true;
+      if (widget.storyItem.audioConfig == null) {
+        widget.onImageLoaded?.call(true);
+      } else {
+        audioInit();
+      }
     }
+  }
+
+  Future<void> audioInit() async {
+    try {
+      if (widget.storyItem.audioConfig != null) {
+        switch (widget.storyItem.audioConfig!.source) {
+          case StoryItemSource.asset:
+            await audioPlayer.setAsset(widget.storyItem.audioConfig!.audioPath);
+            break;
+          case StoryItemSource.network:
+            await audioPlayer.setUrl(widget.storyItem.audioConfig!.audioPath);
+            break;
+          case StoryItemSource.file:
+            await audioPlayer
+                .setFilePath(widget.storyItem.audioConfig!.audioPath);
+            break;
+        }
+        audioPlayer.play();
+        widget.onAudioLoaded?.call(audioPlayer);
+      }
+    } catch (e) {
+      widget.onImageLoaded?.call(true);
+      log("$e");
+    }
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.pause();
+    super.dispose();
   }
 
   @override

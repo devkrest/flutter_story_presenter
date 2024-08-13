@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_story_presenter/src/story_presenter/story_custom_view_wrapper.dart';
 import 'package:just_audio/just_audio.dart';
@@ -21,6 +24,7 @@ typedef OnDrag = void Function();
 typedef OnItemBuild = Widget? Function(int, Widget);
 typedef OnVideoLoad = void Function(VideoPlayerController?);
 typedef OnAudioLoaded = void Function(AudioPlayer);
+typedef CustomViewBuilder = Widget Function(AudioPlayer);
 typedef OnSlideDown = void Function(DragUpdateDetails);
 typedef OnSlideStart = void Function(DragStartDetails);
 
@@ -102,6 +106,10 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
   double currentItemProgress = 0;
   VideoPlayerController? _currentVideoPlayer;
   double? storyViewHeight;
+  AudioPlayer? _audioPlayer;
+  Duration? _totalAudioDuration;
+  StreamSubscription? _audioDurationSubscriptionStream;
+  StreamSubscription? _audioPlayerStateStream;
 
   @override
   void initState() {
@@ -116,11 +124,15 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
     currentIndex = widget.initialIndex;
     widget.flutterStoryController?.addListener(_storyControllerListener);
     _startStoryView();
+
+    WidgetsBinding.instance.addObserver(this);
+
     super.initState();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    log("STATE ==> $state");
     switch (state) {
       case AppLifecycleState.resumed:
         _resumeMedia();
@@ -142,6 +154,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
     widget.flutterStoryController
       ?..removeListener(_storyControllerListener)
       ..dispose();
+    _audioDurationSubscriptionStream?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -170,9 +183,6 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         _playPrevious();
       } else if (storyStatus.isNext) {
         _playNext();
-      } else if (storyStatus.isPlayCustomWidget) {
-        isCurrentItemLoaded = true;
-        _startStoryCountdown();
       }
     }
 
@@ -208,6 +218,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
 
   /// Resumes the media playback.
   void _resumeMedia() {
+    _audioPlayer?.play();
     _currentVideoPlayer?.play();
     if (_currentProgressAnimation != null) {
       _animationController?.forward(
@@ -220,6 +231,40 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
   void _startStoryCountdown() {
     _currentVideoPlayer?.addListener(videoListener);
     if (_currentVideoPlayer != null) {
+      return;
+    }
+
+    if (_audioPlayer != null) {
+      _audioPlayer?.durationFuture?.then((v) {
+        _totalAudioDuration = v;
+        _animationController ??= AnimationController(
+          vsync: this,
+        );
+
+        _animationController?.duration = v;
+
+        _currentProgressAnimation =
+            Tween<double>(begin: 0, end: 1).animate(_animationController!)
+              ..addListener(animationListener)
+              ..addStatusListener(animationStatusListener);
+
+        _animationController!.forward();
+      });
+      _audioDurationSubscriptionStream =
+          _audioPlayer?.positionStream.listen(audioPositionListener);
+      _audioPlayerStateStream = _audioPlayer?.playerStateStream.listen(
+        (event) {
+          if (event.playing) {
+            if (event.processingState == ProcessingState.buffering) {
+              _pauseMedia();
+            } else if (event.processingState == ProcessingState.loading) {
+              _pauseMedia();
+            } else {
+              _resumeMedia();
+            }
+          }
+        },
+      );
       return;
     }
 
@@ -259,6 +304,16 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
     }
   }
 
+  void audioPositionListener(Duration position) {
+    final dur = position.inMilliseconds;
+    final pos = _totalAudioDuration?.inMilliseconds;
+
+    if (pos == dur) {
+      _playNext();
+      return;
+    }
+  }
+
   /// Listener for the animation progress.
   void animationListener() {
     currentItemProgress = _animationController?.value ?? 0;
@@ -273,6 +328,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
 
   /// Pauses the media playback.
   void _pauseMedia() {
+    _audioPlayer?.pause();
     _currentVideoPlayer?.pause();
     _animationController?.stop(canceled: false);
   }
@@ -332,6 +388,11 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
 
   /// Plays the previous story item.
   void _playPrevious() {
+    if (_audioPlayer != null) {
+      _audioPlayer?.dispose();
+      _audioDurationSubscriptionStream?.cancel();
+      _audioPlayerStateStream?.cancel();
+    }
     if (_currentVideoPlayer != null) {
       _currentVideoPlayer?.removeListener(videoListener);
       _currentVideoPlayer?.dispose();
@@ -369,7 +430,21 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             currentItem.customWidget != null) ...{
           Positioned.fill(
             child: StoryCustomWidgetWrapper(
-              child: currentItem.customWidget!(widget.flutterStoryController),
+              builder: (audioPlayer) {
+                return currentItem.customWidget!(
+                        widget.flutterStoryController, audioPlayer) ??
+                    const SizedBox.shrink();
+              },
+              storyItem: currentItem,
+              onLoaded: () {
+                isCurrentItemLoaded = true;
+                _startStoryCountdown();
+              },
+              onAudioLoaded: (audioPlayer) {
+                isCurrentItemLoaded = true;
+                _audioPlayer = audioPlayer;
+                _startStoryCountdown();
+              },
             ),
           ),
         },
@@ -380,6 +455,11 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
               storyItem: currentItem,
               onImageLoaded: (isLoaded) {
                 isCurrentItemLoaded = isLoaded;
+                _startStoryCountdown();
+              },
+              onAudioLoaded: (audioPlayer) {
+                isCurrentItemLoaded = true;
+                _audioPlayer = audioPlayer;
                 _startStoryCountdown();
               },
             ),
@@ -426,6 +506,11 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
               key: ValueKey('$currentIndex'),
               onTextStoryLoaded: (loaded) {
                 isCurrentItemLoaded = loaded;
+                _startStoryCountdown();
+              },
+              onAudioLoaded: (audioPlayer) {
+                isCurrentItemLoaded = true;
+                _audioPlayer = audioPlayer;
                 _startStoryCountdown();
               },
             ),
