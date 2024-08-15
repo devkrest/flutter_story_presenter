@@ -52,6 +52,7 @@ class _TextStoryViewState extends State<TextStoryView> {
   @override
   void dispose() {
     audioPlayer.pause();
+    audioPlayer.dispose();
     super.dispose();
   }
 

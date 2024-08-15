@@ -234,7 +234,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
       return;
     }
 
-    if (_audioPlayer != null) {
+    if (currentItem.audioConfig != null) {
       _audioPlayer?.durationFuture?.then((v) {
         _totalAudioDuration = v;
         _animationController ??= AnimationController(
@@ -429,6 +429,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         if (currentItem.storyItemType.isCustom &&
             currentItem.customWidget != null) ...{
           Positioned.fill(
+            key: UniqueKey(),
             child: StoryCustomWidgetWrapper(
               builder: (audioPlayer) {
                 return currentItem.customWidget!(
@@ -450,6 +451,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         },
         if (currentItem.storyItemType.isImage) ...{
           Positioned.fill(
+            key: UniqueKey(),
             child: ImageStoryView(
               key: ValueKey('$currentIndex'),
               storyItem: currentItem,
@@ -501,6 +503,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         },
         if (currentItem.storyItemType.isText) ...{
           Positioned.fill(
+            key: UniqueKey(),
             child: TextStoryView(
               storyItem: currentItem,
               key: ValueKey('$currentIndex'),

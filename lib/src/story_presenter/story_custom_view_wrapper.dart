@@ -68,6 +68,7 @@ class _StoryCustomWidgetWrapperState extends State<StoryCustomWidgetWrapper> {
   @override
   void dispose() {
     audioPlayer.pause();
+    audioPlayer.dispose();
     super.dispose();
   }
 
