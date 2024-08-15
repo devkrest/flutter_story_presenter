@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +38,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   PageController pageController = PageController();
+  double currentPageValue = 0.0;
 
   //Story Data
   List<StoryModel> sampleStory = [
@@ -58,11 +62,6 @@ class _HomeState extends State<Home> {
           storyItemType: StoryItemType.image,
           url:
               "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=800",
-          audioConfig: StoryViewAudioConfig(
-            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
-            source: StoryItemSource.network,
-            onAudioStart: (p0) {},
-          ),
         ),
         StoryItem(
           storyItemType: StoryItemType.video,
@@ -111,11 +110,6 @@ class _HomeState extends State<Home> {
         StoryItem(
           storyItemType: StoryItemType.custom,
           duration: const Duration(seconds: 20),
-          audioConfig: StoryViewAudioConfig(
-            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
-            source: StoryItemSource.network,
-            onAudioStart: (p0) {},
-          ),
           customWidget: (p0, audioPlayer) => PostOverlayView(
             controller: p0,
           ),
@@ -135,11 +129,6 @@ class _HomeState extends State<Home> {
         StoryItem(
           storyItemType: StoryItemType.custom,
           duration: const Duration(seconds: 20),
-          audioConfig: StoryViewAudioConfig(
-            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
-            source: StoryItemSource.network,
-            onAudioStart: (p0) {},
-          ),
           customWidget: (p0, audioPlayer) => PostOverlayView(
             controller: p0,
           ),
@@ -178,15 +167,28 @@ class _HomeState extends State<Home> {
       userProfile: 'https://devkrest.com/team/harsh.jpg',
       stories: [
         StoryItem(
-          storyItemType: StoryItemType.web,
-          url: 'https://quirkywanderer.com/web-stories/bijli-mahadev-trek/',
-          duration: const Duration(seconds: 20),
-          imageConfig: StoryViewImageConfig(
-            fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) => const Center(
-              child: CupertinoActivityIndicator(),
-            ),
-          ),
+          storyItemType: StoryItemType.text,
+          textConfig: StoryViewTextConfig(
+              textWidget: const Text(
+                "Happy Independence Day",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    fontStyle: FontStyle.italic),
+              ),
+              backgroundWidget: Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                      Colors.deepOrange,
+                      Colors.white,
+                      Colors.green
+                    ])),
+              )),
+          url: "Happy Independence Day",
         ),
         StoryItem(
           storyItemType: StoryItemType.web,
@@ -205,17 +207,63 @@ class _HomeState extends State<Home> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  multiStoryView() {}
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: PageView.builder(
         itemCount: sampleStory.length,
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         itemBuilder: (context, index) {
-          return MyStoryView(
-            storyModel: sampleStory[index],
-            pageController: pageController,
+          return AnimatedBuilder(
+            animation: pageController,
+            child: MyStoryView(
+              storyModel: sampleStory[index],
+              pageController: pageController,
+            ),
+            builder: (context, child) {
+              if (pageController.position.hasContentDimensions) {
+                currentPageValue = pageController.page ?? 0.0;
+                final isLeaving = (index - currentPageValue) <= 0;
+                final t = (index - currentPageValue);
+                final rotationY = lerpDouble(0, 30, t)!;
+                const maxOpacity = 0.8;
+                final num opacity =
+                    lerpDouble(0, maxOpacity, t.abs())!.clamp(0.0, maxOpacity);
+                final isPaging = opacity != maxOpacity;
+                final transform = Matrix4.identity();
+                transform.setEntry(3, 2, 0.003);
+                transform.rotateY(-rotationY * (pi / 180.0));
+                return Transform(
+                  alignment:
+                      isLeaving ? Alignment.centerRight : Alignment.centerLeft,
+                  transform: transform,
+                  child: Stack(
+                    children: [
+                      child!,
+                      if (isPaging && !isLeaving)
+                        Positioned.fill(
+                          child: Opacity(
+                            opacity: opacity as double,
+                            child: const ColoredBox(
+                              color: Colors.black87,
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                );
+              }
+
+              return child!;
+            },
           );
         },
       ),

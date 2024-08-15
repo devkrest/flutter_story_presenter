@@ -75,6 +75,7 @@ class _ImageStoryViewState extends State<ImageStoryView> {
   @override
   void dispose() {
     audioPlayer.pause();
+    audioPlayer.dispose();
     super.dispose();
   }
 
