@@ -1,6 +1,6 @@
 # FlutterStoryPresenter
 
-![FlutterStoryPresenter](https://devkrest.com/github/flutter_story_presenter.png)
+![FlutterStoryPresenter](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/flutter_story_presenter.png)
 
 This Flutter package makes it easy to create story and news views like popular social media apps
 with just a few lines of code! 📱✨ It's loaded with features for customizing and managing stories,
@@ -56,37 +56,41 @@ Use `FlutterStoryPresenter` to display stories on any screen. It accepts a list 
 containing URLs for displaying images, videos, and web pages.
 
 ```dart
-FlutterStoryPresenter
-(
-controller : FlutterStoryController(),
-items: [
-/// For Image Story Item
-StoryItem(
-url:'https://picsum.photos/1000/1000',
-type: StoryItemType.image,
-),
-/// For Video Story Item
-StoryItem(
-url:'https://videos.pexels.com/video-files/7297870/7297870-hd_1080_1920_30fps.mp4',
-type: StoryItemType.video,
-),
-/// For Text Story Item
-StoryItem(
-url:'We won this tournament ... Many more to go',
-type: StoryItemType.text,
-),
-/// For Web Story Item
-StoryItem(
-url:'https://devkrest.com/',
-type: StoryItemType.web,
-),
-/// For Custom Story Item
-StoryItem(
-customWidget: YourOwnBakedStoryWidget(),
-type: StoryItemType.custom,
-),
-]
-)
+FlutterStoryPresenter(
+      flutterStoryController: FlutterStoryController(),
+      items: [
+        /// For Image Story Item
+        StoryItem(
+          url: 'https://picsum.photos/1000/1000',
+          storyItemType: StoryItemType.image,
+        ),
+
+        /// For Video Story Item
+        StoryItem(
+          url:
+              'https://videos.pexels.com/video-files/7297870/7297870-hd_1080_1920_30fps.mp4',
+          storyItemType: StoryItemType.video,
+        ),
+
+        /// For Text Story Item
+        StoryItem(
+          url: 'We won this tournament ... Many more to go',
+          storyItemType: StoryItemType.text,
+        ),
+
+        /// For Web Story Item
+        StoryItem(
+          url: 'https://devkrest.com/',
+          storyItemType: StoryItemType.web,
+        ),
+
+        /// For Custom Story Item
+        StoryItem(
+          customWidget: YourOwnBakedStoryWidget(),
+          storyItemType: StoryItemType.custom,
+        ),
+      ],
+    );
 ```
 
 ### `FlutterStoryPresenter` Properties
@@ -147,13 +151,12 @@ to control the existing StoryItem.
 ```dart
 
 final storyController = FlutterStoryController();
-FlutterStoryPresenter
-(
-controller : storyController,
-items: [
-/// Story Item goes here
-]
-)
+FlutterStoryPresenter(
+      flutterStoryController: storyController,
+      items: [
+        /// Story Item goes here
+      ],
+    )
 ...
 /// Somewhere in your code
 storyController.pause();
@@ -171,26 +174,21 @@ The `StoryItem` class is used to define the individual items displayed in a `Flu
 Each `StoryItem` can represent an image, video, text, web content, or a custom widget.
 
 ```dart
-const StoryItem
-(
-{this.url,
-required this.storyItemType,
-this.thumbnail,
-this.isMuteByDefault = false,
-this.duration = const Duration(seconds: 3),
-this.storyItemSource = StoryItemSource.network,
-this.videoConfig,
-this.audioConfig,
-this.errorWidget,
-this.imageConfig,
-this.textConfig,
-this.webConfig,
-this
-.
-customWidget
-,
-}
-);
+const StoryItem({
+    this.url,
+    required this.storyItemType,
+    this.thumbnail,
+    this.isMuteByDefault = false,
+    this.duration = const Duration(seconds: 3),
+    this.storyItemSource = StoryItemSource.network,
+    this.videoConfig,
+    this.errorWidget,
+    this.imageConfig,
+    this.textConfig,
+    this.webConfig,
+    this.customWidget,
+    this.audioConfig,
+  });
 ```
 
 #### Parameters
@@ -217,49 +215,47 @@ customWidget
 #### Example
 
 ```dart
-StoryItem
-(
-url: 'https://example.com/image.jpg',
-storyItemType: StoryItemType.image,
-storyItemSource: StoryItemSource.network,
-duration: Duration(seconds: 5),
-thumbnail: Image.network('https://example.com/thumbnail.jpg'),
-imageConfig: StoryViewImageConfig(
-fit: BoxFit.cover,
-height: 300,
-width: 300,
-progressIndicatorBuilder: (_,_,loadProgress){
-return YourImageLoaderWidget();
-}
-),
-)
-
 StoryItem(
-url: 'https://example.com/video.mp4',
-storyItemType: StoryItemType.video,
-isMuteByDefault: true,
-storyItemSource: StoryItemSource.network,
-duration: Duration(seconds: 10),
-videoConfig: StoryViewVideoConfig(
-cacheVideo: true,
-fit: BoxFit.cover,
-height: 500,
-width: 500,
-loadingWidget: MyVideoLoadingWidget(),
-/// If you opt to cache video, 
-// it will store to user device and then played, 
-// if already cached, will play without buffer 
-// from next time
-cacheVideo: false,
-useVideoAspectRatio: false,
-videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true,),
+  url: 'https://example.com/image.jpg',
+  storyItemType: StoryItemType.image,
+  storyItemSource: StoryItemSource.network,
+  duration: const Duration(seconds: 5),
+  thumbnail: Image.network('https://example.com/thumbnail.jpg'),
+  imageConfig: StoryViewImageConfig(
+    fit: BoxFit.cover,
+    height: 300,
+    width: 300,
+    progressIndicatorBuilder: (_, _, loadProgress) {
+      return YourImageLoaderWidget();
+    },
+  ),
 ),
-)
-
 StoryItem(
-storyItemType: StoryItemType.custom,
-customWidget: MyCustomWidget(),
-)
+  url: 'https://example.com/video.mp4',
+  storyItemType: StoryItemType.video,
+  isMuteByDefault: true,
+  storyItemSource: StoryItemSource.network,
+  duration: const Duration(seconds: 10),
+  videoConfig: StoryViewVideoConfig(
+    fit: BoxFit.cover,
+    height: 500,
+    width: 500,
+    loadingWidget: MyVideoLoadingWidget(),
+    // If you opt to cache video,
+    // it will store to user device and then played,
+    // if already cached, will play without buffer
+    // from next time
+    cacheVideo: true,
+    useVideoAspectRatio: false,
+    videoPlayerOptions: VideoPlayerOptions(
+      mixWithOthers: true,
+    ),
+  ),
+),
+StoryItem(
+  storyItemType: StoryItemType.custom,
+  customWidget: MyCustomWidget(),
+),
 ```
 
 ### Full Example
@@ -269,11 +265,8 @@ detailed reference, refer to
 the [official documentation](https://github.com/devkrest/flutter_story_presenter/blob/master/example/lib/main.dart).
 
 ```dart
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_story_presenter/flutter_story_presenter.dart';
+import 'dart:math';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -312,6 +305,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   PageController pageController = PageController();
+  double currentPageValue = 0.0;
 
   //Story Data
   List<StoryModel> sampleStory = [
@@ -326,21 +320,15 @@ class _HomeState extends State<Home> {
             source: StoryItemSource.network,
             onAudioStart: (p0) {},
           ),
-          customWidget: (p0, audioPlayer) =>
-              AudioCustomView1(
-                controller: p0,
-                audioPlayer: audioPlayer,
-              ),
+          customWidget: (p0, audioPlayer) => AudioCustomView1(
+            controller: p0,
+            audioPlayer: audioPlayer,
+          ),
         ),
         StoryItem(
           storyItemType: StoryItemType.image,
           url:
-          "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=800",
-          audioConfig: StoryViewAudioConfig(
-            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
-            source: StoryItemSource.network,
-            onAudioStart: (p0) {},
-          ),
+              "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=800",
         ),
         StoryItem(
           storyItemType: StoryItemType.video,
@@ -348,17 +336,17 @@ class _HomeState extends State<Home> {
           url: 'assets/fb8512a35d6f4b2e8917b74a048de71a.MP4',
           thumbnail: const Center(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CupertinoActivityIndicator(
-                    radius: 15,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text('Video Loading')
-                ],
-              )),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CupertinoActivityIndicator(
+                radius: 15,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text('Video Loading')
+            ],
+          )),
           videoConfig: const StoryViewVideoConfig(
             fit: BoxFit.cover,
           ),
@@ -366,20 +354,20 @@ class _HomeState extends State<Home> {
         StoryItem(
             storyItemType: StoryItemType.video,
             url:
-            'https://videos.pexels.com/video-files/5913245/5913245-uhd_1440_2560_30fps.mp4',
+                'https://videos.pexels.com/video-files/5913245/5913245-uhd_1440_2560_30fps.mp4',
             thumbnail: const Center(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CupertinoActivityIndicator(
-                      radius: 15,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text('Video Loading')
-                  ],
-                )),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CupertinoActivityIndicator(
+                  radius: 15,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text('Video Loading')
+              ],
+            )),
             videoConfig: const StoryViewVideoConfig(
               fit: BoxFit.cover,
               height: double.infinity,
@@ -389,19 +377,12 @@ class _HomeState extends State<Home> {
         StoryItem(
           storyItemType: StoryItemType.custom,
           duration: const Duration(seconds: 20),
-          audioConfig: StoryViewAudioConfig(
-            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
-            source: StoryItemSource.network,
-            onAudioStart: (p0) {},
+          customWidget: (p0, audioPlayer) => PostOverlayView(
+            controller: p0,
           ),
-          customWidget: (p0, audioPlayer) =>
-              PostOverlayView(
-                controller: p0,
-              ),
           imageConfig: StoryViewImageConfig(
             fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) =>
-            const Center(
+            progressIndicatorBuilder: (p0, p1, p2) => const Center(
               child: CupertinoActivityIndicator(),
             ),
           ),
@@ -415,19 +396,12 @@ class _HomeState extends State<Home> {
         StoryItem(
           storyItemType: StoryItemType.custom,
           duration: const Duration(seconds: 20),
-          audioConfig: StoryViewAudioConfig(
-            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
-            source: StoryItemSource.network,
-            onAudioStart: (p0) {},
+          customWidget: (p0, audioPlayer) => PostOverlayView(
+            controller: p0,
           ),
-          customWidget: (p0, audioPlayer) =>
-              PostOverlayView(
-                controller: p0,
-              ),
           imageConfig: StoryViewImageConfig(
             fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) =>
-            const Center(
+            progressIndicatorBuilder: (p0, p1, p2) => const Center(
               child: CupertinoActivityIndicator(),
             ),
           ),
@@ -438,17 +412,17 @@ class _HomeState extends State<Home> {
           url: 'assets/StorySaver.net-_spindia_-Video-1718781607686.mp4',
           thumbnail: const Center(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CupertinoActivityIndicator(
-                    radius: 15,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text('Video Loading')
-                ],
-              )),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CupertinoActivityIndicator(
+                radius: 15,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text('Video Loading')
+            ],
+          )),
           videoConfig: const StoryViewVideoConfig(
             fit: BoxFit.contain,
           ),
@@ -460,26 +434,37 @@ class _HomeState extends State<Home> {
       userProfile: 'https://devkrest.com/team/harsh.jpg',
       stories: [
         StoryItem(
-          storyItemType: StoryItemType.web,
-          url: 'https://quirkywanderer.com/web-stories/bijli-mahadev-trek/',
-          duration: const Duration(seconds: 20),
-          imageConfig: StoryViewImageConfig(
-            fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) =>
-            const Center(
-              child: CupertinoActivityIndicator(),
-            ),
-          ),
+          storyItemType: StoryItemType.text,
+          textConfig: StoryViewTextConfig(
+              textWidget: const Text(
+                "Happy Independence Day",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    fontStyle: FontStyle.italic),
+              ),
+              backgroundWidget: Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                      Colors.deepOrange,
+                      Colors.white,
+                      Colors.green
+                    ])),
+              )),
+          url: "Happy Independence Day",
         ),
         StoryItem(
           storyItemType: StoryItemType.web,
           url:
-          'https://www.ndtv.com/webstories/travel/10-things-to-do-in-amritsar-from-golden-temple-visit-to-wagah-border-47',
+              'https://www.ndtv.com/webstories/travel/10-things-to-do-in-amritsar-from-golden-temple-visit-to-wagah-border-47',
           duration: const Duration(seconds: 20),
           imageConfig: StoryViewImageConfig(
             fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) =>
-            const Center(
+            progressIndicatorBuilder: (p0, p1, p2) => const Center(
               child: CupertinoActivityIndicator(),
             ),
           ),
@@ -489,17 +474,63 @@ class _HomeState extends State<Home> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  multiStoryView() {}
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: PageView.builder(
         itemCount: sampleStory.length,
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         itemBuilder: (context, index) {
-          return MyStoryView(
-            storyModel: sampleStory[index],
-            pageController: pageController,
+          return AnimatedBuilder(
+            animation: pageController,
+            child: MyStoryView(
+              storyModel: sampleStory[index],
+              pageController: pageController,
+            ),
+            builder: (context, child) {
+              if (pageController.position.hasContentDimensions) {
+                currentPageValue = pageController.page ?? 0.0;
+                final isLeaving = (index - currentPageValue) <= 0;
+                final t = (index - currentPageValue);
+                final rotationY = lerpDouble(0, 30, t)!;
+                const maxOpacity = 0.8;
+                final num opacity =
+                    lerpDouble(0, maxOpacity, t.abs())!.clamp(0.0, maxOpacity);
+                final isPaging = opacity != maxOpacity;
+                final transform = Matrix4.identity();
+                transform.setEntry(3, 2, 0.003);
+                transform.rotateY(-rotationY * (pi / 180.0));
+                return Transform(
+                  alignment:
+                      isLeaving ? Alignment.centerRight : Alignment.centerLeft,
+                  transform: transform,
+                  child: Stack(
+                    children: [
+                      child!,
+                      if (isPaging && !isLeaving)
+                        Positioned.fill(
+                          child: Opacity(
+                            opacity: opacity as double,
+                            child: const ColoredBox(
+                              color: Colors.black87,
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                );
+              }
+
+              return child!;
+            },
           );
         },
       ),
@@ -545,8 +576,7 @@ class _MyStoryViewState extends State<MyStoryView> {
       horizontalGap: 1,
       borderRadius: 1.5,
     );
-
-    return FlutterStoryView(
+    return FlutterStoryPresenter(
       flutterStoryController: controller,
       items: widget.storyModel.stories,
       footerWidget: MessageBoxView(controller: controller),
@@ -582,7 +612,7 @@ class MessageBoxView extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding:
-        const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 10),
+            const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -752,7 +782,7 @@ class TextOverlayView extends StatelessWidget {
             children: [
               Container(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 22, vertical: 30),
+                    const EdgeInsets.symmetric(horizontal: 22, vertical: 30),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -852,7 +882,7 @@ class PostOverlayView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 40),
       decoration: const BoxDecoration(
           gradient:
-          LinearGradient(colors: [Color(0xffff8800), Color(0xffff3300)])),
+              LinearGradient(colors: [Color(0xffff8800), Color(0xffff3300)])),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -884,7 +914,7 @@ class PostOverlayView extends StatelessWidget {
                           padding: const EdgeInsets.all(8),
                           child: CachedNetworkImage(
                             imageUrl:
-                            'https://devkrest.com/logo/devkrest_outlined.png',
+                                'https://devkrest.com/logo/devkrest_outlined.png',
                             height: 15,
                             width: 15,
                           ),
@@ -915,17 +945,14 @@ class PostOverlayView extends StatelessWidget {
                     height: 5,
                   ),
                   CachedNetworkImage(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.40,
-                      fit: BoxFit.cover,
-                      imageUrl:
-                      'https://picsum.photos/500/500'),
+                    height: MediaQuery.of(context).size.height * 0.40,
+                    fit: BoxFit.cover,
+                    imageUrl: 'https://picsum.photos/500/500',
+                  ),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Text(
-                      "Random Image (Courtesy: picsum.photos)",
+                      "Random Image (Courtesy:picsum.photos)",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
@@ -946,7 +973,8 @@ class PostOverlayView extends StatelessWidget {
 
 // Custom Widget - Audio View - 1
 class AudioCustomView1 extends StatelessWidget {
-  const AudioCustomView1({super.key, required this.controller, this.audioPlayer});
+  const AudioCustomView1(
+      {super.key, required this.controller, this.audioPlayer});
 
   final FlutterStoryController? controller;
   final AudioPlayer? audioPlayer;
@@ -1050,6 +1078,7 @@ class AudioCustomView1 extends StatelessWidget {
   }
 }
 
+
 ```
 
 ## Team Devkrest
@@ -1085,7 +1114,7 @@ contributions to this package.
 </tr><tr>
     <td colspan="3" align="center">
       <a href="https://devkrest.com/">
-        <img src="https://devkrest.com/github/devkrest_brand.png" 
+        <img src="https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/devkrest_footer.png" 
         style="margin-top:8px"
          alt="Devkrest Technologies"/><br />
       </a>

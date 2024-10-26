@@ -28,25 +28,25 @@ typedef CustomViewBuilder = Widget Function(AudioPlayer);
 typedef OnSlideDown = void Function(DragUpdateDetails);
 typedef OnSlideStart = void Function(DragStartDetails);
 
-class FlutterStoryView extends StatefulWidget {
-  const FlutterStoryView(
-      {this.flutterStoryController,
-      this.items = const [],
-      this.onStoryChanged,
-      this.onLeftTap,
-      this.onRightTap,
-      this.onCompleted,
-      this.onPreviousCompleted,
-      this.initialIndex = 0,
-      this.storyViewIndicatorConfig,
-      this.restartOnCompleted = true,
-      this.onVideoLoad,
-      this.headerWidget,
-      this.footerWidget,
-      this.onSlideDown,
-      this.onSlideStart,
-      super.key})
-      : assert(initialIndex < items.length);
+class FlutterStoryPresenter extends StatefulWidget {
+  const FlutterStoryPresenter({
+    this.flutterStoryController,
+    this.items = const [],
+    this.onStoryChanged,
+    this.onLeftTap,
+    this.onRightTap,
+    this.onCompleted,
+    this.onPreviousCompleted,
+    this.initialIndex = 0,
+    this.storyViewIndicatorConfig,
+    this.restartOnCompleted = true,
+    this.onVideoLoad,
+    this.headerWidget,
+    this.footerWidget,
+    this.onSlideDown,
+    this.onSlideStart,
+    super.key,
+  }) : assert(initialIndex < items.length);
 
   /// List of StoryItem objects to display in the story view.
   final List<StoryItem> items;
@@ -94,10 +94,10 @@ class FlutterStoryView extends StatefulWidget {
   final Widget? footerWidget;
 
   @override
-  State<FlutterStoryView> createState() => _FlutterStoryViewState();
+  State<FlutterStoryPresenter> createState() => _FlutterStoryPresenterState();
 }
 
-class _FlutterStoryViewState extends State<FlutterStoryView>
+class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   AnimationController? _animationController;
   Animation? _currentProgressAnimation;

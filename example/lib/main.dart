@@ -309,8 +309,7 @@ class _MyStoryViewState extends State<MyStoryView> {
       horizontalGap: 1,
       borderRadius: 1.5,
     );
-
-    return FlutterStoryView(
+    return FlutterStoryPresenter(
       flutterStoryController: controller,
       items: widget.storyModel.stories,
       footerWidget: MessageBoxView(controller: controller),

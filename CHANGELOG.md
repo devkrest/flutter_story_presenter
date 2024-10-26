@@ -1,8 +1,8 @@
 ## 1.0.1
 
 - **:bug: setState Causes Controller to Restart**: Fixed
-  Issue [#22](https://github.com/devkrest/flutter_story_presenter/issues/22) SetState unpauses the FlutterStoryController
-
+  :bug: Issue [#22](https://github.com/devkrest/flutter_story_presenter/issues/22) SetState unpauses the FlutterStoryController
+  :boom: Breaking Changes : Renamed `FlutterStoryView` to `FlutterStoryPresenter`
 ## 1.0.0
 
 - **:sparkles: Audio Story added**: Enhancement
