@@ -1,20 +1,20 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_story_presenter/src/story_presenter/story_custom_view_wrapper.dart';
 import 'package:just_audio/just_audio.dart';
-import '../story_presenter/story_view_indicator.dart';
+import 'package:video_player/video_player.dart';
+
+import '../controller/flutter_story_controller.dart';
 import '../models/story_item.dart';
 import '../models/story_view_indicator_config.dart';
-import '../controller/flutter_story_controller.dart';
 import '../story_presenter/image_story_view.dart';
+import '../story_presenter/story_view_indicator.dart';
+import '../story_presenter/text_story_view.dart';
 import '../story_presenter/video_story_view.dart';
 import '../story_presenter/web_story_view.dart';
-import '../story_presenter/text_story_view.dart';
 import '../utils/smooth_video_progress.dart';
 import '../utils/story_utils.dart';
-import 'package:video_player/video_player.dart';
 
 typedef OnStoryChanged = void Function(int);
 typedef OnCompleted = Future<void> Function();
@@ -132,7 +132,6 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    log("STATE ==> $state");
     switch (state) {
       case AppLifecycleState.resumed:
         _resumeMedia();
@@ -429,7 +428,6 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         if (currentItem.storyItemType.isCustom &&
             currentItem.customWidget != null) ...{
           Positioned.fill(
-            key: UniqueKey(),
             child: StoryCustomWidgetWrapper(
               builder: (audioPlayer) {
                 return currentItem.customWidget!(
@@ -451,7 +449,6 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         },
         if (currentItem.storyItemType.isImage) ...{
           Positioned.fill(
-            key: UniqueKey(),
             child: ImageStoryView(
               key: ValueKey('$currentIndex'),
               storyItem: currentItem,
@@ -503,7 +500,6 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         },
         if (currentItem.storyItemType.isText) ...{
           Positioned.fill(
-            key: UniqueKey(),
             child: TextStoryView(
               storyItem: currentItem,
               key: ValueKey('$currentIndex'),
