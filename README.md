@@ -1,6 +1,6 @@
 # FlutterStoryPresenter
 
-![FlutterStoryPresenter](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/flutter_story_presenter.png)
+![FlutterStoryPresenter](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/22-setState-unpauses-flutterstorycontroller/assets/flutter_story_presenter.png)
 
 This Flutter package makes it easy to create story and news views like popular social media apps
 with just a few lines of code! 📱✨ It's loaded with features for customizing and managing stories,
@@ -8,10 +8,10 @@ perfect for showcasing stories inside your awesome app.
 
 ## ✨ Demo
 
-![Video Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/video_story.gif)![Image Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/image_story.gif)
-![Web Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/web_story.gif)
-![Custom Story 1](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/custom_story_1.gif) ![Custom Story 2](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/custom_story_2.gif)
-![Audio Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/audio_story.gif)
+![Video Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/22-setState-unpauses-flutterstorycontroller/assets/video_story.gif)![Image Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/22-setState-unpauses-flutterstorycontroller/assets/image_story.gif)
+![Web Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/22-setState-unpauses-flutterstorycontroller/assets/web_story.gif)
+![Custom Story 1](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/22-setState-unpauses-flutterstorycontroller/assets/custom_story_1.gif) ![Custom Story 2](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/22-setState-unpauses-flutterstorycontroller/assets/custom_story_2.gif)
+![Audio Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/22-setState-unpauses-flutterstorycontroller/assets/audio_story.gif)
 
 ## 🎥 Video Demo
 
@@ -262,7 +262,7 @@ StoryItem(
 
 This is the full example demonstrating the usage of `FlutterStoryPresenter`. For more insights and
 detailed reference, refer to
-the [official documentation](https://github.com/devkrest/flutter_story_presenter/blob/master/example/lib/main.dart).
+the [official documentation](https://github.com/devkrest/flutter_story_presenter/blob/22-setState-unpauses-flutterstorycontroller/example/lib/main.dart).
 
 ```dart
 import 'dart:math';
@@ -1114,7 +1114,7 @@ contributions to this package.
 </tr><tr>
     <td colspan="3" align="center">
       <a href="https://devkrest.com/">
-        <img src="https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/devkrest_footer.png" 
+        <img src="https://raw.githubusercontent.com/devkrest/flutter_story_presenter/22-setState-unpauses-flutterstorycontroller/assets/devkrest_footer.png" 
         style="margin-top:8px"
          alt="Devkrest Technologies"/><br />
       </a>
