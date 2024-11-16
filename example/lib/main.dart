@@ -88,19 +88,6 @@ class _HomeState extends State<Home> {
             storyItemType: StoryItemType.video,
             url:
                 'https://videos.pexels.com/video-files/5913245/5913245-uhd_1440_2560_30fps.mp4',
-            thumbnail: const Center(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CupertinoActivityIndicator(
-                  radius: 15,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text('Video Loading')
-              ],
-            )),
             videoConfig: const StoryViewVideoConfig(
               fit: BoxFit.cover,
               height: double.infinity,
