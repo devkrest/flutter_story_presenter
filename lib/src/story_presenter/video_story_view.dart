@@ -88,7 +88,9 @@ class _VideoStoryViewState extends State<VideoStoryView> {
       alignment: (fit == BoxFit.cover) ? Alignment.topCenter : Alignment.center,
       fit: (fit == BoxFit.cover) ? StackFit.expand : StackFit.loose,
       children: [
-        if (widget.storyItem.thumbnail != null) ...{
+        if (widget.storyItem.videoConfig?.loadingWidget != null) ...{
+          widget.storyItem.videoConfig!.loadingWidget!,
+        } else if (widget.storyItem.thumbnail != null) ...{
           // Display the thumbnail if provided.
           widget.storyItem.thumbnail!,
         },
@@ -101,7 +103,9 @@ class _VideoStoryViewState extends State<VideoStoryView> {
             // Display the video with aspect ratio if specified.
             AspectRatio(
               aspectRatio: videoPlayerController!.value.aspectRatio,
-              child: VideoPlayer(videoPlayerController!),
+              child: VideoPlayer(
+                videoPlayerController!,
+              ),
             )
           } else ...{
             // Display the video fitted to the screen.
