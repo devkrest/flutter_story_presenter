@@ -8,10 +8,10 @@ perfect for showcasing stories inside your awesome app.
 
 ## ✨ Demo
 
-![Video Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/video_story.gif)![Image Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/image_story.gif)
-![Web Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/web_story.gif)
-![Custom Story 1](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/custom_story_1.gif) ![Custom Story 2](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/custom_story_2.gif)
-![Audio Story](https://raw.githubusercontent.com/devkrest/flutter_story_presenter/master/assets/audio_story.gif)
+![Video Story](https://devkrest.com/flutter_story_presenter/video_story.gif)![Image Story](https://devkrest.com/flutter_story_presenter/image_story.gif)
+![Web Story](https://devkrest.com/flutter_story_presenter/web_story.gif)
+![Custom Story 1](https://devkrest.com/flutter_story_presenter/custom_story_1.gif) ![Custom Story 2](https://devkrest.com/flutter_story_presenter/custom_story_2.gif)
+![Audio Story](https://devkrest.com/flutter_story_presenter/audio_story.gif)
 
 ## 🎥 Video Demo
 
