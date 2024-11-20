@@ -1,3 +1,7 @@
+## 1.0.2
+- **:bug: Readme Updated with Fixing Broken Links
+
+
 ## 1.0.1
 
 - **:bug: Video Player Loading Issue**: Video type loadingWidget issue resolved [#23] (https://github.com/devkrest/flutter_story_presenter/issues/23) 
