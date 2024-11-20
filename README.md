@@ -1,14 +1,16 @@
 # FlutterStoryPresenter
 
-![FlutterStoryPresenter](https://devkrest.com/github/flutter_story_presenter.png)
+![FlutterStoryPresenter](https://devkrest.com/flutter_story_presenter/flutter_story_presenter.png)
 
 This Flutter package makes it easy to create story and news views like popular social media apps with just a few lines of code! 📱✨ It's loaded with features for customizing and managing stories, perfect for showcasing stories inside your awesome app.
 
 ## ✨ Demo
 
-![Video Story](https://devkrest.com/flutter_story_presenter/video_story.gif)![Image Story](https://devkrest.com/flutter_story_presenter/image_story.gif)
+![Video Story](https://devkrest.com/flutter_story_presenter/video_story.gif)
+![Image Story](https://devkrest.com/flutter_story_presenter/image_story.gif)
 ![Web Story](https://devkrest.com/flutter_story_presenter/web_story.gif)
-![Custom Story 1](https://devkrest.com/flutter_story_presenter/custom_story_1.gif) ![Custom Story 2](https://devkrest.com/flutter_story_presenter/custom_story_2.gif)
+![Custom Story 1](https://devkrest.com/flutter_story_presenter/custom_story_1.gif) 
+![Custom Story 2](https://devkrest.com/flutter_story_presenter/custom_story_2.gif)
 ![Audio Story](https://devkrest.com/flutter_story_presenter/audio_story.gif)
 
 ## 🎥 Video Demo
