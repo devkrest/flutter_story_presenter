@@ -565,7 +565,13 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             width: size.width * .2,
             height: size.height,
             child: GestureDetector(
-              onTap: _playPrevious,
+              onTap: () {
+                if (Directionality.of(context) == TextDirection.rtl) {
+                  _playNext();
+                } else {
+                  _playPrevious();
+                }
+              },
             ),
           ),
         ),
@@ -575,7 +581,13 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             width: size.width * .2,
             height: size.height,
             child: GestureDetector(
-              onTap: _playNext,
+              onTap: () {
+                if (Directionality.of(context) == TextDirection.rtl) {
+                  _playPrevious();
+                } else {
+                  _playNext();
+                }
+              },
             ),
           ),
         ),
