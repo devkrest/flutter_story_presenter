@@ -195,7 +195,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
 
   /// Starts the story view.
   void _startStoryView() {
-    widget.onStoryChanged?.call(currentIndex);
+    // if (mounted) {
+    //   widget.onStoryChanged?.call(currentIndex);
+    // }
     _playMedia();
     if (mounted) {
       setState(() {});
@@ -376,14 +378,13 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
       return;
     }
 
-      currentIndex = currentIndex + 1;
-      _resetAnimation();
-      widget.onStoryChanged?.call(currentIndex);
-      _playMedia();
-      if (mounted) {
-        setState(() {});
-      }
-
+    currentIndex = currentIndex + 1;
+    _resetAnimation();
+    widget.onStoryChanged?.call(currentIndex);
+    _playMedia();
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   /// Plays the previous story item.
@@ -399,12 +400,14 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
       _currentVideoPlayer = null;
     }
 
+
     if (currentIndex == 0) {
       _resetAnimation();
       _startStoryCountdown();
       if (mounted) {
         setState(() {});
       }
+
       widget.onPreviousCompleted?.call();
       return;
     }
@@ -469,11 +472,11 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             ),
           ),
         },
-        if (currentItem.storyItemType.isVideo) ...{
+        if (currentItem.storyItemType.isVideo ) ...{
           Positioned.fill(
             child: VideoStoryView(
               storyItem: currentItem,
-              key: ValueKey('$currentIndex'),
+              key: ValueKey('$currentIndex-${currentItem.url}'), // Unique key
               looping: widget.items.length == 1 && widget.restartOnCompleted,
               onVideoLoad: (videoPlayer) {
                 isCurrentItemLoaded = true;
