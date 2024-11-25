@@ -39,24 +39,24 @@ class _VideoStoryViewState extends State<VideoStoryView> {
 
   /// Initializes the video player controller based on the source of the video.
   Future<void> _initialiseVideoPlayer() async {
+    // Dispose any existing controller before initializing a new one
+    videoPlayerController?.dispose();
+    videoPlayerController = null;
+
     try {
       final storyItem = widget.storyItem;
       if (storyItem.storyItemSource.isNetwork) {
-        // Initialize video controller for network source.
-        videoPlayerController =
-            await VideoUtils.instance.videoControllerFromUrl(
+        videoPlayerController = await VideoUtils.instance.videoControllerFromUrl(
           url: storyItem.url!,
           cacheFile: storyItem.videoConfig?.cacheVideo,
           videoPlayerOptions: storyItem.videoConfig?.videoPlayerOptions,
         );
       } else if (storyItem.storyItemSource.isFile) {
-        // Initialize video controller for file source.
         videoPlayerController = VideoUtils.instance.videoControllerFromFile(
           file: File(storyItem.url!),
           videoPlayerOptions: storyItem.videoConfig?.videoPlayerOptions,
         );
       } else {
-        // Initialize video controller for asset source.
         videoPlayerController = VideoUtils.instance.videoControllerFromAsset(
           assetPath: storyItem.url!,
           videoPlayerOptions: storyItem.videoConfig?.videoPlayerOptions,
@@ -79,6 +79,8 @@ class _VideoStoryViewState extends State<VideoStoryView> {
   @override
   void dispose() {
     videoPlayerController?.dispose();
+    videoPlayerController = null;
+
     super.dispose();
   }
 
