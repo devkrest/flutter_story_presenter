@@ -20,8 +20,7 @@ class VideoStoryView extends StatefulWidget {
   final bool? looping;
 
   /// Creates a [VideoStoryView] widget.
-  const VideoStoryView(
-      {required this.storyItem, this.onVideoLoad, this.looping, super.key});
+  const VideoStoryView({required this.storyItem, this.onVideoLoad, this.looping, super.key});
 
   @override
   State<VideoStoryView> createState() => _VideoStoryViewState();
@@ -85,6 +84,16 @@ class _VideoStoryViewState extends State<VideoStoryView> {
   }
 
   @override
+  void didUpdateWidget(covariant VideoStoryView oldWidget) {
+    if (oldWidget.storyItem != widget.storyItem) {
+      videoPlayerController?.dispose();
+      videoPlayerController = null;
+      _initialiseVideoPlayer();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: (fit == BoxFit.cover) ? Alignment.topCenter : Alignment.center,
@@ -115,10 +124,8 @@ class _VideoStoryViewState extends State<VideoStoryView> {
               fit: widget.storyItem.videoConfig?.fit ?? BoxFit.cover,
               alignment: Alignment.center,
               child: SizedBox(
-                width: widget.storyItem.videoConfig?.width ??
-                    videoPlayerController!.value.size.width,
-                height: widget.storyItem.videoConfig?.height ??
-                    videoPlayerController!.value.size.height,
+                width: widget.storyItem.videoConfig?.width ?? videoPlayerController!.value.size.width,
+                height: widget.storyItem.videoConfig?.height ?? videoPlayerController!.value.size.height,
                 child: VideoPlayer(videoPlayerController!),
               ),
             )
