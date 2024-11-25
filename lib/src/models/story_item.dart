@@ -18,12 +18,12 @@ class StoryItem {
     this.customWidget,
     this.audioConfig,
   })  : assert(
-          storyItemType == StoryItemType.custom || url != null,
-          'URL is required when storyItemType is not custom',
-        ),
+  storyItemType == StoryItemType.custom || url != null,
+  'URL is required when storyItemType is not custom',
+  ),
         assert(
-          storyItemType != StoryItemType.custom || customWidget != null,
-          'CustomWidget is required when storyItemType is custom',
+        storyItemType != StoryItemType.custom || customWidget != null,
+        'CustomWidget is required when storyItemType is custom',
         );
 
   /// Duration of displaying the widget
@@ -37,7 +37,7 @@ class StoryItem {
 
   /// Custom Widget to display fully instead of any other view
   final Widget? Function(FlutterStoryController?, AudioPlayer? audioPlayer)?
-      customWidget;
+  customWidget;
 
   final StoryItemType storyItemType;
 
@@ -64,4 +64,38 @@ class StoryItem {
 
   /// Applicable when [storyItemType] is [StoryItemType.web]
   final StoryViewWebConfig? webConfig;
+
+  /// ایجاد نسخه جدید از StoryItem با تغییر مقادیر مورد نظر
+  StoryItem copyWith({
+    Duration? duration,
+    Widget? thumbnail,
+    Widget? errorWidget,
+    Widget? Function(FlutterStoryController?, AudioPlayer? audioPlayer)?
+    customWidget,
+    StoryItemType? storyItemType,
+    String? url,
+    bool? isMuteByDefault,
+    StoryItemSource? storyItemSource,
+    StoryViewImageConfig? imageConfig,
+    StoryViewVideoConfig? videoConfig,
+    StoryViewAudioConfig? audioConfig,
+    StoryViewTextConfig? textConfig,
+    StoryViewWebConfig? webConfig,
+  }) {
+    return StoryItem(
+      duration: duration ?? this.duration,
+      thumbnail: thumbnail ?? this.thumbnail,
+      errorWidget: errorWidget ?? this.errorWidget,
+      customWidget: customWidget ?? this.customWidget,
+      storyItemType: storyItemType ?? this.storyItemType,
+      url: url ?? this.url,
+      isMuteByDefault: isMuteByDefault ?? this.isMuteByDefault,
+      storyItemSource: storyItemSource ?? this.storyItemSource,
+      imageConfig: imageConfig ?? this.imageConfig,
+      videoConfig: videoConfig ?? this.videoConfig,
+      audioConfig: audioConfig ?? this.audioConfig,
+      textConfig: textConfig ?? this.textConfig,
+      webConfig: webConfig ?? this.webConfig,
+    );
+  }
 }
