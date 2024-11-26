@@ -29,23 +29,22 @@ typedef OnSlideDown = void Function(DragUpdateDetails);
 typedef OnSlideStart = void Function(DragStartDetails);
 
 class FlutterStoryView extends StatefulWidget {
-  const FlutterStoryView(
-      {this.flutterStoryController,
-      this.items = const [],
-      this.onStoryChanged,
-      this.onLeftTap,
-      this.onRightTap,
-      this.onCompleted,
-      this.onPreviousCompleted,
-      this.initialIndex = 0,
-      this.storyViewIndicatorConfig,
-      this.restartOnCompleted = true,
-      this.onVideoLoad,
-      this.headerWidget,
-      this.footerWidget,
-      this.onSlideDown,
-      this.onSlideStart,
-      super.key})
+  const FlutterStoryView({this.flutterStoryController,
+    this.items = const [],
+    this.onStoryChanged,
+    this.onLeftTap,
+    this.onRightTap,
+    this.onCompleted,
+    this.onPreviousCompleted,
+    this.initialIndex = 0,
+    this.storyViewIndicatorConfig,
+    this.restartOnCompleted = true,
+    this.onVideoLoad,
+    this.headerWidget,
+    this.footerWidget,
+    this.onSlideDown,
+    this.onSlideStart,
+    super.key})
       : assert(initialIndex < items.length);
 
   /// List of StoryItem objects to display in the story view.
@@ -196,7 +195,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
 
   /// Starts the story view.
   void _startStoryView() {
-    widget.onStoryChanged?.call(currentIndex);
+    // if (mounted) {
+    //   widget.onStoryChanged?.call(currentIndex);
+    // }
     _playMedia();
     if (mounted) {
       setState(() {});
@@ -244,16 +245,16 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         _animationController?.duration = v;
 
         _currentProgressAnimation =
-            Tween<double>(begin: 0, end: 1).animate(_animationController!)
-              ..addListener(animationListener)
-              ..addStatusListener(animationStatusListener);
+        Tween<double>(begin: 0, end: 1).animate(_animationController!)
+          ..addListener(animationListener)
+          ..addStatusListener(animationStatusListener);
 
         _animationController!.forward();
       });
       _audioDurationSubscriptionStream =
           _audioPlayer?.positionStream.listen(audioPositionListener);
       _audioPlayerStateStream = _audioPlayer?.playerStateStream.listen(
-        (event) {
+            (event) {
           if (event.playing) {
             if (event.processingState == ProcessingState.buffering) {
               _pauseMedia();
@@ -276,9 +277,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
         _currentVideoPlayer?.value.duration ?? currentItem.duration;
 
     _currentProgressAnimation =
-        Tween<double>(begin: 0, end: 1).animate(_animationController!)
-          ..addListener(animationListener)
-          ..addStatusListener(animationStatusListener);
+    Tween<double>(begin: 0, end: 1).animate(_animationController!)
+      ..addListener(animationListener)
+      ..addStatusListener(animationStatusListener);
 
     _animationController!.forward();
   }
@@ -399,12 +400,14 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
       _currentVideoPlayer = null;
     }
 
+
     if (currentIndex == 0) {
       _resetAnimation();
       _startStoryCountdown();
       if (mounted) {
         setState(() {});
       }
+
       widget.onPreviousCompleted?.call();
       return;
     }
@@ -420,7 +423,9 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
     return Stack(
       children: [
         if (currentItem.thumbnail != null) ...{
@@ -433,7 +438,7 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             child: StoryCustomWidgetWrapper(
               builder: (audioPlayer) {
                 return currentItem.customWidget!(
-                        widget.flutterStoryController, audioPlayer) ??
+                    widget.flutterStoryController, audioPlayer) ??
                     const SizedBox.shrink();
               },
               storyItem: currentItem,
@@ -467,11 +472,11 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             ),
           ),
         },
-        if (currentItem.storyItemType.isVideo) ...{
+        if (currentItem.storyItemType.isVideo ) ...{
           Positioned.fill(
             child: VideoStoryView(
               storyItem: currentItem,
-              key: ValueKey('$currentIndex'),
+              key: ValueKey('$currentIndex-${currentItem.url}'), // Unique key
               looping: widget.items.length == 1 && widget.restartOnCompleted,
               onVideoLoad: (videoPlayer) {
                 isCurrentItemLoaded = true;
@@ -528,33 +533,34 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
               children: [
                 _currentVideoPlayer != null
                     ? SmoothVideoProgress(
-                        controller: _currentVideoPlayer!,
-                        builder: (context, progress, duration, child) {
-                          return StoryViewIndicator(
-                            currentIndex: currentIndex,
-                            currentItemAnimatedValue: progress.inMilliseconds /
-                                duration.inMilliseconds,
-                            totalItems: widget.items.length,
-                            storyViewIndicatorConfig: storyViewIndicatorConfig,
-                          );
-                        })
+                    controller: _currentVideoPlayer!,
+                    builder: (context, progress, duration, child) {
+                      return StoryViewIndicator(
+                        currentIndex: currentIndex,
+                        currentItemAnimatedValue: progress.inMilliseconds /
+                            duration.inMilliseconds,
+                        totalItems: widget.items.length,
+                        storyViewIndicatorConfig: storyViewIndicatorConfig,
+                      );
+                    })
                     : _animationController != null
-                        ? AnimatedBuilder(
-                            animation: _animationController!,
-                            builder: (context, child) => StoryViewIndicator(
-                              currentIndex: currentIndex,
-                              currentItemAnimatedValue: currentItemProgress,
-                              totalItems: widget.items.length,
-                              storyViewIndicatorConfig:
-                                  storyViewIndicatorConfig,
-                            ),
-                          )
-                        : StoryViewIndicator(
-                            currentIndex: currentIndex,
-                            currentItemAnimatedValue: currentItemProgress,
-                            totalItems: widget.items.length,
-                            storyViewIndicatorConfig: storyViewIndicatorConfig,
-                          ),
+                    ? AnimatedBuilder(
+                  animation: _animationController!,
+                  builder: (context, child) =>
+                      StoryViewIndicator(
+                        currentIndex: currentIndex,
+                        currentItemAnimatedValue: currentItemProgress,
+                        totalItems: widget.items.length,
+                        storyViewIndicatorConfig:
+                        storyViewIndicatorConfig,
+                      ),
+                )
+                    : StoryViewIndicator(
+                  currentIndex: currentIndex,
+                  currentItemAnimatedValue: currentItemProgress,
+                  totalItems: widget.items.length,
+                  storyViewIndicatorConfig: storyViewIndicatorConfig,
+                ),
               ],
             ),
           ),
@@ -565,7 +571,13 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             width: size.width * .2,
             height: size.height,
             child: GestureDetector(
-              onTap: _playPrevious,
+              onTap: () {
+                if (Directionality.of(context) == TextDirection.rtl) {
+                  _playNext();
+                } else {
+                  _playPrevious();
+                }
+              },
             ),
           ),
         ),
@@ -575,7 +587,13 @@ class _FlutterStoryViewState extends State<FlutterStoryView>
             width: size.width * .2,
             height: size.height,
             child: GestureDetector(
-              onTap: _playNext,
+              onTap: () {
+                if (Directionality.of(context) == TextDirection.rtl) {
+                  _playPrevious();
+                } else {
+                  _playNext();
+                }
+              },
             ),
           ),
         ),

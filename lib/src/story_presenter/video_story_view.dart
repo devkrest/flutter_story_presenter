@@ -84,45 +84,48 @@ class _VideoStoryViewState extends State<VideoStoryView> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: (fit == BoxFit.cover) ? Alignment.topCenter : Alignment.center,
-      fit: (fit == BoxFit.cover) ? StackFit.expand : StackFit.loose,
-      children: [
-        if (widget.storyItem.videoConfig?.loadingWidget != null) ...{
-          widget.storyItem.videoConfig!.loadingWidget!,
-        } else if (widget.storyItem.thumbnail != null) ...{
-          // Display the thumbnail if provided.
-          widget.storyItem.thumbnail!,
-        },
-        if (widget.storyItem.errorWidget != null && hasError) ...{
-          // Display the error widget if an error occurred.
-          widget.storyItem.errorWidget!,
-        },
-        if (videoPlayerController != null) ...{
-          if (widget.storyItem.videoConfig?.useVideoAspectRatio ?? false) ...{
-            // Display the video with aspect ratio if specified.
-            AspectRatio(
-              aspectRatio: videoPlayerController!.value.aspectRatio,
-              child: VideoPlayer(
-                videoPlayerController!,
-              ),
-            )
-          } else ...{
-            // Display the video fitted to the screen.
-            FittedBox(
-              fit: widget.storyItem.videoConfig?.fit ?? BoxFit.cover,
-              alignment: Alignment.center,
-              child: SizedBox(
-                width: widget.storyItem.videoConfig?.width ??
-                    videoPlayerController!.value.size.width,
-                height: widget.storyItem.videoConfig?.height ??
-                    videoPlayerController!.value.size.height,
-                child: VideoPlayer(videoPlayerController!),
-              ),
-            )
+    return Container(
+      color: Colors.black,
+      child: Stack(
+        alignment: (fit == BoxFit.cover) ? Alignment.topCenter : Alignment.center,
+        fit: (fit == BoxFit.cover) ? StackFit.expand : StackFit.loose,
+        children: [
+          if (widget.storyItem.videoConfig?.loadingWidget != null) ...{
+            widget.storyItem.videoConfig!.loadingWidget!,
+          } else if (widget.storyItem.thumbnail != null) ...{
+            // Display the thumbnail if provided.
+            widget.storyItem.thumbnail!,
           },
-        }
-      ],
+          if (widget.storyItem.errorWidget != null && hasError) ...{
+            // Display the error widget if an error occurred.
+            widget.storyItem.errorWidget!,
+          },
+          if (videoPlayerController != null && videoPlayerController!.value.isInitialized) ...{
+            if (widget.storyItem.videoConfig?.useVideoAspectRatio ?? false) ...{
+              // Display the video with aspect ratio if specified.
+              AspectRatio(
+                aspectRatio: videoPlayerController!.value.aspectRatio,
+                child: VideoPlayer(
+                  videoPlayerController!,
+                ),
+              )
+            } else ...{
+              // Display the video fitted to the screen.
+              FittedBox(
+                fit: widget.storyItem.videoConfig?.fit ?? BoxFit.cover,
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: widget.storyItem.videoConfig?.width ??
+                      videoPlayerController!.value.size.width,
+                  height: widget.storyItem.videoConfig?.height ??
+                      videoPlayerController!.value.size.height,
+                  child: VideoPlayer(videoPlayerController!),
+                ),
+              )
+            },
+          }
+        ],
+      ),
     );
   }
 }
