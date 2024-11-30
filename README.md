@@ -291,17 +291,17 @@ class _HomeState extends State<Home> {
           url: 'assets/fb8512a35d6f4b2e8917b74a048de71a.MP4',
           thumbnail: Center(
               child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CupertinoActivityIndicator(
-                radius: 15,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text('Video Loading')
-            ],
-          )),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CupertinoActivityIndicator(
+                    radius: 15,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text('Video Loading')
+                ],
+              )),
           videoConfig: StoryViewVideoConfig(
             fit: BoxFit.cover,
           ),
@@ -309,20 +309,20 @@ class _HomeState extends State<Home> {
         const StoryItem(
             storyItemType: StoryItemType.video,
             url:
-                'https://videos.pexels.com/video-files/5913245/5913245-uhd_1440_2560_30fps.mp4',
+            'https://videos.pexels.com/video-files/5913245/5913245-uhd_1440_2560_30fps.mp4',
             thumbnail: Center(
                 child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CupertinoActivityIndicator(
-                  radius: 15,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text('Video Loading')
-              ],
-            )),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CupertinoActivityIndicator(
+                      radius: 15,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text('Video Loading')
+                  ],
+                )),
             videoConfig: StoryViewVideoConfig(
               fit: BoxFit.cover,
               height: double.infinity,
@@ -331,12 +331,14 @@ class _HomeState extends State<Home> {
             )),
         StoryItem(
           storyItemType: StoryItemType.custom,
-          customWidget: (p0) => TextOverlayView(
-            controller: p0,
-          ),
+          customWidget: (p0) =>
+              TextOverlayView(
+                controller: p0,
+              ),
           imageConfig: StoryViewImageConfig(
             fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) => const Center(
+            progressIndicatorBuilder: (p0, p1, p2) =>
+            const Center(
               child: CupertinoActivityIndicator(),
             ),
           ),
@@ -350,12 +352,14 @@ class _HomeState extends State<Home> {
         StoryItem(
           storyItemType: StoryItemType.custom,
           duration: const Duration(seconds: 20),
-          customWidget: (p0) => PostOverlayView(
-            controller: p0,
-          ),
+          customWidget: (p0) =>
+              PostOverlayView(
+                controller: p0,
+              ),
           imageConfig: StoryViewImageConfig(
             fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) => const Center(
+            progressIndicatorBuilder: (p0, p1, p2) =>
+            const Center(
               child: CupertinoActivityIndicator(),
             ),
           ),
@@ -366,17 +370,17 @@ class _HomeState extends State<Home> {
           url: 'assets/StorySaver.net-_spindia_-Video-1718781607686.mp4',
           thumbnail: Center(
               child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CupertinoActivityIndicator(
-                radius: 15,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text('Video Loading')
-            ],
-          )),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CupertinoActivityIndicator(
+                    radius: 15,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text('Video Loading')
+                ],
+              )),
           videoConfig: StoryViewVideoConfig(
             fit: BoxFit.contain,
           ),
@@ -393,7 +397,8 @@ class _HomeState extends State<Home> {
           duration: const Duration(seconds: 20),
           imageConfig: StoryViewImageConfig(
             fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) => const Center(
+            progressIndicatorBuilder: (p0, p1, p2) =>
+            const Center(
               child: CupertinoActivityIndicator(),
             ),
           ),
@@ -401,11 +406,12 @@ class _HomeState extends State<Home> {
         StoryItem(
           storyItemType: StoryItemType.web,
           url:
-              'https://www.ndtv.com/webstories/travel/10-things-to-do-in-amritsar-from-golden-temple-visit-to-wagah-border-47',
+          'https://www.ndtv.com/webstories/travel/10-things-to-do-in-amritsar-from-golden-temple-visit-to-wagah-border-47',
           duration: const Duration(seconds: 20),
           imageConfig: StoryViewImageConfig(
             fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) => const Center(
+            progressIndicatorBuilder: (p0, p1, p2) =>
+            const Center(
               child: CupertinoActivityIndicator(),
             ),
           ),
@@ -514,7 +520,7 @@ class MessageBoxView extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding:
-            const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 10),
+        const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -684,7 +690,7 @@ class TextOverlayView extends StatelessWidget {
             children: [
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 22, vertical: 30),
+                const EdgeInsets.symmetric(horizontal: 22, vertical: 30),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -786,7 +792,7 @@ class PostOverlayView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 40),
       decoration: const BoxDecoration(
           gradient:
-              LinearGradient(colors: [Color(0xffff8800), Color(0xffff3300)])),
+          LinearGradient(colors: [Color(0xffff8800), Color(0xffff3300)])),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -818,7 +824,7 @@ class PostOverlayView extends StatelessWidget {
                           padding: const EdgeInsets.all(8),
                           child: CachedNetworkImage(
                             imageUrl:
-                                'https://devkrest.com/logo/devkrest_outlined.png',
+                            'https://devkrest.com/logo/devkrest_outlined.png',
                             height: 15,
                             width: 15,
                           ),
@@ -849,14 +855,17 @@ class PostOverlayView extends StatelessWidget {
                     height: 5,
                   ),
                   CachedNetworkImage(
-                      height: MediaQuery.of(context).size.height * 0.40,
-                      fit: BoxFit.cover,
-                      imageUrl:
-                          'https://scontent.cdninstagram.com/v/t51.29350-15/448680084_2197193763952189_5110658492947027914_n.webp?stp=dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE4MDAuc2RyLmYyOTM1MCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=VtYwOfs3y44Q7kNvgEfDjM0&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzM5MzIyNzQ4MjcwNjA5NzYzNQ%3D%3D.2-ccb7-5&oh=00_AYAEOmKhroMeZensvVXMuCbC8rB0vr_0P7-ecR8AKLk5Lw&oe=6678548B&_nc_sid=10d13b'),
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.40,
+                    fit: BoxFit.cover,
+                    imageUrl:
+                    'https://picsum.photos/500/500',),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Text(
-                      "India vs Afganistan",
+                      "Random Image (Courtesy: picsum.photos)",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
@@ -907,7 +916,7 @@ We would like to extend our heartfelt thanks to the following contributors for t
 </tr><tr>
     <td colspan="3" align="center">
       <a href="https://devkrest.com/">
-        <img src="https://devkrest.com/github/devkrest_brand.png" 
+        <img src="https://devkrest.com/flutter_story_presenter/devkrest_brand.png" 
         style="margin-top:8px"
          alt="Devkrest Technologies"/><br />
       </a>
