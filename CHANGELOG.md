@@ -1,6 +1,10 @@
-## 1.0.2
-- **:bug: Readme Updated with Fixing Broken Links
+## 1.0.3
+- **:bug: Video Player Loader issue on state changes**
+- **:sparkles: Breaking Changes**
+  Renamed the main class `FlutterStoryView` to `FlutterStoryPresenter`
 
+## 1.0.2
+- :bug: Readme Updated with Fixing Broken Links
 
 ## 1.0.1
 

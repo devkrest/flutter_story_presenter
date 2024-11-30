@@ -297,7 +297,7 @@ class _MyStoryViewState extends State<MyStoryView> {
       borderRadius: 1.5,
     );
 
-    return FlutterStoryView(
+    return FlutterStoryPresenter(
       flutterStoryController: controller,
       items: widget.storyModel.stories,
       footerWidget: MessageBoxView(controller: controller),
