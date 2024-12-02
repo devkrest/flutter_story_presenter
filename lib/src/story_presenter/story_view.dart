@@ -255,9 +255,7 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
       _audioPlayerStateStream = _audioPlayer?.playerStateStream.listen(
         (event) {
           if (event.playing) {
-            if (event.processingState == ProcessingState.buffering) {
-              _pauseMedia();
-            } else if (event.processingState == ProcessingState.loading) {
+            if (event.processingState == ProcessingState.loading) {
               _pauseMedia();
             } else {
               _resumeMedia();
