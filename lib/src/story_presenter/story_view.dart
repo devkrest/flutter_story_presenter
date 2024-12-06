@@ -378,7 +378,8 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
     }
 
     currentIndex = currentIndex + 1;
-    _resetAnimation();
+    _animationController?.reset();
+    _animationController?.forward();
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
     if (mounted) {
