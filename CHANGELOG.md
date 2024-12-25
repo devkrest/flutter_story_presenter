@@ -1,3 +1,7 @@
+## 1.0.4
+
+- **:bug: Resuming indicator's animation on story change**: Resume on restart issue resolved [#30] (https://github.com/devkrest/flutter_story_presenter/pull/30)
+
 ## 1.0.3
 - **:bug: Video Player Loader issue on state changes**
 - **:sparkles: Breaking Changes**

@@ -206,6 +206,7 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
   /// Resets the animation controller and its listeners.
   void _resetAnimation() {
     _animationController?.reset();
+    _animationController?.forward();
     _animationController
       ?..removeListener(animationListener)
       ..removeStatusListener(animationStatusListener);
