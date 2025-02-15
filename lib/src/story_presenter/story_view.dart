@@ -256,9 +256,7 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
       _audioPlayerStateStream = _audioPlayer?.playerStateStream.listen(
         (event) {
           if (event.playing) {
-            if (event.processingState == ProcessingState.buffering) {
-              _pauseMedia();
-            } else if (event.processingState == ProcessingState.loading) {
+            if (event.processingState == ProcessingState.loading) {
               _pauseMedia();
             } else {
               _resumeMedia();
@@ -266,6 +264,7 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
           }
         },
       );
+
       return;
     }
 
@@ -431,6 +430,8 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
             currentItem.customWidget != null) ...{
           Positioned.fill(
             child: StoryCustomWidgetWrapper(
+              isAutoStart: true,
+              key: UniqueKey(),
               builder: (audioPlayer) {
                 return currentItem.customWidget!(
                         widget.flutterStoryController, audioPlayer) ??
@@ -440,11 +441,13 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
               onLoaded: () {
                 isCurrentItemLoaded = true;
                 _startStoryCountdown();
+
               },
               onAudioLoaded: (audioPlayer) {
                 isCurrentItemLoaded = true;
                 _audioPlayer = audioPlayer;
                 _startStoryCountdown();
+
               },
             ),
           ),
@@ -459,8 +462,9 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
                 _startStoryCountdown();
               },
               onAudioLoaded: (audioPlayer) {
-                isCurrentItemLoaded = true;
                 _audioPlayer = audioPlayer;
+                isCurrentItemLoaded = true;
+
                 _startStoryCountdown();
               },
             ),
