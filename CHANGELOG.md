@@ -1,3 +1,8 @@
+## 1.0.5
+
+- **:bug: Custom type story progress bar issue resolved [#35]
+
+
 ## 1.0.4
 
 - **:bug: Resuming indicator's animation on story change**: Resume on restart issue resolved [#30] (https://github.com/devkrest/flutter_story_presenter/pull/30)
