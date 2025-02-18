@@ -1,6 +1,10 @@
+## 1.0.6
+
+- :bug: When video is first then next stories are not appearing  [#37] (https://github.com/devkrest/flutter_story_presenter/issues/38)
+
 ## 1.0.5
 
-- **:bug: Custom type story progress bar issue resolved [#35]
+- :bug: Custom type story progress bar issue resolved [#35]
 
 
 ## 1.0.4
