@@ -47,6 +47,28 @@ class _HomeState extends State<Home> {
       userProfile: 'https://avatars.githubusercontent.com/u/39383435?v=4',
       stories: [
         StoryItem(
+          storyItemType: StoryItemType.video,
+          storyItemSource: StoryItemSource.asset,
+          url: 'assets/fb8512a35d6f4b2e8917b74a048de71a.MP4',
+          thumbnail: const Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CupertinoActivityIndicator(
+                    radius: 15,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text('Video Loading')
+                ],
+              )),
+          videoConfig: const StoryViewVideoConfig(
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        StoryItem(
           storyItemType: StoryItemType.custom,
           audioConfig: StoryViewAudioConfig(
             audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
@@ -63,27 +85,7 @@ class _HomeState extends State<Home> {
           url:
               "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=800",
         ),
-        StoryItem(
-          storyItemType: StoryItemType.video,
-          storyItemSource: StoryItemSource.asset,
-          url: 'assets/fb8512a35d6f4b2e8917b74a048de71a.MP4',
-          thumbnail: const Center(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CupertinoActivityIndicator(
-                radius: 15,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text('Video Loading')
-            ],
-          )),
-          videoConfig: const StoryViewVideoConfig(
-            fit: BoxFit.cover,
-          ),
-        ),
+
         StoryItem(
             storyItemType: StoryItemType.video,
             url:
