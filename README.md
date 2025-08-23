@@ -103,9 +103,13 @@ final OnStoryChanged? onStoryChanged;
 final OnCompleted? onCompleted;
 
 /// Callback function triggered when the user taps on the left half of the screen.
+/// Returns a Future<bool> - if true, the story will navigate to the previous item; if false, navigation is blocked.
+/// If not provided, tapping left will always navigate to the previous story.
 final OnLeftTap? onLeftTap;
 
 /// Callback function triggered when the user taps on the right half of the screen.
+/// Returns a Future<bool> - if true, the story will navigate to the next item; if false, navigation is blocked.
+/// If not provided, tapping right will always navigate to the next story.
 final OnRightTap? onRightTap;
 
 /// Callback function triggered when user drag downs the storyview.
