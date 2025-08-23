@@ -903,7 +903,7 @@ We would like to extend our heartfelt thanks to the following contributors for t
 <b>Harsh P</b>
 </a>
 <br />
-<p>Mobile Head</p>
+<p>VP (Technology)</p>
 </td>
 <td align="center">
 <a href="https://github.com/lakhan-purohit">
