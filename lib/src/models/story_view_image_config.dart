@@ -9,6 +9,7 @@ class StoryViewImageConfig {
     this.width,
     this.progressIndicatorBuilder,
     this.audioConfig,
+    this.httpHeaders,
   });
 
   /// Height for the ImageBuilder
@@ -21,6 +22,9 @@ class StoryViewImageConfig {
   final BoxFit? fit;
 
   final StoryViewAudioConfig? audioConfig;
+
+  /// Optional headers for the http request of the image url
+  final Map<String, String>? httpHeaders;
 
   /// Progress Indicator for building image
   final Widget Function(BuildContext, String, DownloadProgress)?

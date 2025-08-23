@@ -18,12 +18,14 @@ class VideoUtils {
     required String url,
     bool? cacheFile = false,
     VideoPlayerOptions? videoPlayerOptions,
+    Map<String, String>? httpHeaders,
   }) async {
     try {
       File? cachedVideo;
       // If caching is enabled, try to get the cached file.
       if (cacheFile ?? false) {
-        cachedVideo = await _cacheManager.getSingleFile(url);
+        cachedVideo =
+            await _cacheManager.getSingleFile(url, headers: httpHeaders ?? {});
       }
       // If a cached video file is found, create a VideoPlayerController from it.
       if (cachedVideo != null) {
@@ -38,6 +40,7 @@ class VideoUtils {
     // If no cached file is found, create a VideoPlayerController from the network URL.
     return VideoPlayerController.networkUrl(
       Uri.parse(url),
+      httpHeaders: httpHeaders ?? {},
       videoPlayerOptions: videoPlayerOptions,
     );
   }

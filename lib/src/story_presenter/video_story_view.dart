@@ -48,6 +48,7 @@ class _VideoStoryViewState extends State<VideoStoryView> {
           url: storyItem.url!,
           cacheFile: storyItem.videoConfig?.cacheVideo,
           videoPlayerOptions: storyItem.videoConfig?.videoPlayerOptions,
+          httpHeaders: storyItem.videoConfig?.httpHeaders,
         );
       } else if (storyItem.storyItemSource.isFile) {
         // Initialize video controller for file source.

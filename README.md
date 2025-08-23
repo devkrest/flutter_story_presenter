@@ -907,7 +907,7 @@ We would like to extend our heartfelt thanks to the following contributors for t
 </td>
 <td align="center">
 <a href="https://github.com/lakhan-purohit">
-<img src="https://devkrest.com/team/lakhan.png"  height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Lakhan Purohit"/><br />
+<img src="https://avatars.githubusercontent.com/u/16955147?v=4"  height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Lakhan Purohit"/><br />
 <b>Lakhan P</b>
 </a>
 <br />

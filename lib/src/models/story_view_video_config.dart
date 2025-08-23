@@ -11,6 +11,7 @@ class StoryViewVideoConfig {
     this.cacheVideo = false,
     this.useVideoAspectRatio = true,
     this.videoPlayerOptions,
+    this.httpHeaders,
   });
 
   /// Height for the Video
@@ -31,6 +32,9 @@ class StoryViewVideoConfig {
 
   /// Progress Indicator for building Video
   final Widget? loadingWidget;
+
+  /// Optional headers for the http request of the video url
+  final Map<String, String>? httpHeaders;
 
   /// In case of mixing the audio with music playing on device
   final VideoPlayerOptions? videoPlayerOptions;

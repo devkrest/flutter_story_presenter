@@ -66,6 +66,7 @@ class _HomeState extends State<Home> {
           videoConfig: const StoryViewVideoConfig(
             fit: BoxFit.cover,
           ),
+
         ),
 
         StoryItem(
@@ -294,6 +295,7 @@ class _MyStoryViewState extends State<MyStoryView> {
       height: 4,
       activeColor: Colors.white,
       backgroundCompletedColor: Colors.white,
+      //ignore: deprecated_member_use
       backgroundDisabledColor: Colors.white.withOpacity(0.5),
       horizontalGap: 1,
       borderRadius: 1.5,
@@ -511,6 +513,7 @@ class TextOverlayView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
+                        //ignore: deprecated_member_use
                         color: Colors.black.withOpacity(0.2),
                         blurRadius: 10,
                         spreadRadius: 0,
@@ -535,6 +538,7 @@ class TextOverlayView extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
+                        //ignore: deprecated_member_use
                         color: Colors.black.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -554,6 +558,7 @@ class TextOverlayView extends StatelessWidget {
                           decoration: InputDecoration(
                               hintText: 'Type something...',
                               hintStyle: TextStyle(
+                                //ignore: deprecated_member_use
                                 color: Colors.black.withOpacity(0.6),
                               ),
                               border: InputBorder.none),
@@ -573,6 +578,7 @@ class TextOverlayView extends StatelessWidget {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
+                          //ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.2),
                           blurRadius: 20,
                         )
@@ -616,6 +622,7 @@ class PostOverlayView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
+                    //ignore: deprecated_member_use
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 0,
                     spreadRadius: 0,
@@ -723,6 +730,7 @@ class AudioCustomView1 extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
+                  //ignore: deprecated_member_use
                   color: Colors.black.withOpacity(0.2),
                   blurRadius: 10,
                 )
@@ -752,6 +760,7 @@ class AudioCustomView1 extends StatelessWidget {
                           return Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
+                              //ignore: deprecated_member_use
                               color: Colors.black.withOpacity(0.54),
                             ),
                             height: 50,
@@ -780,8 +789,9 @@ class AudioCustomView1 extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Andy grammer",
+                        "Andy Jane",
                         style: TextStyle(
+                          //ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.5),
                           fontWeight: FontWeight.w500,
                         ),
