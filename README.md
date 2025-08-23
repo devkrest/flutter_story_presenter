@@ -899,7 +899,7 @@ We would like to extend our heartfelt thanks to the following contributors for t
 </td>
 <td align="center">
 <a href="https://github.com/harshlet">
-<img src="https://devkrest.com/team/harsh.jpg" height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Harsh Prajapati"/><br />
+<img src="https://avatars.githubusercontent.com/u/40534244?v=4" height="100px"; width="100px"; style="object-fit:cover;object-position:top; border-radius: 5%;" alt="Harsh Prajapati"/><br />
 <b>Harsh P</b>
 </a>
 <br />
