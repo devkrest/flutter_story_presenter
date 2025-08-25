@@ -1,8 +1,13 @@
 # FlutterStoryPresenter
 
-![FlutterStoryPresenter](https://devkrest.com/flutter_story_presenter/flutter_story_presenter.png)
+![FlutterStoryPresenter](https://devkrest.com/flutter_story_presenter/flutter_story_presenter.webp)
+
 
 This Flutter package makes it easy to create story and news views like popular social media apps with just a few lines of code! 📱✨ It's loaded with features for customizing and managing stories, perfect for showcasing stories inside your awesome app.
+
+## 🎖️ About
+
+![FlutterStoryPresenter](https://devkrest.com/flutter_story_presenter/flutter_story_about.webp)
 
 ## ✨ Demo
 
@@ -770,7 +775,7 @@ class TextOverlayView extends StatelessWidget {
                       ]),
                   padding: const EdgeInsets.all(20),
                   child: CachedNetworkImage(
-                    imageUrl: 'https://devkrest.com/logo/devkrest_outlined.png',
+                    imageUrl: 'https://devkrest.com/flutter_story_presenter/devkrest_logo_outlined.png',
                     height: 40,
                     width: 40,
                   ),
@@ -828,7 +833,7 @@ class PostOverlayView extends StatelessWidget {
                           padding: const EdgeInsets.all(8),
                           child: CachedNetworkImage(
                             imageUrl:
-                            'https://devkrest.com/logo/devkrest_outlined.png',
+                            'https://devkrest.com/flutter_story_presenter/devkrest_logo_outlined.png',
                             height: 15,
                             width: 15,
                           ),
@@ -920,7 +925,7 @@ We would like to extend our heartfelt thanks to the following contributors for t
 </tr><tr>
     <td colspan="3" align="center">
       <a href="https://devkrest.com/">
-        <img src="https://devkrest.com/flutter_story_presenter/devkrest_brand.png" 
+        <img src="https://devkrest.com/flutter_story_presenter/devkrest_brand.webp" 
         style="margin-top:8px"
          alt="Devkrest Technologies"/><br />
       </a>
