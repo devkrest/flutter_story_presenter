@@ -85,33 +85,21 @@ class _HomeState extends State<Home> {
               "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=800",
         ),
         StoryItem(
-            storyItemType: StoryItemType.video,
-            url:
-                'https://videos.pexels.com/video-files/5913245/5913245-uhd_1440_2560_30fps.mp4',
-            videoConfig: const StoryViewVideoConfig(
-              fit: BoxFit.cover,
-              height: double.infinity,
-              width: double.infinity,
-              loadingWidget: Center(child: CupertinoActivityIndicator()),
-            )),
-        StoryItem(
-          storyItemType: StoryItemType.custom,
-          duration: const Duration(seconds: 20),
-          customWidget: (p0, audioPlayer) => PostOverlayView(
-            controller: p0,
-          ),
-          imageConfig: StoryViewImageConfig(
-            fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) => const Center(
-              child: CupertinoActivityIndicator(),
-            ),
+          storyItemType: StoryItemType.video,
+          url:
+              'https://videos.pexels.com/video-files/5913245/5913245-uhd_1440_2560_30fps.mp4',
+          videoConfig: const StoryViewVideoConfig(
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+            loadingWidget: Center(child: CupertinoActivityIndicator()),
           ),
         ),
       ],
     ),
     StoryModel(
       userName: 'Lakhan P.',
-      userProfile: 'https://devkrest.com/team/lakhan.png',
+      userProfile: 'https://avatars.githubusercontent.com/u/16955147?v=4',
       stories: [
         StoryItem(
           storyItemType: StoryItemType.custom,
@@ -151,7 +139,7 @@ class _HomeState extends State<Home> {
     ),
     StoryModel(
       userName: 'Harsh P.',
-      userProfile: 'https://devkrest.com/team/harsh.jpg',
+      userProfile: 'https://avatars.githubusercontent.com/u/40534244?v=4',
       stories: [
         StoryItem(
           storyItemType: StoryItemType.text,
@@ -179,8 +167,7 @@ class _HomeState extends State<Home> {
         ),
         StoryItem(
           storyItemType: StoryItemType.web,
-          url:
-              'https://www.ndtv.com/webstories/travel/10-things-to-do-in-amritsar-from-golden-temple-visit-to-wagah-border-47',
+          url: 'https://epicdevsolutions.com/',
           duration: const Duration(seconds: 20),
           imageConfig: StoryViewImageConfig(
             fit: BoxFit.contain,
@@ -204,6 +191,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      resizeToAvoidBottomInset: false,
       body: PageView.builder(
         itemCount: sampleStory.length,
         // physics: const NeverScrollableScrollPhysics(),
@@ -343,8 +331,9 @@ class MessageBoxView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(
+          bottom: (10 + MediaQuery.of(context).viewInsets.bottom),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -590,9 +579,9 @@ class TextOverlayView extends StatelessWidget {
                           blurRadius: 20,
                         )
                       ]),
-                  padding: const EdgeInsets.all(20),
                   child: CachedNetworkImage(
-                    imageUrl: 'https://devkrest.com/logo/devkrest_outlined.png',
+                    imageUrl:
+                        'https://devkrest.com/flutter_story_presenter/devkrest_logo_outlined.png',
                     height: 40,
                     width: 40,
                   ),
@@ -648,10 +637,9 @@ class PostOverlayView extends StatelessWidget {
                             color: Color(0xffE2DCFF),
                             shape: BoxShape.circle,
                           ),
-                          padding: const EdgeInsets.all(8),
                           child: CachedNetworkImage(
                             imageUrl:
-                                'https://devkrest.com/logo/devkrest_outlined.png',
+                                'https://devkrest.com/flutter_story_presenter/devkrest_logo_outlined.png',
                             height: 15,
                             width: 15,
                           ),
@@ -685,11 +673,11 @@ class PostOverlayView extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.40,
                       fit: BoxFit.cover,
                       imageUrl:
-                          'https://scontent.cdninstagram.com/v/t51.29350-15/448680084_2197193763952189_5110658492947027914_n.webp?stp=dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE4MDAuc2RyLmYyOTM1MCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=VtYwOfs3y44Q7kNvgEfDjM0&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzM5MzIyNzQ4MjcwNjA5NzYzNQ%3D%3D.2-ccb7-5&oh=00_AYAEOmKhroMeZensvVXMuCbC8rB0vr_0P7-ecR8AKLk5Lw&oe=6678548B&_nc_sid=10d13b'),
+                          'https://images.pexels.com/photos/3719037/pexels-photo-3719037.jpeg'),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Text(
-                      "India vs Afganistan",
+                      "Tech Meetup - Flutter Devs",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
