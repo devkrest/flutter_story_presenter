@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_story_presenter/flutter_story_presenter.dart';
@@ -24,7 +23,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData.dark(),
-      home: const Home(),
+      home: const Demo(), // Ultra-simple demo - just widgets!
     );
   }
 }
@@ -40,143 +39,199 @@ class _HomeState extends State<Home> {
   PageController pageController = PageController();
   double currentPageValue = 0.0;
 
-  //Story Data
-  List<StoryModel> sampleStory = [
-    StoryModel(
-      userName: 'Kaival Patel',
-      userProfile: 'https://avatars.githubusercontent.com/u/39383435?v=4',
-      stories: [
-        StoryItem(
-          storyItemType: StoryItemType.video,
-          storyItemSource: StoryItemSource.asset,
-          url: 'assets/fb8512a35d6f4b2e8917b74a048de71a.MP4',
-          thumbnail: const Center(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CupertinoActivityIndicator(
-                radius: 15,
+  // Just a simple list of widgets - no wrappers needed!
+  final List<Widget> stories = [
+    // Story 1: Video Widget
+    Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.purple, Colors.blue],
+        ),
+      ),
+      child: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.video_library, size: 80, color: Colors.white),
+            SizedBox(height: 20),
+            Text(
+              'Story 1: Video',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Text('Video Loading')
-            ],
-          )),
-          videoConfig: const StoryViewVideoConfig(
-            fit: BoxFit.cover,
-          ),
-        ),
-        StoryItem(
-          storyItemType: StoryItemType.custom,
-          audioConfig: StoryViewAudioConfig(
-            audioPath: 'https://audios.ftcdn.net/08/98/82/47/48K_898824706.m4a',
-            source: StoryItemSource.network,
-            onAudioStart: (p0) {},
-          ),
-          customWidget: (p0, audioPlayer) => AudioCustomView1(
-            controller: p0,
-            audioPlayer: audioPlayer,
-          ),
-        ),
-        StoryItem(
-          storyItemType: StoryItemType.image,
-          url:
-              "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=800",
-        ),
-        StoryItem(
-          storyItemType: StoryItemType.video,
-          url:
-              'https://videos.pexels.com/video-files/5913245/5913245-uhd_1440_2560_30fps.mp4',
-          videoConfig: const StoryViewVideoConfig(
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
-            loadingWidget: Center(child: CupertinoActivityIndicator()),
-          ),
-        ),
-      ],
-    ),
-    StoryModel(
-      userName: 'Lakhan P.',
-      userProfile: 'https://avatars.githubusercontent.com/u/16955147?v=4',
-      stories: [
-        StoryItem(
-          storyItemType: StoryItemType.custom,
-          duration: const Duration(seconds: 20),
-          customWidget: (p0, audioPlayer) => PostOverlayView(
-            controller: p0,
-          ),
-          imageConfig: StoryViewImageConfig(
-            fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) => const Center(
-              child: CupertinoActivityIndicator(),
             ),
-          ),
-        ),
-        StoryItem(
-          storyItemType: StoryItemType.video,
-          storyItemSource: StoryItemSource.asset,
-          url: 'assets/StorySaver.net-_spindia_-Video-1718781607686.mp4',
-          thumbnail: const Center(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CupertinoActivityIndicator(
-                radius: 15,
+            SizedBox(height: 10),
+            Text(
+              'This is a video story widget',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 16,
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Text('Video Loading')
-            ],
-          )),
-          videoConfig: const StoryViewVideoConfig(
-            fit: BoxFit.contain,
-          ),
-        ),
-      ],
-    ),
-    StoryModel(
-      userName: 'Harsh P.',
-      userProfile: 'https://avatars.githubusercontent.com/u/40534244?v=4',
-      stories: [
-        StoryItem(
-          storyItemType: StoryItemType.text,
-          textConfig: StoryViewTextConfig(
-              textWidget: const Text(
-                "Happy Independence Day",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    fontStyle: FontStyle.italic),
-              ),
-              backgroundWidget: Container(
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                      Colors.deepOrange,
-                      Colors.white,
-                      Colors.green
-                    ])),
-              )),
-          url: "Happy Independence Day",
-        ),
-        StoryItem(
-          storyItemType: StoryItemType.web,
-          url: 'https://epicdevsolutions.com/',
-          duration: const Duration(seconds: 20),
-          imageConfig: StoryViewImageConfig(
-            fit: BoxFit.contain,
-            progressIndicatorBuilder: (p0, p1, p2) => const Center(
-              child: CupertinoActivityIndicator(),
             ),
+          ],
+        ),
+      ),
+    ),
+    
+    // Story 2: Audio Widget
+    AudioCustomView1(
+      controller: null,
+      audioPlayer: null,
+    ),
+    
+    // Story 3: Image Widget
+    Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: CachedNetworkImageProvider(
+            "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=800",
           ),
         ),
-      ],
+      ),
+      child: const Center(
+        child: Text(
+          'Story 3: Beautiful Landscape',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            shadows: [
+              Shadow(
+                offset: Offset(2, 2),
+                blurRadius: 4,
+                color: Colors.black54,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+    
+    // Story 4: Interactive Widget
+    Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.orange, Colors.red],
+        ),
+      ),
+      child: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.touch_app, size: 80, color: Colors.white),
+            SizedBox(height: 20),
+            Text(
+              'Story 4: Interactive',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Tap and hold to pause',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    
+    // Story 5: Post Widget
+    PostOverlayView(
+      controller: null,
+    ),
+    
+    // Story 6: Text Widget
+    Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.deepOrange,
+            Colors.white,
+            Colors.green
+          ],
+        ),
+      ),
+      child: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Story 6: Happy Independence Day",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Celebrating Freedom",
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    
+    // Story 7: Question Widget
+    TextOverlayView(
+      controller: null,
+    ),
+    
+    // Story 8: Web Widget
+    Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.blue, Colors.purple],
+        ),
+      ),
+      child: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.web, size: 80, color: Colors.white),
+            SizedBox(height: 20),
+            Text(
+              'Story 8: Web Content',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Loading web content...',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ),
     ),
   ];
 
@@ -192,293 +247,27 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.black,
       resizeToAvoidBottomInset: false,
-      body: PageView.builder(
-        itemCount: sampleStory.length,
-        // physics: const NeverScrollableScrollPhysics(),
-        controller: pageController,
-        itemBuilder: (context, index) {
-          return AnimatedBuilder(
-            animation: pageController,
-            child: MyStoryView(
-              storyModel: sampleStory[index],
-              pageController: pageController,
-            ),
-            builder: (context, child) {
-              if (pageController.position.hasContentDimensions) {
-                currentPageValue = pageController.page ?? 0.0;
-                final isLeaving = (index - currentPageValue) <= 0;
-                final t = (index - currentPageValue);
-                final rotationY = lerpDouble(0, 30, t)!;
-                const maxOpacity = 0.8;
-                final num opacity =
-                    lerpDouble(0, maxOpacity, t.abs())!.clamp(0.0, maxOpacity);
-                final isPaging = opacity != maxOpacity;
-                final transform = Matrix4.identity();
-                transform.setEntry(3, 2, 0.003);
-                transform.rotateY(-rotationY * (pi / 180.0));
-                return Transform(
-                  alignment:
-                      isLeaving ? Alignment.centerRight : Alignment.centerLeft,
-                  transform: transform,
-                  child: Stack(
-                    children: [
-                      child!,
-                      if (isPaging && !isLeaving)
-                        Positioned.fill(
-                          child: Opacity(
-                            opacity: opacity as double,
-                            child: const ColoredBox(
-                              color: Colors.black87,
-                            ),
-                          ),
-                        )
-                    ],
-                  ),
-                );
-              }
-
-              return child!;
-            },
-          );
+      body: FlutterStoryPresenterWidgets(
+        flutterStoryController: FlutterStoryController(),
+        widgets: stories, // Just pass widgets directly!
+        defaultDuration: const Duration(seconds: 4),
+        storyViewIndicatorConfig: const StoryViewIndicatorConfig(
+          height: 4,
+          activeColor: Colors.white,
+          backgroundCompletedColor: Colors.white,
+          backgroundDisabledColor: Colors.white54,
+        ),
+        onStoryChanged: (index) {
+          print('Story changed to index: $index');
+        },
+        onCompleted: () async {
+          print('All stories completed');
         },
       ),
     );
   }
 }
 
-class MyStoryView extends StatefulWidget {
-  const MyStoryView({
-    super.key,
-    required this.storyModel,
-    required this.pageController,
-  });
-
-  final StoryModel storyModel;
-  final PageController pageController;
-
-  @override
-  State<MyStoryView> createState() => _MyStoryViewState();
-}
-
-class _MyStoryViewState extends State<MyStoryView> {
-  late FlutterStoryController controller;
-
-  @override
-  void initState() {
-    controller = FlutterStoryController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final storyViewIndicatorConfig = StoryViewIndicatorConfig(
-      height: 4,
-      activeColor: Colors.white,
-      backgroundCompletedColor: Colors.white,
-      //ignore: deprecated_member_use
-      backgroundDisabledColor: Colors.white.withOpacity(0.5),
-      horizontalGap: 1,
-      borderRadius: 1.5,
-    );
-
-    return FlutterStoryPresenter(
-      flutterStoryController: controller,
-      items: widget.storyModel.stories,
-      footerWidget: MessageBoxView(controller: controller),
-      storyViewIndicatorConfig: storyViewIndicatorConfig,
-      initialIndex: 0,
-      headerWidget: ProfileView(storyModel: widget.storyModel),
-      onLeftTap: () async {
-        // Custom logic before navigating to previous story
-        // Return true to allow navigation, false to block it
-        return true; // Allow navigation
-      },
-      onRightTap: () async {
-        // Custom logic before navigating to next story
-        // Return true to allow navigation, false to block it
-        return true; // Allow navigation
-      },
-      onStoryChanged: (p0) {},
-      onPreviousCompleted: () async {
-        await widget.pageController.previousPage(
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.decelerate);
-      },
-      onCompleted: () async {
-        await widget.pageController.nextPage(
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.decelerate);
-        controller = FlutterStoryController();
-      },
-    );
-  }
-}
-
-class MessageBoxView extends StatelessWidget {
-  const MessageBoxView({
-    super.key,
-    required this.controller,
-  });
-
-  final FlutterStoryController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(
-          bottom: (10 + MediaQuery.of(context).viewInsets.bottom),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white,
-                  ),
-                  borderRadius: BorderRadius.circular(999),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: TextFormField(
-                  onTap: () {
-                    controller.pause();
-                  },
-                  onTapOutside: (event) {
-                    controller.play();
-                    FocusScope.of(context).unfocus();
-                  },
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                  ),
-                  decoration: const InputDecoration(
-                      hintText: 'Enter Message',
-                      border: InputBorder.none,
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(vertical: 6)),
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            IconButton(
-                onPressed: () {},
-                iconSize: 30,
-                icon: Transform.rotate(
-                    angle: -0.6,
-                    child: const Padding(
-                      padding: EdgeInsets.only(bottom: 9),
-                      child: Icon(
-                        Icons.send,
-                        color: Colors.white,
-                      ),
-                    )))
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileView extends StatelessWidget {
-  const ProfileView({
-    super.key,
-    required this.storyModel,
-  });
-
-  final StoryModel storyModel;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
-        child: Row(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.amber,
-                shape: BoxShape.circle,
-              ),
-              padding: const EdgeInsets.all(1),
-              child: ClipOval(
-                child: CachedNetworkImage(
-                  imageUrl: storyModel.userProfile,
-                  height: 35,
-                  width: 35,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Row(
-                children: [
-                  Flexible(
-                    child: Text(
-                      storyModel.userName,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  const Icon(
-                    Icons.verified,
-                    size: 15,
-                  ),
-                  const SizedBox(
-                    width: 3,
-                  ),
-                  const Text(
-                    '1d',
-                    style: TextStyle(color: Colors.white, fontSize: 10),
-                  )
-                ],
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.more_horiz,
-                color: Colors.white,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Custom Story Data Model
-class StoryModel {
-  String userName;
-  String userProfile;
-  List<StoryItem> stories;
-
-  StoryModel({
-    required this.userName,
-    required this.userProfile,
-    required this.stories,
-  });
-}
 
 // Custom Widget - Question
 class TextOverlayView extends StatelessWidget {
@@ -801,6 +590,189 @@ class AudioCustomView1 extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class Demo extends StatefulWidget {
+  const Demo({super.key});
+
+  @override
+  State<Demo> createState() => _DemoState();
+}
+
+class _DemoState extends State<Demo> {
+  late FlutterStoryController controller;
+
+  // Just a simple list of widgets - no wrappers, no configurations!
+  final List<Widget> stories = [
+    // Text Widget
+    Container(
+      color: Colors.red,
+      child: const Center(
+        child: Text(
+          'Story 1: Red',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ),
+    
+    // Image Widget
+    Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: CachedNetworkImageProvider(
+            'https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=800',
+          ),
+        ),
+      ),
+      child: const Center(
+        child: Text(
+          'Story 2: Image',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            shadows: [
+              Shadow(
+                offset: Offset(2, 2),
+                blurRadius: 4,
+                color: Colors.black54,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+    
+    // Column Widget
+    Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.purple, Colors.blue],
+        ),
+      ),
+      child: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.star, size: 80, color: Colors.white),
+            SizedBox(height: 20),
+            Text(
+              'Story 3: Column',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'This is a column widget',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    
+    // Interactive Widget
+    Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.orange, Colors.red],
+        ),
+      ),
+      child: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.touch_app, size: 80, color: Colors.white),
+            SizedBox(height: 20),
+            Text(
+              'Story 4: Interactive',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Tap and hold to pause',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    controller = FlutterStoryController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text('Demo'),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: () => controller.play(),
+            icon: const Icon(Icons.play_arrow),
+          ),
+          IconButton(
+            onPressed: () => controller.pause(),
+            icon: const Icon(Icons.pause),
+          ),
+          IconButton(
+            onPressed: () => controller.next(),
+            icon: const Icon(Icons.skip_next),
+          ),
+          IconButton(
+            onPressed: () => controller.previous(),
+            icon: const Icon(Icons.skip_previous),
+          ),
+        ],
+      ),
+      body: FlutterStoryPresenterWidgets(
+        flutterStoryController: controller,
+        widgets: stories, // Just pass widgets directly - that's it!
+        defaultDuration: const Duration(seconds: 3),
+        onStoryChanged: (index) {
+          print('Story changed to index: $index');
+        },
+        onCompleted: () async {
+          print('All stories completed');
+        },
       ),
     );
   }
