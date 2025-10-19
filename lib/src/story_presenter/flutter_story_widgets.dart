@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 import '../controller/flutter_story_controller.dart';
 import 'story_view_indicator.dart';
 import '../models/story_view_indicator_config.dart';
@@ -84,6 +83,7 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
   int currentIndex = 0;
   bool isCurrentItemLoaded = false;
   double currentItemProgress = 0;
+  VideoPlayerController? _currentVideoController;
 
   @override
   void initState() {
@@ -134,6 +134,16 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
   /// Returns the current widget.
   Widget get currentWidget => widget.widgets[currentIndex];
 
+  /// Callback to register video controller from child widgets
+  void _onVideoLoad(VideoPlayerController? controller) {
+    _currentVideoController = controller;
+    if (controller != null) {
+      // Set animation duration to video duration for proper indicator length
+      _animationController?.duration = controller.value.duration;
+      _animationController?.forward();
+    }
+  }
+
   /// Returns the configuration for the story view indicator.
   StoryViewIndicatorConfig get storyViewIndicatorConfig =>
       widget.storyViewIndicatorConfig ?? const StoryViewIndicatorConfig();
@@ -153,6 +163,10 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
         _playPrevious();
       } else if (storyStatus.isNext) {
         _playNext();
+      } else if (storyStatus.isMute) {
+        _currentVideoController?.setVolume(0);
+      } else if (storyStatus.isUnMute) {
+        _currentVideoController?.setVolume(1);
       }
     }
 
@@ -190,6 +204,7 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
 
   /// Resumes the media playback.
   void _resumeMedia() {
+    _currentVideoController?.play();
     if (_currentProgressAnimation != null) {
       _animationController?.forward(
         from: _currentProgressAnimation?.value,
@@ -227,6 +242,7 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
 
   /// Pauses the media playback.
   void _pauseMedia() {
+    _currentVideoController?.pause();
     _animationController?.stop(canceled: false);
   }
 
@@ -246,6 +262,7 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
     }
 
     currentIndex = currentIndex + 1;
+    _currentVideoController = null; // Clear video controller when moving to next story
     _resetAnimation();
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
@@ -268,6 +285,7 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
 
     _resetAnimation();
     currentIndex = currentIndex - 1;
+    _currentVideoController = null; // Clear video controller when moving to previous story
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
     if (mounted) {
@@ -278,7 +296,9 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Stack(
+    return StoryVideoCallbackProvider(
+      onVideoLoad: _onVideoLoad,
+      child: Stack(
       children: [
         Positioned.fill(
           child: currentWidget,
@@ -380,7 +400,27 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
           ),
         },
       ],
+    ),
     );
+  }
+}
+
+/// InheritedWidget to provide video load callback to child widgets
+class StoryVideoCallbackProvider extends InheritedWidget {
+  final OnVideoLoad? onVideoLoad;
+
+  const StoryVideoCallbackProvider({
+    required this.onVideoLoad,
+    required super.child,
+  });
+
+  static StoryVideoCallbackProvider? maybeOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<StoryVideoCallbackProvider>();
+  }
+
+  @override
+  bool updateShouldNotify(StoryVideoCallbackProvider oldWidget) {
+    return onVideoLoad != oldWidget.onVideoLoad;
   }
 }
 

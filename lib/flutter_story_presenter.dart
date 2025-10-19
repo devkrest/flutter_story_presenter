@@ -2,7 +2,6 @@ library flutter_story_presenter;
 
 export 'src/controller/flutter_story_controller.dart';
 export 'src/models/story_item.dart';
-export 'src/models/story_widget.dart';
 export 'src/models/story_view_image_config.dart';
 export 'src/models/story_view_indicator_config.dart';
 export 'src/models/story_view_text_config.dart';
@@ -14,5 +13,5 @@ export 'src/story_presenter/story_view.dart';
 export 'src/story_presenter/text_story_view.dart';
 export 'src/story_presenter/video_story_view.dart';
 export 'src/story_presenter/web_story_view.dart';
-export 'src/story_presenter/simple_story_presenter.dart';
+export 'src/story_presenter/flutter_story_widgets.dart';
 export 'src/utils/story_utils.dart';
