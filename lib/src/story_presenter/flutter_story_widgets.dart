@@ -140,6 +140,8 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
     if (controller != null) {
       // Set animation duration to video duration for proper indicator length
       _animationController?.duration = controller.value.duration;
+      // Reset and restart animation with video duration
+      _animationController?.reset();
       _animationController?.forward();
     }
   }
