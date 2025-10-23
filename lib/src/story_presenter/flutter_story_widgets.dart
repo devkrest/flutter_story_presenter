@@ -125,8 +125,7 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
     _animationController?.dispose();
     _animationController = null;
     widget.flutterStoryController
-      ?..removeListener(_storyControllerListener)
-      ..dispose();
+      ?..removeListener(_storyControllerListener);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
