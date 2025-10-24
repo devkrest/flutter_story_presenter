@@ -84,6 +84,12 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
   bool isCurrentItemLoaded = false;
   double currentItemProgress = 0;
   VideoPlayerController? _currentVideoController;
+  /// Whether the presenter is waiting for a video to load for the current item.
+  /// When a video widget is present it will call the provided callback with
+  /// `null` to indicate loading started and later with a non-null
+  /// controller when ready. While true we avoid starting the default
+  /// countdown so the indicator matches the video duration.
+  bool _waitingForVideo = false;
 
   @override
   void initState() {
@@ -135,14 +141,38 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
 
   /// Callback to register video controller from child widgets
   void _onVideoLoad(VideoPlayerController? controller) {
-    _currentVideoController = controller;
-    if (controller != null) {
-      // Set animation duration to video duration for proper indicator length
-      _animationController?.duration = controller.value.duration;
-      // Reset and restart animation with video duration
+    // If controller is null it means the child video widget signalled
+    // that a video exists and is currently loading. We should wait until
+    // the real controller arrives before starting the indicator.
+    if (controller == null) {
+      _waitingForVideo = true;
+      _currentVideoController = null;
+      // Stop any running countdown so the indicator doesn't advance
+      // while the video is still loading.
+      _animationController?.stop(canceled: false);
       _animationController?.reset();
-      _animationController?.forward();
+      currentItemProgress = 0;
+      if (mounted) setState(() {});
+      return;
     }
+
+    // Received actual video controller -> stop waiting and start animation
+    _waitingForVideo = false;
+    _currentVideoController = controller;
+
+    // Set animation duration to video duration for proper indicator length
+    _animationController?.duration = controller.value.duration;
+
+    // Create a progress animation that maps controller ticks to 0..1 and
+    // attach our listeners so the UI updates and completion is handled.
+    _currentProgressAnimation =
+        Tween<double>(begin: 0, end: 1).animate(_animationController!)
+          ..addListener(animationListener)
+          ..addStatusListener(animationStatusListener);
+
+    // Reset and start the animation tied to the video's duration.
+    _animationController?..reset();
+    _animationController?.forward();
   }
 
   /// Returns the configuration for the story view indicator.
@@ -182,7 +212,22 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
   /// Starts the story view.
   void _startStoryView() {
     widget.onStoryChanged?.call(currentIndex);
+    // Start media playback. For video items we want to wait until the
+    // video widget notifies us that it exists and has loaded (see
+    // _onVideoLoad which receives a null controller to indicate loading
+    // has started and a non-null controller when ready).
+    _waitingForVideo = false;
+    _currentVideoController = null;
     _playMedia();
+
+    // After the current frame, if no video signalled its presence we
+    // assume the current item is not a video and start the countdown.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_waitingForVideo && _currentVideoController == null) {
+        // No video expected, start default countdown
+        _startStoryCountdown();
+      }
+    });
     if (mounted) {
       setState(() {});
     }
@@ -190,17 +235,25 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
 
   /// Resets the animation controller and its listeners.
   void _resetAnimation() {
-    _animationController?.reset();
-    _animationController?.forward();
-    _animationController
+    // Remove listeners from the current animation first to avoid
+    // receiving events from the old animation instance while we reset it.
+    _currentProgressAnimation
       ?..removeListener(animationListener)
       ..removeStatusListener(animationStatusListener);
+
+    // Reset the controller, but keep the controller instance so it can
+    // be reused for subsequent countdowns or video-driven animations.
+    _animationController?.reset();
+    _currentProgressAnimation = null;
   }
 
   /// Initializes and starts the media playback for the current story widget.
   void _playMedia() {
+    // Mark loaded state. If a video is expected, _onVideoLoad(null) will
+    // set _waitingForVideo = true and we will start the animation only
+    // when a non-null controller arrives. For non-video items the
+    // post-frame callback in _startStoryView will start the countdown.
     isCurrentItemLoaded = true;
-    _startStoryCountdown();
   }
 
   /// Resumes the media playback.
@@ -267,6 +320,15 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
     _resetAnimation();
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
+    // Allow the child widget a frame to signal video presence. If no
+    // video signals its presence by the end of this frame, start the
+    // default countdown for non-video items. This prevents the
+    // indicator from briefly progressing while a video is still
+    // loading and only starting at the real video duration once ready.
+      if (!_waitingForVideo && _currentVideoController == null) {
+        _startStoryCountdown();
+        if (mounted) setState(() {});
+      }
     if (mounted) {
       setState(() {});
     }
@@ -289,6 +351,14 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
     _currentVideoController = null; // Clear video controller when moving to previous story
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
+    // As with _playNext, give the child one frame to report video
+    // loading. If none reports, start the default countdown.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_waitingForVideo && _currentVideoController == null) {
+        _startStoryCountdown();
+        if (mounted) setState(() {});
+      }
+    });
     if (mounted) {
       setState(() {});
     }
