@@ -84,6 +84,7 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
   bool isCurrentItemLoaded = false;
   double currentItemProgress = 0;
   VideoPlayerController? _currentVideoController;
+  List<VideoPlayerController> _allVideoControllers = []; // Track all video controllers
   /// Whether the presenter is waiting for a video to load for the current item.
   /// When a video widget is present it will call the provided callback with
   /// `null` to indicate loading started and later with a non-null
@@ -156,23 +157,34 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
       return;
     }
 
+    // Add to list of all controllers for managing multiple videos
+    if (!_allVideoControllers.contains(controller)) {
+      _allVideoControllers.add(controller);
+      debugPrint('StoryPresenter: Added video controller. Total controllers: ${_allVideoControllers.length}');
+    }
+
+    // Use the first video controller for timing, but track all for control
+    if (_currentVideoController == null) {
+      debugPrint('StoryPresenter: Setting primary video controller');
+      _currentVideoController = controller;
+      
+      // Set animation duration to video duration for proper indicator length
+      _animationController?.duration = controller.value.duration;
+
+      // Create a progress animation that maps controller ticks to 0..1 and
+      // attach our listeners so the UI updates and completion is handled.
+      _currentProgressAnimation =
+          Tween<double>(begin: 0, end: 1).animate(_animationController!)
+            ..addListener(animationListener)
+            ..addStatusListener(animationStatusListener);
+
+      // Reset and start the animation tied to the video's duration.
+      _animationController?..reset();
+      _animationController?.forward();
+    }
+
     // Received actual video controller -> stop waiting and start animation
     _waitingForVideo = false;
-    _currentVideoController = controller;
-
-    // Set animation duration to video duration for proper indicator length
-    _animationController?.duration = controller.value.duration;
-
-    // Create a progress animation that maps controller ticks to 0..1 and
-    // attach our listeners so the UI updates and completion is handled.
-    _currentProgressAnimation =
-        Tween<double>(begin: 0, end: 1).animate(_animationController!)
-          ..addListener(animationListener)
-          ..addStatusListener(animationStatusListener);
-
-    // Reset and start the animation tied to the video's duration.
-    _animationController?..reset();
-    _animationController?.forward();
   }
 
   /// Returns the configuration for the story view indicator.
@@ -195,9 +207,15 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
       } else if (storyStatus.isNext) {
         _playNext();
       } else if (storyStatus.isMute) {
-        _currentVideoController?.setVolume(0);
+        // Mute all video controllers
+        for (var controller in _allVideoControllers) {
+          controller.setVolume(0);
+        }
       } else if (storyStatus.isUnMute) {
-        _currentVideoController?.setVolume(1);
+        // Unmute all video controllers
+        for (var controller in _allVideoControllers) {
+          controller.setVolume(1);
+        }
       }
     }
 
@@ -258,7 +276,10 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
 
   /// Resumes the media playback.
   void _resumeMedia() {
-    _currentVideoController?.play();
+    // Resume all video controllers
+    for (var controller in _allVideoControllers) {
+      controller.play();
+    }
     if (_currentProgressAnimation != null) {
       _animationController?.forward(
         from: _currentProgressAnimation?.value,
@@ -296,7 +317,10 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
 
   /// Pauses the media playback.
   void _pauseMedia() {
-    _currentVideoController?.pause();
+    // Pause all video controllers
+    for (var controller in _allVideoControllers) {
+      controller.pause();
+    }
     _animationController?.stop(canceled: false);
   }
 
@@ -317,6 +341,7 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
 
     currentIndex = currentIndex + 1;
     _currentVideoController = null; // Clear video controller when moving to next story
+    _allVideoControllers.clear(); // Clear all video controllers
     _resetAnimation();
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
@@ -325,10 +350,12 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
     // default countdown for non-video items. This prevents the
     // indicator from briefly progressing while a video is still
     // loading and only starting at the real video duration once ready.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_waitingForVideo && _currentVideoController == null) {
         _startStoryCountdown();
         if (mounted) setState(() {});
       }
+    });
     if (mounted) {
       setState(() {});
     }
@@ -349,6 +376,7 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
     _resetAnimation();
     currentIndex = currentIndex - 1;
     _currentVideoController = null; // Clear video controller when moving to previous story
+    _allVideoControllers.clear(); // Clear all video controllers
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
     // As with _playNext, give the child one frame to report video
