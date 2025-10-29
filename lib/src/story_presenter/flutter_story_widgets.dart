@@ -25,7 +25,9 @@ class FlutterStoryPresenterWidgets extends StatefulWidget {
     this.onSlideDown,
     this.onSlideStart,
     this.defaultDuration = const Duration(seconds: 3),
-  }) : assert(initialIndex < widgets.length);
+  })  : assert(widgets.length > 0, 'widgets list cannot be empty'),
+        assert(initialIndex >= 0 && initialIndex < widgets.length,
+            'initialIndex must be valid for the widgets list');
 
   /// List of widgets to display as stories
   final List<Widget> widgets;
@@ -73,10 +75,12 @@ class FlutterStoryPresenterWidgets extends StatefulWidget {
   final Duration defaultDuration;
 
   @override
-  State<FlutterStoryPresenterWidgets> createState() => _FlutterStoryPresenterWidgetsState();
+  State<FlutterStoryPresenterWidgets> createState() =>
+      _FlutterStoryPresenterWidgetsState();
 }
 
-class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidgets>
+class _FlutterStoryPresenterWidgetsState
+    extends State<FlutterStoryPresenterWidgets>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   AnimationController? _animationController;
   Animation? _currentProgressAnimation;
@@ -84,7 +88,8 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
   bool isCurrentItemLoaded = false;
   double currentItemProgress = 0;
   VideoPlayerController? _currentVideoController;
-  List<VideoPlayerController> _allVideoControllers = []; // Track all video controllers
+  List<VideoPlayerController> _allVideoControllers =
+      []; // Track all video controllers
   /// Whether the presenter is waiting for a video to load for the current item.
   /// When a video widget is present it will call the provided callback with
   /// `null` to indicate loading started and later with a non-null
@@ -94,21 +99,16 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
 
   @override
   void initState() {
-    if (_animationController != null) {
-      _animationController?.reset();
-      _animationController?.dispose();
-      _animationController = null;
-    }
     _animationController = AnimationController(
       vsync: this,
     );
     currentIndex = widget.initialIndex;
     widget.flutterStoryController?.addListener(_storyControllerListener);
-    
+
     WidgetsBinding.instance.addObserver(this);
 
     super.initState();
-      _startStoryView();
+    _startStoryView();
   }
 
   @override
@@ -131,8 +131,7 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
   void dispose() {
     _animationController?.dispose();
     _animationController = null;
-    widget.flutterStoryController
-      ?..removeListener(_storyControllerListener);
+    widget.flutterStoryController?.removeListener(_storyControllerListener);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -160,14 +159,15 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
     // Add to list of all controllers for managing multiple videos
     if (!_allVideoControllers.contains(controller)) {
       _allVideoControllers.add(controller);
-      debugPrint('StoryPresenter: Added video controller. Total controllers: ${_allVideoControllers.length}');
+      debugPrint(
+          'StoryPresenter: Added video controller. Total controllers: ${_allVideoControllers.length}');
     }
 
     // Use the first video controller for timing, but track all for control
     if (_currentVideoController == null) {
       debugPrint('StoryPresenter: Setting primary video controller');
       _currentVideoController = controller;
-      
+
       // Set animation duration to video duration for proper indicator length
       _animationController?.duration = controller.value.duration;
 
@@ -340,7 +340,8 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
     }
 
     currentIndex = currentIndex + 1;
-    _currentVideoController = null; // Clear video controller when moving to next story
+    _currentVideoController =
+        null; // Clear video controller when moving to next story
     _allVideoControllers.clear(); // Clear all video controllers
     _resetAnimation();
     widget.onStoryChanged?.call(currentIndex);
@@ -375,7 +376,8 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
 
     _resetAnimation();
     currentIndex = currentIndex - 1;
-    _currentVideoController = null; // Clear video controller when moving to previous story
+    _currentVideoController =
+        null; // Clear video controller when moving to previous story
     _allVideoControllers.clear(); // Clear all video controllers
     widget.onStoryChanged?.call(currentIndex);
     _playMedia();
@@ -398,108 +400,108 @@ class _FlutterStoryPresenterWidgetsState extends State<FlutterStoryPresenterWidg
     return StoryVideoCallbackProvider(
       onVideoLoad: _onVideoLoad,
       child: Stack(
-      children: [
-        Positioned.fill(
-          child: currentWidget,
-        ),
-        Align(
-          alignment: storyViewIndicatorConfig.alignment,
-          child: Padding(
-            padding: storyViewIndicatorConfig.margin,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _animationController != null
-                    ? AnimatedBuilder(
-                        animation: _animationController!,
-                        builder: (context, child) => StoryViewIndicator(
+        children: [
+          Positioned.fill(
+            child: currentWidget,
+          ),
+          Align(
+            alignment: storyViewIndicatorConfig.alignment,
+            child: Padding(
+              padding: storyViewIndicatorConfig.margin,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _animationController != null
+                      ? AnimatedBuilder(
+                          animation: _animationController!,
+                          builder: (context, child) => StoryViewIndicator(
+                            currentIndex: currentIndex,
+                            currentItemAnimatedValue: currentItemProgress,
+                            totalItems: widget.widgets.length,
+                            storyViewIndicatorConfig: storyViewIndicatorConfig,
+                          ),
+                        )
+                      : StoryViewIndicator(
                           currentIndex: currentIndex,
                           currentItemAnimatedValue: currentItemProgress,
                           totalItems: widget.widgets.length,
                           storyViewIndicatorConfig: storyViewIndicatorConfig,
                         ),
-                      )
-                    : StoryViewIndicator(
-                        currentIndex: currentIndex,
-                        currentItemAnimatedValue: currentItemProgress,
-                        totalItems: widget.widgets.length,
-                        storyViewIndicatorConfig: storyViewIndicatorConfig,
-                      ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: SizedBox(
-            width: size.width * .2,
-            height: size.height,
-            child: GestureDetector(
-              onTap: () async {
-                if (widget.onLeftTap != null) {
-                  final shouldPlayPrevious = await widget.onLeftTap!();
-                  if (shouldPlayPrevious) {
+          Align(
+            alignment: Alignment.centerLeft,
+            child: SizedBox(
+              width: size.width * .2,
+              height: size.height,
+              child: GestureDetector(
+                onTap: () async {
+                  if (widget.onLeftTap != null) {
+                    final shouldPlayPrevious = await widget.onLeftTap!();
+                    if (shouldPlayPrevious) {
+                      _playPrevious();
+                    }
+                  } else {
                     _playPrevious();
                   }
-                } else {
-                  _playPrevious();
-                }
-              },
+                },
+              ),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: SizedBox(
-            width: size.width * .2,
-            height: size.height,
-            child: GestureDetector(
-              onTap: () async {
-                if (widget.onRightTap != null) {
-                  final shouldPlayNext = await widget.onRightTap!();
-                  if (shouldPlayNext) {
+          Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              width: size.width * .2,
+              height: size.height,
+              child: GestureDetector(
+                onTap: () async {
+                  if (widget.onRightTap != null) {
+                    final shouldPlayNext = await widget.onRightTap!();
+                    if (shouldPlayNext) {
+                      _playNext();
+                    }
+                  } else {
                     _playNext();
                   }
-                } else {
-                  _playNext();
-                }
-              },
+                },
+              ),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: SizedBox(
-            width: size.width,
-            height: size.height,
-            child: GestureDetector(
-              key: ValueKey('$currentIndex'),
-              onLongPressDown: (details) => _pauseMedia(),
-              onLongPressUp: _resumeMedia,
-              onLongPressEnd: (details) => _resumeMedia(),
-              onLongPressCancel: _resumeMedia,
-              onVerticalDragStart: widget.onSlideStart?.call,
-              onVerticalDragUpdate: widget.onSlideDown?.call,
+          Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              width: size.width,
+              height: size.height,
+              child: GestureDetector(
+                key: ValueKey('$currentIndex'),
+                onLongPressDown: (details) => _pauseMedia(),
+                onLongPressUp: _resumeMedia,
+                onLongPressEnd: (details) => _resumeMedia(),
+                onLongPressCancel: _resumeMedia,
+                onVerticalDragStart: widget.onSlideStart?.call,
+                onVerticalDragUpdate: widget.onSlideDown?.call,
+              ),
             ),
           ),
-        ),
-        if (widget.headerWidget != null) ...{
-          Align(
-            alignment: Alignment.topCenter,
-            child: SafeArea(
-                bottom: storyViewIndicatorConfig.enableBottomSafeArea,
-                top: storyViewIndicatorConfig.enableTopSafeArea,
-                child: widget.headerWidget!),
-          ),
-        },
-        if (widget.footerWidget != null) ...{
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: widget.footerWidget!,
-          ),
-        },
-      ],
-    ),
+          if (widget.headerWidget != null) ...{
+            Align(
+              alignment: Alignment.topCenter,
+              child: SafeArea(
+                  bottom: storyViewIndicatorConfig.enableBottomSafeArea,
+                  top: storyViewIndicatorConfig.enableTopSafeArea,
+                  child: widget.headerWidget!),
+            ),
+          },
+          if (widget.footerWidget != null) ...{
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: widget.footerWidget!,
+            ),
+          },
+        ],
+      ),
     );
   }
 }
@@ -514,7 +516,8 @@ class StoryVideoCallbackProvider extends InheritedWidget {
   });
 
   static StoryVideoCallbackProvider? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<StoryVideoCallbackProvider>();
+    return context
+        .dependOnInheritedWidgetOfExactType<StoryVideoCallbackProvider>();
   }
 
   @override
@@ -522,5 +525,3 @@ class StoryVideoCallbackProvider extends InheritedWidget {
     return onVideoLoad != oldWidget.onVideoLoad;
   }
 }
-
-
