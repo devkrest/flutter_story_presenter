@@ -237,13 +237,13 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
     }
 
     if (currentItem.audioConfig != null) {
-      _audioPlayer?.durationFuture?.then((v) {
-        _totalAudioDuration = v;
+      void setupAudioAnimation(Duration duration) {
+        _totalAudioDuration = duration;
         _animationController ??= AnimationController(
           vsync: this,
         );
 
-        _animationController?.duration = v;
+        _animationController?.duration = duration;
 
         _currentProgressAnimation =
             Tween<double>(begin: 0, end: 1).animate(_animationController!)
@@ -251,7 +251,21 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
               ..addStatusListener(animationStatusListener);
 
         _animationController!.forward();
-      });
+      }
+
+      final audioDuration = _audioPlayer?.duration;
+      if (audioDuration != null) {
+        setupAudioAnimation(audioDuration);
+      } else {
+        _audioPlayer?.durationStream
+            .firstWhere((duration) => duration != null)
+            .then((duration) {
+          if (!mounted || duration == null) {
+            return;
+          }
+          setupAudioAnimation(duration);
+        });
+      }
       _audioDurationSubscriptionStream =
           _audioPlayer?.positionStream.listen(audioPositionListener);
       _audioPlayerStateStream = _audioPlayer?.playerStateStream.listen(
