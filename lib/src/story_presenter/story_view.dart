@@ -403,8 +403,9 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
     }
 
     if (currentIndex == 0) {
-      _resetAnimation();
+      // FIX: Set duration before calling forward() to prevent animation controller error
       _startStoryCountdown();
+      _resetAnimation();
       if (mounted) {
         setState(() {});
       }
