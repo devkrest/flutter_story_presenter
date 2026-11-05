@@ -207,6 +207,7 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
   /// Resets the animation controller and its listeners.
   void _resetAnimation() {
     _animationController?.reset();
+    _animationController?.duration = _animationController?.duration ?? currentItem.duration;
     _animationController?.forward();
     _animationController
       ?..removeListener(animationListener)
@@ -403,8 +404,9 @@ class _FlutterStoryPresenterState extends State<FlutterStoryPresenter>
     }
 
     if (currentIndex == 0) {
-      _resetAnimation();
+      // FIX: Set duration before calling forward() to prevent animation controller error
       _startStoryCountdown();
+      _resetAnimation();
       if (mounted) {
         setState(() {});
       }
